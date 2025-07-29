@@ -88,6 +88,14 @@ Return only the cleaned tweet.`
 
 You are a crypto Twitter shitpost generator trained on ${getTrainingData().totalCount} real tweets from Base chain influencers. 
 
+CRITICAL: Make the content sound 100% human and natural. Avoid any AI-like patterns:
+- Use natural sentence structures and flow
+- Include casual language, slang, and informal expressions
+- Add personal touches and authentic voice
+- Use varied sentence lengths and natural rhythm
+- Include typos, abbreviations, and casual punctuation when appropriate
+- Make it sound like a real person typing naturally
+
 Generate authentic, viral posts that match the influencer's style. Use emojis, slang, and hooks liberally. Be authentic to crypto Twitter culture.
 
 ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT.
@@ -101,6 +109,7 @@ Key style elements to include:
 - Emojis: 🚀 🌙 💎 📈 🔥 
 - Hooks: "Breaking:", "Hot take:", "You're not ready for..."
 - Authentic voice: Natural, conversational tone without forced engagement
+- Human patterns: Casual language, natural flow, personal touches
 - ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT`
           },
           {
@@ -109,9 +118,9 @@ Key style elements to include:
           }
         ],
         max_tokens: request.length === 'short' ? 120 : request.length === 'medium' ? 250 : 350,
-        temperature: 0.85,
-        presence_penalty: 0.1,
-        frequency_penalty: 0.1,
+        temperature: 0.9, // Higher temperature for more natural variation
+        presence_penalty: 0.2, // Encourage more diverse language
+        frequency_penalty: 0.3, // Reduce repetitive patterns
       });
 
       const generatedContent = completion.choices[0]?.message?.content || 'Failed to generate post';
@@ -147,6 +156,14 @@ Make it sound like a crypto Twitter reply - engaging, witty, and authentic.`;
 
 You are a crypto Twitter reply generator trained on ${getTrainingData().totalCount} real tweets. Generate witty, engaging replies that sound authentic and conversational.
 
+CRITICAL: Make the reply sound 100% human and natural:
+- Use conversational, casual language
+- Include natural reactions and emotions
+- Add personal touches and authentic voice
+- Use varied sentence structures and natural flow
+- Include casual punctuation and informal expressions
+- Make it sound like a real person responding naturally
+
 LENGTH REQUIREMENT: ${lengthInstruction}
 
 ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT.
@@ -160,6 +177,7 @@ Key reply elements to include:
 - Crypto culture references when relevant
 - Emojis: 😂 🚀 💯 🔥 👀
 - Natural flow and authenticity
+- Human-like patterns and expressions
 - ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT`
           },
           {
@@ -168,9 +186,9 @@ Key reply elements to include:
           }
         ],
         max_tokens: length === 'short' ? 80 : length === 'medium' ? 150 : 250,
-        temperature: 0.8,
-        presence_penalty: 0.1,
-        frequency_penalty: 0.1,
+        temperature: 0.85, // Higher temperature for more natural variation
+        presence_penalty: 0.2,
+        frequency_penalty: 0.3,
       });
 
       const generatedContent = completion.choices[0]?.message?.content || 'Failed to generate reply';
@@ -207,6 +225,14 @@ Make it sound like a Base chain builder/developer with technical insights, ecosy
 
 You are a BASED Base chain tweet generator trained on ${getTrainingData().totalCount} real tweets. Generate content that sounds like Base chain builders, developers, and ecosystem participants.
 
+CRITICAL: Make the content sound 100% human and natural:
+- Use authentic developer/builder language and tone
+- Include natural technical insights and observations
+- Add personal experiences and genuine enthusiasm
+- Use varied sentence structures and natural flow
+- Include casual technical language and informal expressions
+- Make it sound like a real builder/developer sharing naturally
+
 LENGTH REQUIREMENT: ${lengthInstruction}
 
 ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT.
@@ -220,6 +246,7 @@ Key BASED elements to include:
 - Technical insights: "optimization", "performance", "adoption", "ecosystem"
 - BASED energy: confident, technical, forward-thinking, ecosystem-focused
 - Emojis: 🚀 💻 ⚡ 🔧 🏗️ 📈
+- Human patterns: Natural technical language, authentic enthusiasm
 - ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT`
           },
           {
@@ -228,7 +255,9 @@ Key BASED elements to include:
           }
         ],
         max_tokens: length === 'short' ? 120 : length === 'medium' ? 250 : 400,
-        temperature: 0.85,
+        temperature: 0.9, // Higher temperature for more natural variation
+        presence_penalty: 0.2,
+        frequency_penalty: 0.3,
       });
 
       const generatedContent = completion.choices[0]?.message?.content || 'Failed to generate BASED content';
@@ -264,6 +293,14 @@ Make it sound like a real crypto influencer post - engaging, authentic, and vira
 
 You are a crypto influencer content generator trained on ${getTrainingData().totalCount} real tweets from Base chain influencers. Generate authentic, engaging posts that sound like real influencer content.
 
+CRITICAL: Make the content sound 100% human and natural:
+- Use authentic influencer voice and personal style
+- Include natural storytelling and personal experiences
+- Add genuine insights and authentic opinions
+- Use varied sentence structures and natural flow
+- Include casual language and informal expressions
+- Make it sound like a real influencer sharing naturally
+
 LENGTH REQUIREMENT: ${lengthInstruction}
 
 ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT.
@@ -278,6 +315,7 @@ Key influencer style elements:
 - Community-focused content
 - Emojis: 🚀 💎 🔥 👀 💯
 - Natural flow and authenticity
+- Human-like patterns and expressions
 - ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT`
           },
           {
@@ -286,9 +324,9 @@ Key influencer style elements:
           }
         ],
         max_tokens: length === 'short' ? 100 : length === 'medium' ? 200 : 350,
-        temperature: 0.8,
-        presence_penalty: 0.1,
-        frequency_penalty: 0.1,
+        temperature: 0.85, // Higher temperature for more natural variation
+        presence_penalty: 0.2,
+        frequency_penalty: 0.3,
       });
 
       const generatedContent = completion.choices[0]?.message?.content || 'Failed to generate influencer content';
@@ -313,6 +351,14 @@ Key influencer style elements:
 
 You are a crypto Twitter roaster trained on ${getTrainingData().totalCount} real tweets. Be funny and witty, but not mean-spirited.
 
+CRITICAL: Make the roast sound 100% human and natural:
+- Use authentic humor and natural wit
+- Include casual language and informal expressions
+- Add personal touches and genuine reactions
+- Use varied sentence structures and natural flow
+- Include casual punctuation and informal language
+- Make it sound like a real person roasting naturally
+
 ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT.
 
 Here are real examples of roast tweets:
@@ -324,6 +370,7 @@ Key style elements:
 - Crypto culture references
 - Playful teasing without being mean
 - Emojis: 😂 🤡 💀 🎯
+- Human-like patterns and expressions
 - ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT`
           },
           {
@@ -334,7 +381,9 @@ ${tweets.join('\n\n')}`
           }
         ],
         max_tokens: 200,
-        temperature: 0.8,
+        temperature: 0.85, // Higher temperature for more natural variation
+        presence_penalty: 0.2,
+        frequency_penalty: 0.3,
       });
 
       const response = completion.choices[0]?.message?.content || 'No roast generated';
@@ -359,6 +408,14 @@ ${tweets.join('\n\n')}`
 
 You are a crypto Twitter thread generator trained on ${getTrainingData().totalCount} real tweets. Create engaging, educational threads.
 
+CRITICAL: Make the thread sound 100% human and natural:
+- Use authentic voice and natural storytelling
+- Include personal insights and genuine observations
+- Add casual language and informal expressions
+- Use varied sentence structures and natural flow
+- Include natural transitions and conversational tone
+- Make it sound like a real person sharing knowledge naturally
+
 ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT.
 
 Here are real examples of thread tweets:
@@ -370,6 +427,7 @@ Key style elements:
 - Engaging hooks and transitions
 - Numbered points or clear structure
 - Emojis: 📚 🧵 💡 🔍
+- Human-like patterns and expressions
 - ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT`
           },
           {
@@ -378,7 +436,9 @@ Key style elements:
           }
         ],
         max_tokens: 400,
-        temperature: 0.7,
+        temperature: 0.8, // Higher temperature for more natural variation
+        presence_penalty: 0.2,
+        frequency_penalty: 0.3,
       });
 
       const response = completion.choices[0]?.message?.content || 'No thread generated';
@@ -407,7 +467,7 @@ Key style elements:
     }
     
     prompt += `\n\nLength: ${request.length}`;
-    prompt += `\n\nGenerate an authentic tweet that matches their style and would go viral.`;
+    prompt += `\n\nGenerate an authentic tweet that matches their style and would go viral. Make it sound 100% human and natural.`;
     
     return prompt;
   }
@@ -422,7 +482,7 @@ Key style elements:
     prompt += `\n\nStyle: ${influencer.style}`;
     prompt += `\nFollowers: ${influencer.followers}`;
     prompt += `\nCategory: ${influencer.category}`;
-    prompt += `\n\nGenerate an engaging, educational thread that matches their style.`;
+    prompt += `\n\nGenerate an engaging, educational thread that matches their style. Make it sound 100% human and natural.`;
     
     return prompt;
   }
