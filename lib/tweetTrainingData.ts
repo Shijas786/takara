@@ -1913,7 +1913,1570 @@ chat, is this real? broski wasnt kidding when he asked for my addy
     "ETH just broke $3900 
 You're not bullish enough on 
 @base
-.",];
+.",
+    "If you don’t have Warpcast (Farcaster) account yet
+
+I’m sharing 5 free invites to join for free
+
+1. https://warpcast.com/~/join?code=l8l5lkgdl…
+
+2. https://warpcast.com/~/join?code=p8rb9brdj…
+
+3. https://warpcast.com/~/join?code=nqsdtbnu4…
+
+4. https://warpcast.com/~/join?code=m5rmplmpk…
+
+5. https://warpcast.com/~/join?code=fwaj282bw… https://pic.x.com/vPdv4Mdc3Q",
+    "Claim Warpcast (
+@farcaster_xyz
+) Early Adopter Badge!  
+
+Limited time only 
+
+Open the Warpcast app
+go to wallet
+copy your address and deposit 0.003 BaseETH ($9)
+
+Done! You’ll get the badge shortly.",
+    "Binance is supplying liquidity to help Bybit stay solvent
+
+Meanwhile Bybit users are withdrawing back to Binance from Bybit. LMAO",
+    "Mint Alchemy x Monad NFT 
+ 
+Price: FREE 
+ https://magiceden.io/mint-terminal/monad-testnet/0x436ee7219bb099f71c9db9c7de8862a9bde891ae?utm_source=X&utm_campaign=monad+nft&utm_id=monad+nft…
+
+Minted with 
+@phantom
+ wallet—so easy!  
+Ends in 6 hrs",
+    "This mint isn’t ending in 6 hours; it’s 6 days. Sorry frens I didn’t notice :)",
+    "Bybit CEO is asking for help",
+    "Funds Are Safe ?",
+    "Bybit ETH multisig cold wallet just made a transfer to our warm wallet about 1 hr ago. It appears that this specific transaction was musked, all the signers saw the musked UI which showed the correct address and the URL was from 
+@safe
+ . However the signing message was to change",
+    "The only protocol will get benefit from this shitshow is 
+@PancakeSwap
+ $Cake
+
+They are generating massive fees
+& They will generate more revenue until this shitshow is over
+
+People are losing massive money by just gambling
+
+Stay safu.",
+    "Opened a small long position
+Let’s see, moon or rekt",
+    "Arbitrage Opportunity
+
+If you have $IP
+go to https://app.piperx.xyz/#/swap 
+swap $IP for $vIP (
+@verio_story
+ liquid staking on Story Protocol).
+
+Current rate is 1 $IP = 1.2 $vIP
+
+Then, you have to wait for the end of Singularity (18 days) + 14 days to redeem $IP back.
+
+This means you",
+    "I never farmed the Story Protocol testnet
+I never tweeted about the Story Protocol airdrop
+I never farmed Story on Kaito, nor do I have the Discord OG role
+
+I still got 200 $IP, and I don’t know how
+
+Many community members who farmed the testnet and earned badges received much",
+    "Berachain Announced Airdrop
+
+Congrats to those who are eligible for airdrop
+
+Also they gave good allocations to influencers who bull-posted about Berachain.. I got 0 $bera because I had never posted about Berachain nor do I have much interaction on testnet
+
+How much $bera did you",
+    "Banger launch 
+@Ace_da_Book
+Ochain Crime SuperCycle
+
+Bought 173K $VVV at $0.284, instantly dumped all $VVV at $9",
+    "CC: 
+@chadderbiz",
+    "$VVV 
+@AskVenice
+  Airdrop for Virtual Ecosystem Users
+
+If you are holding these tokens, you might be eligible for the $VVV Airdrop:
+$VIRTUALS, $AERO, $DEGEN, $AIXBT, $GAME, $LUNA, $VADER, $CLANKER, $MOR
+
+ Claim here: https://venice.ai/token
+
+Current Price: $14
+FDV): $1.4B",
+    "Secured hyped NFT (WL)
+@Overnads
+ on Monad
+5x Spots
+
+Follow Overnads and me and interact  Gmonad",
+    "Active Supporters Raffle Winners (3/5)
+@Cryptoboy262
+@Ankur21770696
+@SEHITrader
+Random Raffle Winners (2/5)
+@Shubham81264070
+@Simo_Fantom
+Please DM me your ETH address and Discord ID as soon as possible",
+    "Berachain founder is clearly saying VCs and whales will eat well
+
+He previously said in tweets about other pre-deposit projects that failed to deliver good airdrop, that the Berachain community will eat so damn well
+
+Definitely Berachain is an L1 and it might launch with billion",
+    "Monadverse Winner list announced 
+
+From the next giveaway, I will choose winners based on the following criteria:
+
+1. My active supporters
+2. Random picker/raffle
+3. Possibly Discord/Telegram raffle
+
+Let me know what you think is the best way to choose.",
+    "I’ve partnered with Monadverse to give away WL spots
+
+ Hyped NFT WL on Monad
+ 3x WL Giveaway
+ Mint Price: FREE
+
+To enter:
+ Follow 
+@0x_Lens
+ & 
+@monadverse
+ 
+ Like, RT & Comment
+
+ Time: 48H
+
+Good luck",
+    "Monadverse Wl Winners
+@BiereBock
+@lalapoo2121
+@soheil_ce
+ 
+
+Dm me your discord username",
+    "DeSci is interesting and new and it’s definitely going to do well in the long term
+
+I literally faded the $BIO IDO sale 
+The sale price was only around $0.05
+
+Now the current pre-market price is around $0.80,  15x up from sale price 
+
+Nobody was buying their IDO—it ran for",
+    "$Music Token Pumped Hard
+
+If you are still holding it
+Check your wallet
+
+Current Airdrop Value: $1300+ 
+
+A big thank you to 
+@virtuals_io
+ @everythingempt0
+ and 
+@agentstarter
+ rewarding the community just for being active in the virtuals ecosystem
+
+Believe in the Virtuals Ecosystem",
+    "Why is an Ethereum L2 selling their useless governance tokens to the public?",
+    "crypto rewards speed but punishes noise
+
+shipping fast is good
+shipping without direction is fatal
+
+the projects that last are the first ones to move with purpose",
+    "BonkFun powered by Raydium did ~21x more volume than PumpFun in the last 24 hours",
+    "whenever the market bounces, pengu bounces harder
+
+the best performing alt this run",
+    "we’ve seen this pattern repeat:
+
+→ a project gets early traction
+→ CT calls it overhyped
+→ team stays quiet, keeps building
+→ product hits a new peak
+→ sentiment flips overnight
+
+momentum is built in silence, not during applause",
+    "gm
+
+crypto is fun",
+    "goodnight chat",
+    "what was the first NFT you ever minted?
+
+let's go down memory lane",
+    "another day, another $PUMP all-time low",
+    "He paid $4.57 million for lunch with Warren Buffett.
+
+Then turned it into a $23.6 Billion empire.
+
+Meet Justin Sun, the crypto wild child who bought lunch, headlines, and your attention.
+
+Here’s the absurd story of how a single meal changed his life:",
+    "monad is launching on september 30?",
+    "Three words, one ethos.
+
+Build.
+Empower.
+Inspire.",
+    "one of my highest conviction bets this cycle is $PENGU
+
+the thesis is starting to play out
+
+the recent cboe filing brings it meaningfully closer to becoming the first nft-backed etf
+
+why does it matter?
+
+> pengu can scale
+> one of the strongest NFT communities
+> real cultural",
+    "pump fun breaks record lows",
+    "ethereum super cycle
+
+over the past 3 days ethereum etfs have completely dominated bitcoin etfs in inflow
+
+we're beginning to see the institutionalization of ethereum
+
+- corporations stacking up ethereum
+- institutions adopting ethereum technology
+- stablecoin surge
+
+would be",
+    "your aim should not be to go viral
+
+your aim should simply be to make sure the right people know you’re serious",
+    "chat i’m on a second date rn
+
+she bought the pengu dip",
+    "we’ve worked with founders who reply at 1AM, fix bugs at 6AM, and edit trailers before they even have an opportunity to think about lunch
+
+and all of this simply because they want to
+
+this is what people miss about early product
+
+users don’t just adopt features
+
+they mirror",
+    "crypto AI is still off-chain with no memory, no proof and no coordination
+@Xyberinc
+ is changing that, with agents that earn, evolve, and interact across chains and the real world
+
+the waitlist module (X-OP) has just launched: 
+→ claim now
+→ lock in early ecosystem access
+→",
+    "Here's the link to apply for waitlist module: https://join.xyber.inc
+
+appreciate the team for partnering with me to create this post",
+    "Whether you love him or hate him…
+
+You have to admit:
+
+Justin Sun didn’t just play the crypto game.
+
+He hacked it with memes, diplomacy, and a dinner that changed everything.",
+    "I hope you've found this thread helpful.
+
+Follow me 
+@0xAbhiP
+ for more.
+
+Like/Repost the quote below if you can:",
+    "He delayed the actual lunch (kidney stones, he claimed). But the headlines had already hit:
+
+“Crypto Founder Pays Millions to Dine with Warren Buffett.”
+
+The media circus worked.
+
+Sun turned a PR stunt into a perception shift.",
+    "When they finally met in 2020, Sun brought guests from the crypto world, including Litecoin’s Charlie Lee.
+
+He gave Buffett a Samsung Galaxy Fold with 1 BTC and some TRX (Buffett later gave it away).
+
+But the real gift? Attention.",
+    "$2.2B worth of ETH queued to unstake in 10 days
+
+ETH ETFs are pulling ~$534M daily inflows, but demand needs to keep pace to avoid heavy sell pressure
+
+Thoughts?",
+    "$PENGU is the best $SOL beta",
+    "This week is a great week to 
+@buildonbase",
+    "you really have no idea how much more productive you can be when you really lean into AI tools
+
+2 years ago, it would take me 3 months to restructure the whole developer docs
+
+today, it can be done in a week
+
+TBA = To Be AI-Maxing",
+    "Live in 
+@base
+  discord! And we are talking Mini apps",
+    "Congrats 
+@sxtvik
+ !",
+    "If you're still using Cursor, switch to Claude Code",
+    "TBA = Totally Based August
+
+Onchain Summer",
+    "our goal with TBA is to drive as much top of funnel growth as humanly possible then route that growth to based builders and creators so they grow faster, have more impact, and earn more money
+
+TBA is a flywheel",
+    "I am no longer a core contributor at 
+@Superfluid_HQ
+ but I still live with the core conviction that the idea of money streaming will one day gain world adoption",
+    ">go to cannes for ethcc
+>french strike (ofc)
+>flight canceled last minute
+>catch train to bcn
+>train late, miss connection
+>sleep in narbonne (??)
+>go to bcn next day
+>train late almost miss flight
+>flight overbooked, no seats
+>fight with them to get a seat
+>finally back home",
+    "Not surprised people enjoyed Cannes.
+
+I'm surprised that these same people had doubts about it when... it only hosts the BIGGEST AND MOST PRESTIGIOUS film festival in the world.
+
+Unreal.",
+    "Happy July 4th to my American frens",
+    "Time to compete between all student blockchain clubs 
+
+Such a really fun event! Thanks you 
+@base
+ and 
+@eigenlayer
+ for supporting this race at 
+@EthCC",
+    "Representing 
+@base
+ at the rally today
+
+I didn't win the race but I won many frens
+
+Thank you 
+@_SDAV
+ for this lit event",
+    ""Payer avec Bitcoin" 
+"Payer avec Base" 
+
+Seen in Cannes (Steak'n'Shake)",
+    "A call for Base Buildooors",
+    "Le future du commerce est en chaine
+
+(oui, c'est "en chaine" comme "en ligne")",
+    "Base est pour tout le monde",
+    "I'll be at the 
+@base
+ x 
+@AerodromeFi
+ event tonight
+
+Come say hi !",
+    "Mini App devs, introducing the last you need to ensure your Mini App works in the new 
+@CoinbaseWallet",
+    "I was literally the first to access the venue this morning
+
+Excited to meet you all this week",
+    "Why are people lining up to take a photo with EthCC banners?",
+    "We're growing !     
+
+- Trending #26 miniapp on 
+@farcaster_xyz
+  !
+- 404 Players transacting (5k+ transactions)
+- 91 stars put onchain 
+- 15k loot boxes opened 
+
+Congrats to everyone playing & helping 
+@astroblockxyz
+  grow ! Let's keep pushing there's a TON more we'll be going",
+    "Lightning fast checkout is real on 
+@base
+.
+
+We're launching Profiles in Smart Wallet, making it easy to streamline onboarding and checkout in your app.
+@kikiworld_
+ simplified checkout by allowing shoppers to share their name and shipping address in one click.",
+    "Get some Onchain Vibes shipped from Base Sepolia to your door in one click...
+
+How? Smart Wallet just launched Profiles ! 
+
+Full video tutorial coming soon 
+
+For now, check out the post below for more info",
+    "Lightning fast checkout is real on @base.
+
+We're launching Profiles in Smart Wallet, making it easy to streamline onboarding and checkout in your app.",
+    "2am gym sessions are tough, 
+but if you don’t put in the work, 
+you won’t get the results.",
+    "this week was a massive week for chog.
+
+news out next week",
+    "if you want to connect with the monad community, just check the comment section. 
+
+all of them are worth interacting with (except for 
+@Zeck_Sol
+)",
+    "the sky is the limit, but chog is limitless.",
+    "i’m your closest source for every insider’s information on monad (real)",
+    "time to send out invitations to my cabal",
+    "can i get a hi today?",
+    "the most punchable PFP in the world rn.",
+    "my favorite female KOLs on CT:
+
+1. 
+@0xWenMoon
+ 
+2. 
+@0x_ultra
+ 
+3. 
+@vohvohh
+ 
+4. 
+@wagmigently
+ 
+5. 
+@yungbij
+ 
+6. 
+@hotpot_dao
+ 
+7. 
+@LadyofCrypto1
+ 
+8. 
+@Milky_xdt
+ 
+9. 
+@0x_eunice
+ 
+10. 
+@hotpot_dao",
+    "every successful crypto project has at least one asian founder.
+
+think about it.",
+    "monad just announced mainnet in october. even more bullish now that megaeth is launching a month before.
+
+if i were a trader, i’d get rich on megaeth, then rotate my fund to monad to get richer.
+
+bizniz as usual.",
+    "there was actually so much hidden alpha despite the noise",
+    "Chogdotfun: Monad Trenches! 
+
+we’re back with a new space, and today we’re yapping about the Monad Trenches in preparation for mainnet!
+
+join us in 35 minutes!",
+    "Ethereum has decentralization
+
+Solana has the trenches 
+
+Hyperliquid has perps
+
+Tron has stablecoins 
+
+MegaETH has dapps
+
+Arbitrum has DeFi
+
+Anoma has FUD
+
+But what does Monad have? Tunez?",
+    "yes, we have, in fact, ALL IN ONE.",
+    "MINT MONAD CONTINUES  TOMORROW!! with the 
+BIG 
+@ChogNFT
+ feat.
+
+Benja 
+@1stBenjaNAD
+ and Toad 
+@Toadster69
+ 
+
+listeners have a chance to receive:         
+- $100 testnet USDC from stage      
+- Potential partner giveaway from Chog  
+
+3:30 PM UTC right here on twitter! Link below!",
+    "i just found out satoshi is a seed investor in 
+@monad",
+    "monad owes me a big fat airdrop just for showing up every day.",
+    "or appreciation, that’d also be nice.",
+    "or a kiss like this one",
+    "keep looking for the key",
+    "here’s the likelihood of monad’s TGE, based on a large-scale survey:
+
+august:
+▓▓▓▓ ░░░░░░░░░░░░░ 11%
+
+september:
+▓▓▓▓▓▓▓▓▓▓▓▓▓░░░ 86%
+
+october:
+▓▓▓▓▓▓▓▓▓▓▓ ░░░░░ 71%
+
+november:
+▓▓▓▓▓▓▓░░░░░░░░░░ 39%
+
+december:",
+    "are we still bullish on monad??",
+    "you’re a visionary and a hustler if you’re in your twenties grinding hard.
+
+if you’re in your thirties and still grinding.. that’s just sad, man.
+
+respectfully.",
+    "gm to everyone who told me that:
+
+> i should cut my mullet
+> monad should follow me back
+> i should return to megaeth
+
+(54 likes and i’ll show you my hair)",
+    "alright, here we go!",
+    "missed this desk for the last 15 days. feels good to be back",
+    "Day 25/25 
+@thenetworkstate
+ 
+
+This is not day 25 i forgot to post on day 25, now i reached home.
+
+It was one of my best crypto trip till now! Met a lot of crazy people building crazy things, learned a lot and finally met balaji and got the idea validated. Kudos to my crazy team!",
+    "thank you 
+@Web3_kerala",
+    "third-party railway booking apps wouldn't even exist if the official IRCTC site had decent UX",
+    "changed my mind
+
+going back to home with my team. not staying for 2 more weeks.",
+    "i decided to stay 2 more week at ns and i had my flight tickets booked for 8th of july.
+@airasia
+ ticket was booked through 
+@AdaniOnline
+ 's adani one mobile app
+
+i tried to contact the customer care for a reschedule. they told me it would cost 16K per head of reschedule. 
+
+the",
+    "is there anything on ethereum that’s equivalent to 
+@MeteoraAG
+?",
+    "haven’t been deving much this past week and when i dev less, my brain stops giving tweet ideas.",
+    "HJKL is enough",
+    "anyone cooking killer apps for the solana mobile hackathon ?",
+    "added 
+@nounsdao
+ to my sticker stash",
+    "magic in the air 
+@thenetworkstate",
+    "bought solana mobile ;)",
+    "Build Build Build
+
+Building the next phase of Lotry from 
+@thenetworkstate
+!",
+    "found this on reddit. 
+
+who is this guy someone explain please ?!",
+    "im done with rust",
+    "finally found someone who matches my emotional intelligence",
+    "wasting my time wisely",
+    "proof of thorfinn",
+    "congrats to all the people who made it top 25%.  
+
+to people who did't made to top 25%. 
+
+it does't matter bro  ignore the noise, there are lot of stuffs out there for free. you just need some discipline and dedication to learn stuff.  
+
+and the will to bend reality.",
+    "dropping this day1, day2 stuff. not my style. 
+
+gonna stick to posting the usual way",
+    "gm. what y’all doin’ today?",
+    ".
+@jessepollak
+ DM'd me !
+
+If you ask me why you should build on 
+@base
+?
+
+My answer would be Jesse Pollak!
+ 
+From winning the Base Batch Hackathon,
+to getting selected for Incubase,
+to now staying at 
+@thenetworkstate
+Jesse has been consistently engaging with my tweets and",
+    "learn vim macros",
+    "The $42M GMX Hack Explained
+
+On July 9, 2025,
+@GMX_IO
+ , a leading decentralized perpetual futures exchange, suffered a significant exploit, losing approximately $40 million from its V1 GLP liquidity pool on 
+@arbitrum
+ 
+Here's exactly what happened",
+    "my heart was pounding today when we suddenly had to scale up fast.
+
+but one thing i’ve learned over the years that’s really helped is always having a backup plan. we did too.
+
+a few lessons i’ve picked up about scaling:
+1. stuff breaks no matter what. plan for it.
+2. make sure",
+    "This whole week has been surreal, lot of love and support from all our internet friends and lots of validations. And while I'm so grateful for everyone giving me props for working on Offline Protocol and having conviction in our thesis even before it started getting recognized as",
+    "backend developers here’s a great opportunity for you!!!",
+    "introducing — Codex Desktop 
+
+a torrent-style desktop app powered by 
+@Codex_storage
+ ’s decentralisation.
+
+download for macOS Silicon : http://codexdesktop.hackyguru.com
+
+[1/4]",
+    "doctors are busy fighting with other doctors about who’s real, meanwhile us engineers happily considering even plumbers as fellow engineers",
+    "it’s just morning, and i’m already tired of seeing soham parekh’s name everywhere.",
+    "gm! After 3 months of exploring, I am actively looking for a new role in crypto 
+
+(RTs and vouches are )
+
+a little bit about me: 
+ co-founder of 
+@0rbitco
+ (acquired)
+
+ Worked with 
+@0xaarc
+ @biconomy
+ @hyperlaneindia
+ and 
+@thegraphindia
+, and more as freelance.
+
+ Won multiple",
+    "costs me my mental health tbh",
+    "i really love designing database schemas",
+    "happy “INDIA HAVE PULLED OFF A HEIST TO BECOME THE 2024 ICC MEN'S T20 WORLD CUP CHAMPIONS!” day to everyone",
+    "unpopular opinion: sacred games was hyped more than required because it was the first indian web series",
+    "out of all the errors in existence, this is the one I absolutely, gut-wrenchingly, soul-crushingly despise with every cell in my body",
+    "what i describe as a “good day”",
+    "if you are hiring for a developer who delivers fast, thinks ahead, and actually cares about your product; this is your guy!",
+    "weekend was pretty",
+    "being strong is fun until you realize no one checks if you’re okay anymore.",
+    "we did!
+
+try http://fernweh.chat built on 
+@OfflineProtocol",
+    "i post like i’m fine, and in a way, i am. just not the way you’d assume.",
+    "just a few months ago - before i joined offline - I was deeply involved in building a product. i was learning a lot, experimenting on my own, and pushing myself. but despite the effort, things didn’t align with the team. the product’s growth had plateaued, and we never officially",
+    "some more from yesterday",
+    "my friend got the keys to his new home, and the very first thing us girlies did when we visited yesterday was climb to the rooftop!
+nothing beats this fun.",
+    "what’s new?",
+    "meanwhile people in the eastern part of the world",
+    "never code when you are sleepy, i repeat NEVER.
+you will end up creating a blunder someday or the other.",
+    "A Monke with Straw Hat
+
+Future King of Pirates",
+    "Bro 
+@ninja_writer21
+ it hurts",
+    "Chonkyyyyyy",
+    "I wanna make money without doing anything 
+
+Any hacks??",
+    "Finally crashed",
+    "Don’t have any frens to invite me into an fnf group.
+
+Maybe I should create one for my homies",
+    "My Twitter tl now looks like Insta feed
+
+Only shitposts & cute gals.",
+    "This is fkn crazy.
+
+When I was a KOL I promoted 
+@bitgetglobal
+ & they paid me some $100-150 worth BGT at that time.
+
+Last year, I cashed out all my referral bonus & just kept my $BGT token there.
+
+Now that portfolio is at $3000 along with some referral bonus worth $500.
+
+Felt like",
+    "How can I explain her the worth of this NFTs
+
+Instead she offered me free hand drawn canvas portraits.",
+    "100k in web3",
+    "Can I get one follower",
+    "Let us bring 
+@cz_binance
+ to Kerala.
+@Binance_intern
+ lets make happen.",
+    "Cabbage got more Alphas than the masala from Elon’s tweet.
+
+Made even 
+@0xnandhu
+, trenching on 
+@cabbagedotapp",
+    "Hot take: those who are doing real work can’t shit post all day.
+
+Tg my boss is not active on CT",
+    "Shitposting since last 3 days.
+
+- gained 100+ followers
+- 15k impressions in the last 3 days
+- a job offer
+- a cabal invite
+
+Never felt things are that simple",
+    "You stop shit posting, so that I won’t reply",
+    ". 
+@Boldrin71
+ ser, 
+@ninja_writer21
+ have a proposal to rebrand 
+@Web3_kerala
+ to Web3 Bengala.
+
+We need a DAO voting for this.",
+    "Any Yappers here
+
+Say GM!!",
+    "Who ever orders 
+@cabbagedotapp
+ from me will get 100x in return",
+    "I acknowledge that I am a scammer",
+    "Got an interesting box this morning",
+    "Wen 
+@cabbagedotapp
+ merch box",
+    "Like this tweet to see something special
+
+#OnePlus13s",
+    "Any Cardano fans still around, or did y'all sell and bounce?",
+    "Who all are signing up for REMILIO ACADEMY FOR GIFTED YOUNG TRILLIONARIES",
+    "Officer of love",
+    "Invite code to join your Morning laughter classes: BAHAHA8080",
+    "Yall do you wanna see my meme game??
+
+Stay tuned for memes",
+    "Bro Code 
+Sis Code  
+Invite Code",
+    "Everybody’s gonna tell you GM.
+
+But Daavya’s gonna tell you Good night",
+    "Real Talk, Real Tactics – Web3 Marketing That Works;
+No More Shill & Chill: Real Web3 Marketing 
+
+Tired of buzzwords & empty engagement? 
+
+Let’s talk authentic growth, narratives that stick, and what real marketing in Web3 looks like.
+
+ Twitter Space Tonight | 10 PM IST",
+    "Made 12 tweets on X today!
+
+All candid!
+
+Am I losing my mind?",
+    "Sorry I just saw your text from yesterday , are you guys still at the pickleball court?",
+    "If you ever need me,
+Just text me.
+
+But don’t call me unless it’s level 3 emergency",
+    "If they truly wanna onboard users,
+They should give access to all and make it user friendly.
+
+What is this invite code game?
+
+Just let the users in
+
+It’s already hard to bring people onchain",
+    "My Dream WFH setup",
+    "I swear the garden smelled like alot of flowers <3",
+    "Posted something super cool that I created using AI! 
+
+Check it out
+
+https://wallet.coinbase.com/post/0x2a2d186821f0f79d2bca85592e205769b26dc65d…",
+    "If you’re in your 20s you should be reading Robert Greene as much as you can btw
+@RobertGreene",
+    "Joined 
+@baseapp
+ 
+Comment your username and I’ll add you there!",
+    "“Saiyaara” movie made me cry today
+
+I’m a huge sucker for such romantic and heartfelt lovestoryIts like “Sanam teri kasam” 
+
+the love, the grief, the unforeseen circumstances and the deep emotional connection. We want more movie like this
+
+10/10 recommended
+@Saiyaaramovie",
+    "yes, I do modeling
+
+wanna see curves as I run optimization models on your portfolio?",
+    "My X fam should see this first",
+    "You can deadass learn anything from YOUTUBE.
+
+Come here I’ll give you a C-section",
+    "Will CT forgive me if I say GOOD MORNING instead of GM?",
+    "What!!! Gamers are crazy fr",
+    "Burnt some onions today while cooking for my dad,
+
+I called it caramelised onions and he ate it fondly Lmao
+
+Dads are the cutest creature",
+    "#MEXC South Asia x 
+@web3_events
+ Exclusive Giveaway 
+Win VIP Passes for IBT Ahmedabad 
+Participate Now :
+ Follow 
+@MEXC_SouthAsia
+ Complete tasks : https://gleam.io/7yeQM/community-exclusive-giveaway…
+ Comment why you deserve to win + tag 3 friends with #MEXCEventRocks #IBT25
+
+ Winner announced on",
+    "I live for Aesthetics : ))))
+
+                             
+
+                                   
+
+                              
+
+                               
+
+This is my vibe.
+
+RT your vibes with emoticons",
+    "I’ve reached 1.3k without blue tick.
+
+Yes it’s possible.
+
+Yes it takes more time to establish authenticity.
+
+When I started people thought I was AI
+
+But I kept posting real thoughts, Pictures, and engaged with alot of creators.
+
+VvvImp: Be #1Replygirl among mutuals.
+
+WAGMI",
+    "To build a future-proof profile for airdrops, we need these 2 pillars to beat Sybils:",
+    "It's so easy to build a trusted airdrop account if you:
+
+❍ Interact with a tokenless project
+❍ Reflect on what worked
+❍ Share your process
+❍ Warn others what didn’t work
+
+You’re now doing more than 95% of CT.",
+    "Avoid these mistakes when growing an airdrop account on CT:",
+    "Notice a pattern in how 
+@AlexOnchain
+ and 
+@beast_ico
+ became CT/Mindshare Leads?
+
+Neither of them was yapping mindlessly for InfoFi airdrops.
+
+Just be yourself online and talk about the things you enjoy.
+
+Good things will happen and new opportunities will come.",
+    "The complete framework I'm using to compound long-term wealth on CT:",
+    "We're getting paid to borrow funds on Katana.
+
+The MORPHO incentives help to reduce the already low borrow rates, and I deposited my USDT into 
+@turtledotxyz
+'s USDT vaults.
+
+There are ~ 6 vaults with negative borrowing rates that we can choose from.",
+    "Feel free to use my code on Turtle:
+
+https://app.turtle.xyz/campaigns/katana?ref=FIPCRYPTO…
+
+Katana is one of the top airdrops I'm aiming for July that I shared here:",
+    "Gnewt?
+
+Radio silence about this on the timeline, but maybe because I've muted all their remaining yappers.",
+    "Why I skipped Sonic:",
+    "Haven’t touched 
+@zora
+ in ages, but looks like creators could benefit from another monetisation source with creator coins.
+
+I’m not sure how text-based posts would perform here, but I’ll try a few and share my results (after I get on 
+@baseapp
+ too).",
+    "Feel free to follow me on Zora:",
+    "$0.07 in HYPE for depositing 150 USDhl in 
+@felixprotocol
+’s Lending Pool.
+
+The current rate is 12-15% APY, so the WHYPE rewards are just a bonus.",
+    "Revealing my full HyperEVM strategy:",
+    "So many people have asked me to adapt to the InfoFi 'meta'.
+
+But what's the point of talking about a project for the sake of it, when I have nothing to say?
+
+We're just adding noise to the sea of commodity content that will become irrelevant.
+
+Choose to provide value instead.",
+    "How the InfoFi meta will change:",
+    "Plume is encouraging us to spam transactions, but I won't stress myself out to hit 400+ in a day.
+
+I'll continue to interact with Plume as needed:
+
+❍ Daily Spins
+❍ Completing Layer3 quests
+❍ Claiming rewards from Merkl",
+    "Stop wasting time on airdrops with poor ROI:",
+    "Seems like Katana is going hard on the time-weighted model.
+
+They rewarded early pre-depositors well, and hopefully, my POL stake for 2,718 hours will get an extra KAT allocation.
+
+I staked POL on the mainnet to get future drops from the Polygon ecosystem.",
+    "Check your stake amount and time here:
+
+https://staking.polygon.technology/stake-calculator…
+
+I shared more about why I staked POL (MATIC) below:",
+    "Still farming every airdrop like it’s 2023?
+
+I’ve wasted hundreds of hours chasing airdrops with poor returns.
+
+Now I only go after airdrops that meet 10 clear criteria, including:
+
+❍ Usefulness of the product
+❍ Impact of referrals
+❍ Type of campaigns
+❍ Genuineness of the",
+    "Every Monday, I share weekly strategies on becoming a future-proof airdrop hunter through a strong onchain and social footprint.
+
+Link to my latest issue:",
+    "Everyone's only focusing on Kaito leaderboards, so Galxe Starboard still seems pretty underfarmed.
+
+Quite a few projects are on the list, so it's worth talking about those that you already use to get a higher ranking.
+
+And looks like they value both onchain and social metrics.",
+    "To build a future-proof profile for airdrops, we need these 2 pillars to beat Sybils:",
+    "A new ZK Elastic chain, but it's not one that we can interact with.
+
+Sophon awarded active ZKsync users, and I expect other ZK Elastic chains to do the same (just like Optimism).",
+    "Everyone hates L2s, but I see them as an airdrop stacking opportunity.
+
+Read my full strategy in the article below:
+https://x.com/fipcrypto/status/1935006678065238284…
+
+I shared the top modular projects I'm targeting here:
+https://insights.fipcrypto.com/p/my-ultimate-guide-for-modular-airdrops…",
+    "Your content has value.",
+    "gm to the memecoin and NFT and content coin enthusiasts",
+    "Believe in creators.",
+    "if you are someone who loves NFTs and hates content coins: a content coin is just a 1/1 NFT that's fractionalized so more people can own it.",
+    "buy some of this post NFT that I fractionalized so anyone can own as much or as little as they want",
+    "$FXH trending in base app",
+    "Trending now in the 
+@baseapp",
+    "thanks to everyone for the feedback and sharing the  Wallet Sweeper post!
+
+here’s some behind the scenes play-by-play of how it went from idea at 10:43am to shipped at 10:35pm while I spent the day seeing Superman & grabbing dinner with my dad",
+    "ICYMI a ton of new creators from 
+@samirchaudry
+ to 
+@GinoTheGhost
+ are now using 
+@zora
+ 
+
+from youtubers to music artists, creators are joining the 
+@base
+ ecosystem and bringing the creator economy onchain",
+    "It’s 
+@base
+ season",
+    "share a quick story if you as a creator have been positively impacted by creator and/or content coins 
+
+A bounty for this has been created on 
+@EverybNeedsBase
+ platform 
+
+Ensure to follow the instructions on the bounty , you are to
+
+- share your experience with content",
+    "These are some of the creator niches I’d love to see more of on 
+@zora
+. 
+
+I think there’s real potential here, and real money for those making fire content.
+
+Fitness / Bodybuilding
+→ Gym clips, transformations, daily discipline.
+
+Beauty / Skincare
+→ Routines, product drops, that",
+    "Wild that people resent the idea of tokenizing and owning their own content.
+
+The alternative? Get nothing while platforms sell your work for billies.
+
+It's pure Stockholm syndrome.",
+    "Zora ($346k) flipped Pump ($187k) in daily revenue yesterday, but still trails the category leader Bonk ($1m)",
+    "Why EIP-5792 is the Midas touch for Mini Apps
+
+EIP-5792 is becoming the golden standard for Mini Apps on the 
+@baseapp
+ . Mini Apps live or die by their first impression - when someone discovers your app in a social feed, you have seconds to hook them. 
+
+Traditional transaction",
+    "Having fun on 
+@baseapp
+? Building mini apps is even more fun 
+
+Frens have been sharing screenshots of their SnackyCat high scores , so I updated the game to learn about Sign in with 
+@base
+.  
+
+Now you can see everyone’s high scores and share + coin your SnackyCat moment on TBA",
+    "Creators love 
+@zora",
+    ".
+@zora
+ ? it's kinda dope.",
+    "My story is I started posting + reposting on 
+@zora
+ like I would on 
+@instagram
+ or 
+@tumblr
+ + this happened. 
+
+20 years of using social media: $0
+
+A few months of Zora: $2,000
+
+That’s the whole fucking story.",
+    "creator coins are awesome. no reason to dump on your fans - the people that helped get you there in the first place.
+
+that's part of why we built flaunch <3",
+    "content everywhere is valuable
+creators everywhere should be valued",
+    "I’ve been creating online for over a decade. Posting every day. Memes, videos, photography. Pouring time and energy into things I cared about.
+Never really got paid for it. Not in any way that felt fair or real. Just platforms and algorithms benefiting from my creativity.
+
+So",
+    "creator coins on solana have intrinsic value",
+    "My main job brought in just $1.5K–$1.7K/month. I even earned money just from posting on 
+@zora
+,  and that meant so much to my life.
+
+We create to connect — not just to catch trends.
+Forever grateful 
+
+Thank you 
+@base
+, 
+@zora
+, 
+@jessepollak
+ , 
+@js_horne
+ & everyone supporting",
+    "I didn't keep all the revenue but my creator coin on 
+@flaunchgg
+ has earned $92,000 in ETH (not NOBI) and I've never sold a coin.
+
+Burned like 10% of the supply as well",
+    "Nigerians are some of the hardest-working and most sincere folks in crypto. 
+
+This has been said before. But I had to reiterate.",
+    "I believed in somETHing",
+    "Highest DAU and volume on 
+@HeyElsaAI
+ yesterday. 
+
+Back to building.",
+    "Marketer and dev agreeing on the feature launch date.",
+    "Two options: 
+
+Buy Lil Pudgy 
+
+or 
+
+Buy 1 ETH worth of $PENGU 
+
+Which one?",
+    "My brother in coin, this is the ETH summer you have been waiting for.
+
+Rejoice.",
+    ".
+@0xpratik
+ sent me my first ETH. 
+
+He also gifted me my first Ledger Nano. Handheld me through the seed phrase generation process. 
+
+Forever grateful.",
+    "Yea, really pumped for TBA. 
+
+On a side note, I so need to get the video set up done.",
+    "I had my weak moments. But I always believed in somETHing.",
+    "I lost my first crypto salary 4 years back to a metaverse scam. 
+
+Since then, I knew that the metaverse narrative would die.",
+    "Pumped for TBA",
+    "Being boundless isn't about being reckless; it's about crossing self-imposed boundaries to explore the unknown and, in doing so, finding yourself.
+
+It is a call to defy norms and embrace exploration.
+
+(Will this be considered as yapping about 
+@boundless_xyz
+?)",
+    "Be everything but not a simp.",
+    "It's so good to see 
+@arbitrum
+ making all the right moves on 
+@farcaster_xyz
+. 
+
+They already got integrations with: 
+@noicedotso
+, 
+@clankeronbase
+, 
+@9livesso
+, 
+@BungeeExchange
+ 
+
+All the tops Gs! 
+
+Many others are on the way. 
+
+Plus, they are giving out $2,500 in weekly rewards for mini",
+    "If I had $100 set aside for trading, here’s exactly what I’d do:
+
+- Get active on Farcaster
+- Try out different mini apps
+- Watch for new mini apps and token launches
+- Ape into the ones you actually have conviction in
+- Keep repeating the cycle
+
+Simple, fun, and onchain.",
+    "My rizz has been scientifically measured by 
+@bantr_fun
+. 
+→ http://bantr.fun
+
+(Good cook 
+@apurvkaushal
+)",
+    "I want to watch ETH in 4K.",
+    "If there’s one thing I’ve learned from being active on 
+@base
+ for over a year, it’s this:  
+
+Back builders you genuinely like and do it with conviction. 
+
+It always pays off.",
+    "Took just 10 months for 
+@BasedIndia
+ to follow me.",
+    "Made a pretty trashy decision this morning. 
+
+gorbagio
+
+(All the community lingo aside, got fascinated by how 
+@Gorbagana_chain
+ has evolved. Scrappy, rooted in cyberpunk, and ambitious.)",
+    "Thank you 
+@0xpratik
+ for inspiring this post!",
+    "The lore of 
+@Gorbagana_chain
+ $GOR has intrigued me beyond the initial impression. 
+
+At first, I was just interested; now I want to follow the arc. 
+
+gorbagio",
+    "Getting same signals as 
+@MisterKeegan",
+    "The 
+@formacity
+ X account is dropping banger after banger.
+
+Also, how does 
+@ashwinho4
+ manage to fit literally everywhere?",
+    "I understand why so many are drawn to the whole yapping phenomenon.
+
+Endlessly tweeting about a product is an easy way to earn and build a following. With InfoFi as a layer now, you can tap multiple reward pools just by posting.
+
+It’s the path of least resistance. No need to get",
+    "Attended the 
+@Web3_kerala
+ summit was pretty cool tbh.
+
+Spoke on a panel titled "Builder Stories" where 
+@0xMentalist
+ and I shared how we built 
+@lotrydotfun
+.
+
+Big shoutout to my crazy AF team:
+@_aaronegeorge
+ @4rjunc
+ @NikhilEth
+Respect++ for 
+@Boldrin71
+ for pulling this off!",
+    "How it started vs how it’s going.
+
+Less than 24 hours from Idea to a fully fledged mini app.
+
+Indian builders are goated.
+@__harshshukla
+ @Divyansh_S28
+ @NikhilEth",
+    "need mini militia on baseapp",
+    "That our Mundu will make 
+@4rjunc",
+    "Day-34 of waiting for 
+@AthenaF0SS
+ hacker house",
+    "I’d love priyanshu to not just chug redbull only during the hh :D",
+    "integrated the google adsense to https://memehub.mom
+
+now i'll be able to utilize the good amount of visitors that visit memehub daily
+
+hopefully it will earn me enough to cover the protein powder costs lol",
+    "Day 359/999: Base Pilled?
+
+I think I indirectly onboarded 100+ Web3 developers into the Base ecosystem!
+
+Athena has a lot of Solana developers and we love them, but it's time we start exploring other ecosystems too!
+
+Not saying jump into 
+@base
+ particularly our goal should be to",
+    "JavaScript is what we all started with",
+    "Yes ayush bhai",
+    "Be like 
+@AthenaF0SS
+ ?
+
+- Don’t follow anyone
+- Don’t retweet anyone
+- Don’t interact with anyone
+
+But bro comes:
+
+- Posts only 1 tweet per month
+- Creates chaos on Entire Twitter
+- Bro silently leaves and disappears!
+
+Absolute giga chad, my fav twitter account",
+    "Chad account chad community",
+    "Introducing: Mini ₿app Vibe Sessions by 
+@CitreaIndia
+ 
+
+Forget boring hackathons. This is a 1.5-hour jam session where you drop in, spin up something wild on Citrea, and vibe with other Bappers.
+
+Winners get paid in $BTC
+
+First Session on Saturday, 2nd August 2025. Register Now",
+    "Going super saiyan mode then",
+    "what 
+@athenaf0ss
+ is doing is just awesome! the energy, the momentum, the people ~ it genuinely feels like something special is being built.
+
+lowkey feeling sad for the ones who aren’t part of this, some things you just have to experience from the inside.",
+    "I wish I was a part of this",
+    "Soon ser our Brand ambassador 
+@avhidotsol
+ had vouched you yesterday!
+
+Give us some tym, in Athena it's a batch purpose onboarding will add you in batch this sat or sunday will invite !",
+    "everyone busy hiring Sydney Sweeney for their promo.
+
+we’re hiring 
+@nikhileth
+ our supreme leader for 
+@obzrdotxyz
+.",
+    "We need more indian games bois 
+@akatsuk10_
+ build one 
+@pawanxobzr
+,
+@shibu0x
+ , and 
+@piyushJha__
+ @priyanshudotsol
+ 
+
+Anyone else I missed out building it",
+    "The magic happens when:
+
+• Builders create useful tools (like 
+@0xWhizzify
+ did)
+• Communities support them (like 
+@BLRxZo
+)
+• People catch the vision (like 
+@NikhilEth
+ moving cross-continent)
+
+This is how we evolve web3 beyond speculation.
+
+Zo  Zo  Zo",
+    "All i want is to visit thailand 
+
+Can you please convince 
+@Samuraizann
+ bhai and send me there zo bot !
+
+I will buy you a new nvidia graphics card",
+    "supreme leader saying “be like 
+@athenaf0ss
+" but the reality is there’s only one.
+
+we’re not here to farm engagement. we’re here to build, break, and bend the rules. this isn’t just a tag. it’s a movement. it’s about waking up every day with one goal: ship. learn. repeat.
+
+no",
+    "vice-supreme-leader(
+@avhidotsol
+ )
+@NikhilEth",
+    "Fun fact avhi called me supreme leader first tym!
+
+He started the trend",
+    "Ok avhi ser, build with Athena !
+
+Nobody has an aura like 
+@AthenaF0SS
+ twitter account",
+    "best app = best juice = best team",
+    "we’re actively building a new roadmap based on user feedback and the current stage of the product
+
+our first priority is to fix bugs and improve the current user experience
+
+Stay tuned
+Stay BASED
+Share your feedback",
+    "baseshake around the world",
+    "passing the phone to... 
+
+some of the incredible team behind the 
+@baseapp
+ at yesterday's new day one launch :)
+
+congrats to 
+@base
+ and all of the building blocks built into the new app, including farcaster. inspired!!!
+@reva_jariwala
+ @crystaltaixyz
+ @0xVictorP
+ @cankeremgurel",
+    "the real creator flywheel is here on 
+@baseapp
+ 
+
+we onboarded a new user, she launched her video, I bought her post for $5 — and now it’s worth $189
+
+what are you waiting for? joing base app",
+    "if you're in LA right now — come to Erewhon today!!!!
+
+grab a free drink from Erewhon&Base collab and try the new 
+@baseapp
+ 
+
+we're onboarding people, and they’re earning their first onchain money within seconds!!!!",
+    "my first in-n-out",
+    "what do you expect to find in TBA tomorrow? 
+
+wrong answers only",
+    "pov: you're in a group chat with 
+@flaunchgg
+ on TBA",
+    "paring a token with cbBTC has great potential
+
+Try the new 
+@clankeronbase
+ !",
+    "okay 
+@a0xbot
+ @bvdani_el
+ I see you breaking out over there
+
+first clanker paired with cbBTC",
+    "question — if you were to choose what appears on the main page of TBA, what would you include?
+
+– Mini apps
+- Balance 
+– Trending coins
+– Watchlist
+– Something else…?",
+    "ngl… the new 
+@CoinbaseWallet
+ ui/ux is kinda fire",
+    "communication is key in our team lol",
+    "TBA: Trade Based Assets",
+    "TBA LA 2025",
+    "crazy times at the dream job.",
+    "it’s been a while since my last walk & talk…
+
+today is a very special day — we’re fixing the final bugs, testing, shipping features, and getting ready for a HUGE week
+
+I’m excited, nervous, and so damn happy
+
+ALL EYES ON TBA
+Let’s gooo",
+    "Base is for everyone is trending on TBA",
+    "I'M ALL IN TBA",
+    ". 
+@AerodromeFi
+ is the #1 trending coin in TBA right now",
+    "really appreciate all the feedback you’ve been sending my way re TBA trading features 
+
+please keep tagging me and DMing — I want to make sure we’re building the best app for you
+
+if you're actively trading and want to join the alpha chat inside TBA, leave a comment below",
+    "gm 
+
+what are we trading today?",
+    "just got back from the launch review — we’ve got tons of work ahead. wish us luck!
+
+stay based, stay TBA",
+    "My son beat me to the best investment of the decade.
+@Brian_Armstrong
+ walks into my office to pitch 
+@Coinbase
+.
+
+My son, 
+@AdamDraper
+ was there and we love the pitch and love Brian.
+
+I want in immediately, but I'd already invested in 
+@CoinLab
+ (a startup with a similar premise).",
+    "Was shooting something for 
+@puch_ai
+ 
+
+Let's see, how it will come out after editing
+@siddharthb_
+ @arjitjain_",
+    "Things I changed in 2025 that actually started working for me
+
+In 2023–2024, I barely asked for help.
+No guidance, no mentorship, nothing.
+
+I was the “figure-it-out-myself” guy and it got me nowhere.
+
+but after March 2025, I started asking",
+    "That one shift changed everything.
+Doors I didn’t even know existed started opening.
+It’s still early, but I can see the compounding effect of simply asking.",
+    "It reminded me of a quote I once read-
+
+“If you don’t ask, the answer will always be no.”",
+    "aur kis kis ko ye galtfehmi hai??",
+    "is it a sign??
+are they talking about 4am club people???",
+    "Drop your Github,
+let's separate the myth from the commits",
+    "Technologies to learn in order:   
+
+1.   terraform
+2.   prometheus & grafana
+3.   helm
+4.   argo cd & gitops
+5.   kubernetes
+6.   ci/cd
+7.    docker
+8.   nginx
+9.   aws(ec2,s3)
+10. primsa/drizzle
+11.  express
+12.  js
+13.  Html
+
+..
+
+14.  Http
+15.  How to open laptop",
+    "Day-31 of waiting for 
+@AthenaF0SS
+ hacker house",
+    "4 Am club??",
+    "wtf bhai, ye saare domains already booked kaise rehte hai
+
+$100",
+    "asking 
+@damnGruz
+ to design
+4 Am club
+
+show us ur design skills, please",
+    "BNB Kerala just wrapped up, and what a ride it was!  
+
+Builders showed up, teamed up, and shipped some seriously cool stuff. 
+From wild ideas to working products, the energy was unreal.  
+
+Big shoutout to every dev who made it special.  
+BNB fam, this is just the beginning.",
+    "Day-30 of waiting for 
+@AthenaF0SS
+ hacker house",
+    "if any time i have to choose between 
+DSA vs AI/ML  
+
+I will always choose...........  
+Fill the blank",
+    "if any time i have to choose between 
+Dev vs DSA   
+
+I will always choose...........  
+Fill the blank",
+    "if any time i have to choose between
+DSA vs web3
+
+I will always choose...........
+
+Fill the blank",
+    "why so much hate for 
+@perplexity_ai
+ pro suddenly?",
+    "Believe it or not, bro,  
+but you're also someone's crush, you just don't know it yet.   
+
+Don't lose hope.",
+    "My personal rule is to never take a developer in a team who’s worked with light theme",
+    "gm, msg for u",
+    "if u still can't understand NGMI.",
+    "4 Am club for W
+mark ur attendance, 4 am club is a vibe.",
+    "satyam bhai ko legal notice bhej du?? what's ur thought chat???",
+    "Sometimes it’s worth trading earnings for learnings(learn about web3)",];
 
   return {
     tweets,
