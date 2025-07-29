@@ -1,219 +1,195 @@
-# 🚀 Web3 Shitpost Generator
+# 🦋 Kai - AI-Powered Content Evolution Platform
 
-A full-stack Web3 application that generates viral shitposts in the style of crypto influencers using AI, with direct posting to Farcaster via Soulbound NFTs on Base.
+**Transform ordinary content into viral success with AI-powered content evolution. Built for Base Wallet and Farcaster.**
 
 ## ✨ Features
 
-### 🤖 AI-Powered Content Generation
-- **Influencer Style Mimicking**: Generate posts in the style of top crypto/tech influencers
-- **Style Mixing**: Combine two influencer styles for unique content
-- **Multiple Post Types**: Shitpost, Copypasta, Roast, and Thread generation
-- **Viral Score Analysis**: Real-time scoring based on emojis, hooks, and crypto slang
+### 🎯 Content Enhancement
+- **AI-Powered Evolution**: Transform your ideas, thoughts, and replies using real styles from top crypto influencers
+- **Multiple Styles**: Choose from various content styles including:
+  - **Shitpost Generator**: Create viral, engaging content
+  - **BASED Content**: Generate authentic, community-focused posts
+  - **Reply Guy**: Craft perfect responses and interactions
+  - **Influencer Style**: Mimic top crypto influencer writing styles
+  - **Thread Generator**: Create engaging multi-part content
+- **Viral Score**: Get instant feedback on content potential
+- **Real Training Data**: Trained on 916+ latest tweets from Base chain influencers
 
-### 🔗 Web3 Integration
-- **Wallet Connection**: Support for MetaMask, Base App, and other Web3 wallets
-- **Soulbound NFT**: $5 SBT on Base chain for Farcaster posting privileges
-- **Auto-Posting**: Scheduled posting for users with SBT
-- **On-chain Verification**: Smart contract-based posting permissions
+### 🔗 Platform Integration
+- **Base Mini App**: Native integration with Base Wallet
+- **Farcaster Integration**: Direct posting to Farcaster with OAuth authentication
+- **Auto-Posting**: Schedule and automate content posting
+- **MiniKit Integration**: Full MiniKit support for seamless wallet experience
 
-### 📊 Advanced Features
-- **Copypasta Engine**: Generate degenerate CT slang content
-- **Meme Generator**: Create image-based shitposts
-- **AI Profile Roaster**: Roast influencers based on their past tweets
-- **Thread Generator**: Multi-part viral threads
-- **Viral Analytics**: Track engagement and performance
-
-## 🛠️ Tech Stack
-
-- **Frontend**: Next.js 14 + TypeScript + Tailwind CSS
-- **Web3**: ethers.js + wagmi + RainbowKit
-- **AI**: OpenAI GPT-4
-- **Database**: Supabase (PostgreSQL)
-- **Blockchain**: Base (Ethereum L2)
-- **Social**: Farcaster API
-- **UI**: Framer Motion + Lucide React
+### 🎨 Beautiful 3D UI
+- **Interactive 3D Animations**: Floating particles, gradient orbs, and dynamic effects
+- **Base Blue Theme**: Consistent Base chain branding
+- **Responsive Design**: Works perfectly on all devices
+- **Glass Morphism**: Modern, elegant UI with backdrop blur effects
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 - Node.js 18+ 
 - npm or yarn
-- MetaMask or Base App wallet
-- OpenAI API key
-- Supabase account
-- Farcaster API key
+- Base Wallet (for Mini App features)
+- Farcaster account (for posting)
 
 ### Installation
 
 1. **Clone the repository**
-```bash
-git clone <repository-url>
-cd web3-shitpost-generator
-```
+   ```bash
+   git clone <your-repo-url>
+   cd kai
+   ```
 
 2. **Install dependencies**
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
 3. **Set up environment variables**
-```bash
-cp .env.local.example .env.local
-```
+   ```bash
+   cp .env.example .env.local
+   ```
+   
+   Add your configuration:
+   ```env
+   OPENAI_API_KEY=your_openai_api_key
+   FARCASTER_CLIENT_ID=your_farcaster_client_id
+   FARCASTER_CLIENT_SECRET=your_farcaster_client_secret
+   SUPABASE_URL=your_supabase_url
+   SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
 
-Edit `.env.local` with your configuration:
-```env
-# Web3 Configuration
-NEXT_PUBLIC_SBT_CONTRACT_ADDRESS=0x... # Deploy contract first
-NEXT_PUBLIC_BASE_RPC_URL=https://mainnet.base.org
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
 
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+5. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
-# OpenAI Configuration
-OPENAI_API_KEY=your-openai-api-key
+## 🛠️ Tech Stack
 
-# Farcaster Configuration
-FARCASTER_API_KEY=your-farcaster-api-key
-```
+### Frontend
+- **Next.js 14**: React framework with App Router
+- **TypeScript**: Type-safe development
+- **Tailwind CSS**: Utility-first styling
+- **Lucide React**: Beautiful icons
+- **Framer Motion**: Smooth animations
 
-4. **Deploy the smart contract**
-```bash
-# Install Hardhat
-npm install -g hardhat
+### Blockchain & Web3
+- **Base MiniKit**: Base Wallet integration
+- **Farcaster API**: Social media integration
+- **Wagmi**: React hooks for Ethereum
+- **Viem**: TypeScript interface for Ethereum
 
-# Deploy to Base
-npx hardhat run contracts/deploy.js --network base
-```
+### AI & Backend
+- **OpenAI GPT-3.5**: Content generation
+- **Supabase**: Database and authentication
+- **Next.js API Routes**: Backend functionality
 
-5. **Set up Supabase database**
-- Create a new Supabase project
-- Run the SQL schema from `supabase-schema.sql`
-- Update your environment variables
+### Development Tools
+- **ESLint**: Code linting
+- **Prettier**: Code formatting
+- **TypeScript**: Type checking
 
-6. **Start the development server**
-```bash
-npm run dev
-```
+## 📱 Usage
 
-7. **Open your browser**
-Navigate to [http://localhost:3000](http://localhost:3000)
+### Content Enhancement
+1. **Select Style**: Choose from available content styles
+2. **Input Content**: Paste your idea, thought, or reply
+3. **Generate**: Click "Kai Your Content" to evolve your text
+4. **Review**: Check the viral score and generated content
+5. **Post**: Connect Farcaster and post directly
 
-## 📁 Project Structure
+### Auto-Posting
+1. **Connect Farcaster**: Authenticate with your Farcaster account
+2. **Configure Settings**: Set daily limits, schedule, and preferences
+3. **Enable**: Turn on auto-posting for automated content evolution
+4. **Monitor**: Track performance and adjust settings
 
-```
-web3-shitpost-generator/
-├── app/                    # Next.js app directory
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Main page
-├── components/             # React components
-│   ├── WalletConnect.tsx  # Wallet connection
-│   ├── InfluencerSelector.tsx # Influencer selection
-│   └── PostGenerator.tsx  # Post generation
-├── lib/                   # Utility libraries
-│   ├── config.ts          # App configuration
-│   ├── web3.ts           # Web3 utilities
-│   ├── openai.ts         # OpenAI service
-│   ├── supabase.ts       # Database service
-│   ├── farcaster.ts      # Farcaster API
-│   └── viralScore.ts     # Viral scoring
-├── contracts/             # Smart contracts
-│   ├── SoulboundNFT.sol  # SBT contract
-│   └── deploy.js         # Deployment script
-├── types/                 # TypeScript types
-│   └── index.ts          # Type definitions
-├── supabase-schema.sql   # Database schema
-└── package.json          # Dependencies
-```
-
-## 🔧 Smart Contract
-
-### SoulboundNFT.sol
-- **ERC-721 Soulbound Token** on Base chain
-- **$5 mint price** (0.0025 ETH at current rates)
-- **Non-transferable** - once minted, cannot be transferred
-- **Posting privileges** - required for Farcaster posting
-- **Max supply**: 10,000 tokens
-
-### Key Functions
-```solidity
-function mint(address to) external payable
-function hasPostingPrivileges(address user) external view returns (bool)
-function getUserTokenId(address user) external view returns (uint256)
-```
-
-## 🎯 Usage Guide
-
-### 1. Connect Wallet
-- Click "Connect Wallet" button
-- Approve connection in your wallet
-- Switch to Base network if prompted
-
-### 2. Mint SBT (Optional)
-- Click "Mint SBT" to get posting privileges
-- Pay 0.0025 ETH (~$5)
-- Receive non-transferable Soulbound NFT
-
-### 3. Select Influencer
-- Browse through crypto/tech influencers
-- Filter by category (Crypto, Tech, Farcaster)
-- Search by name or handle
-- Optionally select a second influencer for style mixing
-
-### 4. Generate Content
-- Choose post style (Shitpost, Copypasta, Roast, Thread)
-- Set length (Short, Medium, Long)
-- Add optional prompt/topic
-- Click "Generate Shitpost"
-
-### 5. Review & Post
-- Edit generated content if needed
-- View viral score breakdown
-- Copy to clipboard or post directly to Farcaster (if SBT holder)
+### Mini App Features
+- **Add to Mini Apps**: Install Kai as a Base Wallet Mini App
+- **Notifications**: Get alerts for content completion
+- **Profile View**: Access your Farcaster profile directly
+- **Seamless Integration**: Native Base Wallet experience
 
 ## 🎨 Customization
 
-### Adding New Influencers
-Edit `lib/config.ts`:
-```typescript
-export const influencers: Influencer[] = [
-  {
-    id: 'new-influencer',
-    name: 'New Influencer',
-    handle: '@newinfluencer',
-    avatar: '/avatars/new-influencer.jpg',
-    description: 'Description here',
-    style: 'Style description',
-    followers: 50000,
-    category: 'crypto',
-    sampleTweets: ['Sample tweet 1', 'Sample tweet 2']
-  }
-];
+### Styling
+The app uses Tailwind CSS with custom 3D animations. Key files:
+- `app/globals.css`: Global styles and animations
+- `app/page.tsx`: Main UI components
+- `tailwind.config.js`: Tailwind configuration
+
+### Content Styles
+Add new content styles in:
+- `lib/openai.ts`: AI generation functions
+- `types/index.ts`: TypeScript interfaces
+- `lib/tweetTrainingData.ts`: Training data
+
+### 3D Animations
+Customize animations in:
+- `app/page.tsx`: Animation keyframes and effects
+- CSS classes: `animate-float-3d`, `animate-orb-3d`, etc.
+
+## 🔧 Configuration
+
+### Environment Variables
+```env
+# OpenAI
+OPENAI_API_KEY=sk-...
+
+# Farcaster
+FARCASTER_CLIENT_ID=your_client_id
+FARCASTER_CLIENT_SECRET=your_client_secret
+
+# Supabase (optional for offline mode)
+SUPABASE_URL=your_supabase_url
+SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# Base MiniKit
+NEXT_PUBLIC_BASE_URL=https://your-domain.com
 ```
 
-### Modifying Viral Score Algorithm
-Edit `lib/viralScore.ts`:
+### MiniKit Configuration
+Configure MiniKit settings in `app/providers.tsx`:
 ```typescript
-export const viralScoreWeights = {
-  emoji: 0.3,    // Emoji weight
-  hook: 0.4,     // Hook phrases weight
-  slang: 0.3,    // Crypto slang weight
-};
+<MiniKitProvider
+  appName="Kai"
+  appDescription="AI-powered content evolution"
+  appIcon="🦋"
+  appUrl="https://your-domain.com"
+>
 ```
 
-## 🔒 Security Features
+## 📊 Project Structure
 
-- **Row Level Security** (RLS) in Supabase
-- **Wallet-based authentication**
-- **Smart contract verification**
-- **Rate limiting** on API calls
-- **Input validation** and sanitization
+```
+kai/
+├── app/                    # Next.js App Router
+│   ├── api/               # API routes
+│   ├── globals.css        # Global styles
+│   ├── layout.tsx         # Root layout
+│   └── page.tsx           # Main page
+├── components/            # React components
+│   ├── ContentEnhancer.tsx
+│   ├── AutoPostManager.tsx
+│   └── ui/               # UI components
+├── lib/                   # Utility libraries
+│   ├── openai.ts         # AI integration
+│   ├── farcaster.ts      # Farcaster API
+│   └── config.ts         # Configuration
+├── types/                 # TypeScript types
+├── hooks/                 # Custom React hooks
+└── public/               # Static assets
+```
 
 ## 🚀 Deployment
 
-### Vercel Deployment
+### Vercel (Recommended)
 1. Connect your GitHub repository to Vercel
 2. Set environment variables in Vercel dashboard
 3. Deploy automatically on push to main branch
@@ -227,9 +203,9 @@ npm start
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
 5. Open a Pull Request
 
 ## 📄 License
@@ -238,31 +214,20 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **OpenAI** for GPT-4 API
-- **Base** for L2 infrastructure
-- **Farcaster** for decentralized social
-- **Supabase** for database and auth
-- **Crypto Twitter** for inspiration
+- **Base Team**: For the amazing MiniKit platform
+- **Farcaster Team**: For the decentralized social protocol
+- **OpenAI**: For powerful AI capabilities
+- **Crypto Influencers**: For providing training data and inspiration
 
-## 📞 Support
+## 🆘 Support
 
-- **Discord**: [Join our community](https://discord.gg/...)
-- **Twitter**: [@shitpostgen](https://twitter.com/shitpostgen)
-- **Email**: support@shitpostgenerator.com
-
-## 🔮 Roadmap
-
-- [ ] **Meme Generator**: AI-powered meme creation
-- [ ] **Thread Analytics**: Track thread performance
-- [ ] **Community Features**: User profiles and leaderboards
-- [ ] **Mobile App**: React Native version
-- [ ] **Multi-chain Support**: Ethereum, Polygon, Arbitrum
-- [ ] **Advanced AI**: Fine-tuned models for specific influencers
-- [ ] **NFT Integration**: Generative profile pictures
-- [ ] **Gamification**: Points, badges, and rewards
+- **Documentation**: Check the docs folder for detailed guides
+- **Issues**: Report bugs and feature requests on GitHub
+- **Discord**: Join our community for discussions
+- **Email**: Contact us at support@kai.app
 
 ---
 
-**Built with ❤️ for the crypto community**
+**Built with ❤️ for the Base and Farcaster communities**
 
-*Generate viral content. Build in public. Stay based.* 🚀 
+*Kai - Where content evolves to viral potential* 🦋 
