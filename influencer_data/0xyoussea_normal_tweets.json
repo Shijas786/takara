@@ -1,0 +1,309 @@
+{
+  "username": "0xyoussea",
+  "scraped_at": "2025-07-29T18:00:19.051292",
+  "tweet_count": 50,
+  "source": "normal_chrome_scraper",
+  "strategy": "normal_chrome_with_manual_login",
+  "tweets": [
+    {
+      "id": "1947764906880864278",
+      "text": "How to implement Base Pay, Sign In With Base and More\n\nLet me know if you have any questions below",
+      "datetime": "2025-07-22T21:05:16.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1949973078831763460",
+      "text": "I believe Base Pay will be one of the breakthrough blockchain developer products like privy, wagmi, etc\n\nIt has that rare mix of simple UX with great DevX. It's literally one line:\n\npay(amount, address)\n\nNo wallet connection, no 3rd party framework needed",
+      "datetime": "2025-07-28T23:19:45.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1949979108516991150",
+      "text": "Learn more here:",
+      "datetime": "2025-07-28T23:43:42.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1949873442360291496",
+      "text": "Building a miniapp and need help?\nHop into \n@base\n Mini App 101 NOW — the Base DevRel team’s in there and ready to support.\nJump into the Discord: https://discord.gg/cdp",
+      "datetime": "2025-07-28T16:43:50.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1947747949276250518",
+      "text": "It’s back!!! \n\nMini apps testing but now in the \n@baseapp\n \n\nDrop your link below if you would me and \n@hughescoin\n to test your Mini App live!\n\nTo be included in the testing share your Mini Apps name below! \n\nTuesday 29 July \n3:00pm ET\n9:00pm CET",
+      "datetime": "2025-07-22T19:57:53.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1948022208657265088",
+      "text": "@0xyoussea\n loves farville \n\nthank you for the s/o!",
+      "datetime": "2025-07-23T14:07:41.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1947797456957165869",
+      "text": "He's at it again",
+      "datetime": "2025-07-22T23:14:36.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1947764909212573795",
+      "text": "Learn more:",
+      "datetime": "2025-07-22T21:05:16.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1947764911079346572",
+      "text": "App.js gist:",
+      "datetime": "2025-07-22T21:05:17.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1947718407744590077",
+      "text": "gm.\n@noicedotso\n  @baseapp\n \n\nhelp the next billion earn onchain.",
+      "datetime": "2025-07-22T18:00:29.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1947650755155890380",
+      "text": "Great example of how new social contexts (coined content) lead to new social experiences (swipe through content to Buy or Bye)",
+      "datetime": "2025-07-22T13:31:40.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1947613040230199298",
+      "text": "new \n@farcaster_xyz\n and \n@base\n miniapp by \n@builders_garden\n just dropped\n\nit's called yappy and it's made for walk n talks\n\n- record up to 60s\n- upload & process ai captions\n- share on the feed\n\nwanna try it out, reply below with \"i love yappying\"",
+      "datetime": "2025-07-22T11:01:48.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1946352353386356897",
+      "text": "Most don't know that \n@baseapp\n actually has a video scroll feature (like reels) with comments visible on top just like instagram and tiktok\n\nAll of this based on the farcaster graph\n\nA massive win for decentralized social UX",
+      "datetime": "2025-07-18T23:32:17.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1946313210270789737",
+      "text": "check base dot org, it's a pretty cool experience",
+      "datetime": "2025-07-18T20:56:44.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1946313798861689213",
+      "text": "What will you build?\n\nfrom base dot org",
+      "datetime": "2025-07-18T20:59:05.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1946218569731096635",
+      "text": "Add usdc express checkout to your website with Base Pay! https://docs.base.org/base-account/reference/ui-elements/base-pay-button…\n\n(and please give feedback on devx and docs!)",
+      "datetime": "2025-07-18T14:40:40.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1946197801685131375",
+      "text": "Can't believe this was only 3 years ago :)",
+      "datetime": "2025-07-18T13:18:09.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1946060466847146103",
+      "text": "So apparently WETH9 unwrapping doesn't work with smart accounts that use upgradeable proxies? Anyone else hit this?\n\nThinking a simple \"Unwrapper\" contract could fix this by delegating the unwrapping process to a permissionless contract.\n\nLooking for feedback on source",
+      "datetime": "2025-07-18T04:12:26.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1945962786837643628",
+      "text": "base just built a non-custodial social app using open protocols (zora, farcaster, xmtp) while also integrating projects from the base community (eg. bankr, aerodrome)\n\ninsane levels of trust and risk appetite here\n\nthe composable onchain future we were promised is finally here",
+      "datetime": "2025-07-17T21:44:17.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1945957193615892711",
+      "text": "I love how global is the base community\n\nIn an hour, I'm running a workshop in my FIFTH language I speak (Portuguese) for the base brazilian community\n\nI've been living on and off in  for a few years, but my portuguese is far from perfect \n\nSometimes you throw yourself into the",
+      "datetime": "2025-07-17T21:22:03.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1945854248530350426",
+      "text": "big day yesterday!\n\nhere’s one of the new things im most excited about: the new base pay SDK makes it super easy to accept payments & collect payer info.\n\nglobal, permissionless express checkout",
+      "datetime": "2025-07-17T14:32:59.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1945877274643071310",
+      "text": "Base Pay is built on open standards!",
+      "datetime": "2025-07-17T16:04:29.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1945871713377665250",
+      "text": "Base Pay looks simple but there's real innovation under the hood.\n\nIt's not just calling USDC.transfer() - well, it is... but here's what actually makes it novel",
+      "datetime": "2025-07-17T15:42:23.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1945530934830231592",
+      "text": "Chimpers Blind Box Plush Keychains are now LIVE for pre-order!\n\nToday we embark on our most important adventure yet\n\nGet yours now while supplies last! \n\nMore information below.",
+      "datetime": "2025-07-16T17:08:15.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1945160180724867516",
+      "text": "Docs=product\n\nDocumentation now plays a huge role in customer decision making. \n@stripe\n, \n@twilio\n, \n@Cloudflare\n, all hold their docs as a core pillar of their product. \n\nSeeing crypto projects like \n@base\n (http://docs.base.org) start to take this approach, nice one \n@0xyoussea",
+      "datetime": "2025-07-15T16:35:01.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1944726717559378183",
+      "text": "This week is a great week to \n@buildonbase",
+      "datetime": "2025-07-14T11:52:35.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1944473198629966305",
+      "text": "you really have no idea how much more productive you can be when you really lean into AI tools\n\n2 years ago, it would take me 3 months to restructure the whole developer docs\n\ntoday, it can be done in a week\n\nTBA = To Be AI-Maxing",
+      "datetime": "2025-07-13T19:05:11.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1943718087397625888",
+      "text": "Live in \n@base\n  discord! And we are talking Mini apps",
+      "datetime": "2025-07-11T17:04:39.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1943300817424937105",
+      "text": "Congrats \n@sxtvik\n !",
+      "datetime": "2025-07-10T13:26:34.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1942912366238130359",
+      "text": "If you're still using Cursor, switch to Claude Code",
+      "datetime": "2025-07-09T11:43:00.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1941903087720939746",
+      "text": "TBA = Totally Based August\n\nOnchain Summer",
+      "datetime": "2025-07-06T16:52:29.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1941899964248170571",
+      "text": "our goal with TBA is to drive as much top of funnel growth as humanly possible then route that growth to based builders and creators so they grow faster, have more impact, and earn more money\n\nTBA is a flywheel",
+      "datetime": "2025-07-06T16:40:04.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1941635990352728466",
+      "text": "I am no longer a core contributor at \n@Superfluid_HQ\n but I still live with the core conviction that the idea of money streaming will one day gain world adoption",
+      "datetime": "2025-07-05T23:11:08.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1941572977986015505",
+      "text": ">go to cannes for ethcc\n>french strike (ofc)\n>flight canceled last minute\n>catch train to bcn\n>train late, miss connection\n>sleep in narbonne (??)\n>go to bcn next day\n>train late almost miss flight\n>flight overbooked, no seats\n>fight with them to get a seat\n>finally back home",
+      "datetime": "2025-07-05T19:00:45.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1941571540891410701",
+      "text": "Not surprised people enjoyed Cannes.\n\nI'm surprised that these same people had doubts about it when... it only hosts the BIGGEST AND MOST PRESTIGIOUS film festival in the world.\n\nUnreal.",
+      "datetime": "2025-07-05T18:55:02.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1941244208360415332",
+      "text": "Happy July 4th to my American frens",
+      "datetime": "2025-07-04T21:14:20.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1940782455713419425",
+      "text": "Time to compete between all student blockchain clubs \n\nSuch a really fun event! Thanks you \n@base\n and \n@eigenlayer\n for supporting this race at \n@EthCC",
+      "datetime": "2025-07-03T14:39:30.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1940772475836739915",
+      "text": "Representing \n@base\n at the rally today\n\nI didn't win the race but I won many frens\n\nThank you \n@_SDAV\n for this lit event",
+      "datetime": "2025-07-03T13:59:50.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1940739803584385061",
+      "text": "\"Payer avec Bitcoin\" \n\"Payer avec Base\" \n\nSeen in Cannes (Steak'n'Shake)",
+      "datetime": "2025-07-03T11:50:01.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1940339304997470410",
+      "text": "A call for Base Buildooors",
+      "datetime": "2025-07-02T09:18:34.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1939980915230314586",
+      "text": "Le future du commerce est en chaine\n\n(oui, c'est \"en chaine\" comme \"en ligne\")",
+      "datetime": "2025-07-01T09:34:27.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1939975863753121887",
+      "text": "Base est pour tout le monde",
+      "datetime": "2025-07-01T09:14:23.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1939979696512356497",
+      "text": "I'll be at the \n@base\n x \n@AerodromeFi\n event tonight\n\nCome say hi !",
+      "datetime": "2025-07-01T09:29:37.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1939555935523086834",
+      "text": "Mini App devs, introducing the last you need to ensure your Mini App works in the new \n@CoinbaseWallet",
+      "datetime": "2025-06-30T05:25:44.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1939332339739361402",
+      "text": "I was literally the first to access the venue this morning\n\nExcited to meet you all this week",
+      "datetime": "2025-06-29T14:37:15.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1938998134740525421",
+      "text": "Why are people lining up to take a photo with EthCC banners?",
+      "datetime": "2025-06-28T16:29:14.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1938663954747985923",
+      "text": "We're growing !     \n\n- Trending #26 miniapp on \n@farcaster_xyz\n  !\n- 404 Players transacting (5k+ transactions)\n- 91 stars put onchain \n- 15k loot boxes opened \n\nCongrats to everyone playing & helping \n@astroblockxyz\n  grow ! Let's keep pushing there's a TON more we'll be going",
+      "datetime": "2025-06-27T18:21:20.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1934737487123107991",
+      "text": "Lightning fast checkout is real on \n@base\n.\n\nWe're launching Profiles in Smart Wallet, making it easy to streamline onboarding and checkout in your app.\n@kikiworld_\n simplified checkout by allowing shoppers to share their name and shipping address in one click.",
+      "datetime": "2025-06-16T22:18:57.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1934744048817897747",
+      "text": "Get some Onchain Vibes shipped from Base Sepolia to your door in one click...\n\nHow? Smart Wallet just launched Profiles ! \n\nFull video tutorial coming soon \n\nFor now, check out the post below for more info",
+      "datetime": "2025-06-16T22:45:01.000Z",
+      "source": "normal_chrome_scraper"
+    },
+    {
+      "id": "1934744052286763286",
+      "text": "Lightning fast checkout is real on @base.\n\nWe're launching Profiles in Smart Wallet, making it easy to streamline onboarding and checkout in your app.",
+      "datetime": "2025-06-16T22:45:02.000Z",
+      "source": "normal_chrome_scraper"
+    }
+  ]
+}
