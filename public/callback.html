@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connecting to Warpcast...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: white;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-900 flex items-center justify-center">
+    <div class="max-w-md w-full mx-4">
+        <div class="bg-slate-800 rounded-lg p-8 border border-slate-700">
+            <div class="text-center">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+                <h2 class="text-xl font-semibold text-white mb-2">Connecting to Warpcast</h2>
+                <p class="text-slate-300 mb-4">Please wait while we complete your authentication...</p>
+                <div id="status" class="text-sm text-slate-400"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const CLIENT_ID = 'REPLACE_WITH_YOUR_CLIENT_ID';
+        const REDIRECT_URI = 'https://yourapp.vercel.app/callback.html';
+        
+        window.onload = async function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            const error = urlParams.get('error');
+            
+            if (error) {
+                showError(`OAuth error: ${error}`);
+                return;
+            }
+            
+            if (!code) {
+                showError('No authorization code received');
+                return;
+            }
+            
+            try {
+                updateStatus('Exchanging authorization code for token...');
+                
+                // Get the stored code verifier
+                const codeVerifier = localStorage.getItem('code_verifier');
+                if (!codeVerifier) {
+                    showError('Code verifier not found. Please try connecting again.');
+                    return;
+                }
+                
+                // Exchange code for access token
+                const tokenResponse = await fetch('https://api.warpcast.com/v2/oauth/token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        grant_type: 'authorization_code',
+                        code: code,
+                        redirect_uri: REDIRECT_URI,
+                        client_id: CLIENT_ID,
+                        code_verifier: codeVerifier,
+                    }),
+                });
+                
+                if (!tokenResponse.ok) {
+                    const errorData = await tokenResponse.text();
+                    console.error('Token exchange error:', errorData);
+                    showError('Failed to exchange authorization code');
+                    return;
+                }
+                
+                const tokenData = await tokenResponse.json();
+                
+                updateStatus('Getting user information...');
+                
+                // Get user info using the access token
+                const userResponse = await fetch('https://api.warpcast.com/v2/me', {
+                    headers: {
+                        'Authorization': `Bearer ${tokenData.access_token}`,
+                    },
+                });
+                
+                if (!userResponse.ok) {
+                    showError('Failed to get user information');
+                    return;
+                }
+                
+                const userData = await userResponse.json();
+                
+                // Store the token and user info
+                localStorage.setItem('warpcast_token', tokenData.access_token);
+                localStorage.setItem('warpcast_user', JSON.stringify(userData.user));
+                
+                // Clean up the code verifier
+                localStorage.removeItem('code_verifier');
+                
+                updateStatus('✅ Successfully connected!');
+                
+                // Redirect back to the main page after a short delay
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Callback error:', error);
+                showError('Failed to complete authentication');
+            }
+        };
+        
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+        
+        function showError(message) {
+            document.getElementById('status').textContent = `❌ ${message}`;
+            document.getElementById('status').classList.add('text-red-400');
+            
+            // Add a button to go back
+            setTimeout(() => {
+                const button = document.createElement('button');
+                button.textContent = 'Go Back';
+                button.className = 'mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors';
+                button.onclick = () => window.location.href = '/';
+                document.querySelector('.text-center').appendChild(button);
+            }, 1000);
+        }
+    </script>
+</body>
+</html> 
