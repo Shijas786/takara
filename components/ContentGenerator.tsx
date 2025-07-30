@@ -6,6 +6,7 @@ import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useToast } from '../hooks/use-toast';
 
 interface Draft {
@@ -25,6 +26,9 @@ interface ScheduledPost {
 
 export default function ContentGenerator() {
   const [prompt, setPrompt] = useState('');
+  const [evolutionStyle, setEvolutionStyle] = useState('viral-shitpost');
+  const [evolutionLength, setEvolutionLength] = useState('medium');
+  const [evolutionTone, setEvolutionTone] = useState('authentic');
   const [generatedContent, setGeneratedContent] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [drafts, setDrafts] = useState<Draft[]>([]);
@@ -69,8 +73,9 @@ export default function ContentGenerator() {
         },
         body: JSON.stringify({
           prompt: prompt.trim(),
-          style: 'shitpost',
-          length: 'medium',
+          style: evolutionStyle,
+          length: evolutionLength,
+          tone: evolutionTone,
         }),
       });
 
@@ -281,6 +286,61 @@ export default function ContentGenerator() {
               className="w-full h-24 resize-none bg-slate-700 border-slate-600 text-white placeholder-slate-400"
               disabled={isGenerating}
             />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">
+                Evolution Style
+              </label>
+              <Select value={evolutionStyle} onValueChange={setEvolutionStyle}>
+                <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
+                  <SelectValue placeholder="Select style" />
+                </SelectTrigger>
+                <SelectContent className="bg-slate-800 border-slate-600">
+                  <SelectItem value="viral-shitpost">Viral Shitpost</SelectItem>
+                  <SelectItem value="sharp-quote">Sharp Quote</SelectItem>
+                  <SelectItem value="spicy-reply">Spicy Reply</SelectItem>
+                  <SelectItem value="viral-cta">Viral CTA</SelectItem>
+                  <SelectItem value="alpha-leak">Alpha Leak</SelectItem>
+                  <SelectItem value="fud-buster">FUD Buster</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">
+                Evolution Length
+              </label>
+              <Select value={evolutionLength} onValueChange={setEvolutionLength}>
+                <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
+                  <SelectValue placeholder="Select length" />
+                </SelectTrigger>
+                <SelectContent className="bg-slate-800 border-slate-600">
+                  <SelectItem value="short">Short</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="long">Long</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">
+                Evolution Tone
+              </label>
+              <Select value={evolutionTone} onValueChange={setEvolutionTone}>
+                <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
+                  <SelectValue placeholder="Select tone" />
+                </SelectTrigger>
+                <SelectContent className="bg-slate-800 border-slate-600">
+                  <SelectItem value="authentic">Authentic</SelectItem>
+                  <SelectItem value="aggressive">Aggressive</SelectItem>
+                  <SelectItem value="humorous">Humorous</SelectItem>
+                  <SelectItem value="educational">Educational</SelectItem>
+                  <SelectItem value="mysterious">Mysterious</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           <div className="flex space-x-3">
