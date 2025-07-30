@@ -128,6 +128,99 @@ class NeynarService {
   async createSigner(fid: number): Promise<any> {
     return this.makeRequest('/farcaster/signer', 'POST', { fid });
   }
+
+  /**
+   * Post a cast to Farcaster
+   */
+  async postCast(signerUuid: string, text: string, replyTo?: string, channelId?: string): Promise<any> {
+    const body: any = {
+      signer_uuid: signerUuid,
+      text: text,
+    };
+
+    if (replyTo) {
+      body.parent = replyTo;
+    }
+
+    if (channelId) {
+      body.channel_id = channelId;
+    }
+
+    return this.makeRequest('/farcaster/cast', 'POST', body);
+  }
+
+  /**
+   * Get cast by hash
+   */
+  async getCast(hash: string): Promise<any> {
+    return this.makeRequest(`/farcaster/cast?identifier=${hash}&type=hash`);
+  }
+
+  /**
+   * Delete a cast
+   */
+  async deleteCast(signerUuid: string, castHash: string): Promise<any> {
+    return this.makeRequest('/farcaster/cast', 'DELETE', {
+      signer_uuid: signerUuid,
+      cast_hash: castHash,
+    });
+  }
+
+  /**
+   * Like a cast
+   */
+  async likeCast(signerUuid: string, castHash: string): Promise<any> {
+    return this.makeRequest('/farcaster/reaction', 'POST', {
+      signer_uuid: signerUuid,
+      cast_hash: castHash,
+      reaction_type: 'like',
+    });
+  }
+
+  /**
+   * Unlike a cast
+   */
+  async unlikeCast(signerUuid: string, castHash: string): Promise<any> {
+    return this.makeRequest('/farcaster/reaction', 'DELETE', {
+      signer_uuid: signerUuid,
+      cast_hash: castHash,
+      reaction_type: 'like',
+    });
+  }
+
+  /**
+   * Follow a user
+   */
+  async followUser(signerUuid: string, targetFid: number): Promise<any> {
+    return this.makeRequest('/farcaster/follow', 'POST', {
+      signer_uuid: signerUuid,
+      target_fid: targetFid,
+    });
+  }
+
+  /**
+   * Unfollow a user
+   */
+  async unfollowUser(signerUuid: string, targetFid: number): Promise<any> {
+    return this.makeRequest('/farcaster/follow', 'DELETE', {
+      signer_uuid: signerUuid,
+      target_fid: targetFid,
+    });
+  }
+
+  /**
+   * Get user's signers
+   */
+  async getUserSigners(fid: number): Promise<any> {
+    return this.makeRequest(`/farcaster/signer?fid=${fid}`);
+  }
+
+  /**
+   * Validate a signer
+   */
+  async validateSigner(signerUuid: string): Promise<any> {
+    return this.makeRequest(`/farcaster/signer?signer_uuid=${signerUuid}`);
+  }
 }
 
 export const neynarService = new NeynarService();

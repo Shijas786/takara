@@ -2,15 +2,9 @@
 
 import { useState } from 'react';
 import { Sparkles } from 'lucide-react';
-import ContentEnhancer from '../components/ContentEnhancer';
+import FarcasterConnect from '../components/FarcasterConnect';
 
 export default function Home() {
-  const [farcasterFid, setFarcasterFid] = useState<string | null>(null);
-  const [generatedPosts, setGeneratedPosts] = useState<any[]>([]);
-
-  const handlePostGenerated = (post: any) => {
-    setGeneratedPosts(prev => [post, ...prev]);
-  };
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">
@@ -55,11 +49,10 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Content Enhancer Component */}
-        <ContentEnhancer 
-          farcasterFid={farcasterFid}
-          onPostGenerated={handlePostGenerated}
-        />
+        {/* Farcaster Connect Component */}
+        <div className="mb-8">
+          <FarcasterConnect />
+        </div>
 
         {/* CTA Section */}
         <div className="text-center mt-8">
