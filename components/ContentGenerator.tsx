@@ -26,7 +26,7 @@ interface ScheduledPost {
 
 export default function ContentGenerator() {
   const [prompt, setPrompt] = useState('');
-  const [evolutionStyle, setEvolutionStyle] = useState('viral-shitpost');
+  const [evolutionStyle, setEvolutionStyle] = useState('based');
   const [evolutionLength, setEvolutionLength] = useState('medium');
   const [evolutionTone, setEvolutionTone] = useState('authentic');
   const [generatedContent, setGeneratedContent] = useState('');
@@ -298,12 +298,12 @@ export default function ContentGenerator() {
                   <SelectValue placeholder="Select style" />
                 </SelectTrigger>
                 <SelectContent className="bg-slate-800 border-slate-600">
-                  <SelectItem value="viral-shitpost">Viral Shitpost</SelectItem>
-                  <SelectItem value="sharp-quote">Sharp Quote</SelectItem>
-                  <SelectItem value="spicy-reply">Spicy Reply</SelectItem>
-                  <SelectItem value="viral-cta">Viral CTA</SelectItem>
+                  <SelectItem value="based">Based</SelectItem>
+                  <SelectItem value="influencers">Influencers</SelectItem>
+                  <SelectItem value="ct-style">CT Style</SelectItem>
                   <SelectItem value="alpha-leak">Alpha Leak</SelectItem>
                   <SelectItem value="fud-buster">FUD Buster</SelectItem>
+                  <SelectItem value="viral-shitpost">Viral Shitpost</SelectItem>
                 </SelectContent>
               </Select>
             </div>
