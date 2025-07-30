@@ -50,6 +50,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <meta name="fc:frame" content='{"version":"next","imageUrl":"https://kai.app/og-image.png","button":{"title":"🚀 Evolve Content","action":{"type":"launch_miniapp","name":"KAI Content Evolution","url":"https://kai.app","splashImageUrl":"https://kai.app/logo.png","splashBackgroundColor":"#1e293b"}}}' />
         <script dangerouslySetInnerHTML={{
           __html: `
             // Block Coinbase analytics requests to prevent 401 errors

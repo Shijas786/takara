@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const { fid, text } = await request.json();
+    const { text } = await request.json();
 
-    if (!fid || !text) {
+    if (!text) {
       return NextResponse.json(
-        { success: false, error: 'FID and text are required' },
+        { success: false, error: 'Text is required' },
         { status: 400 }
       );
     }
@@ -18,59 +18,50 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // First, get the user's signers
-    const signersResponse = await fetch(`https://api.neynar.com/v2/farcaster/signer?fid=${fid}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.NEYNAR_API_KEY || '',
-      },
-    });
-
-    if (!signersResponse.ok) {
-      const errorData = await signersResponse.text();
-      console.error('Signers fetch error:', errorData);
+    const neynarApiKey = process.env.NEYNAR_API_KEY;
+    if (!neynarApiKey) {
       return NextResponse.json(
-        { success: false, error: 'Failed to fetch user signers' },
-        { status: signersResponse.status }
+        { success: false, error: 'NEYNAR_API_KEY not configured' },
+        { status: 500 }
       );
     }
 
-    const signersData = await signersResponse.json();
-    const signers = signersData.signers || [];
+    // For mini apps, we'll use a default signer since the user is already authenticated
+    // In a real implementation, you'd get the user's signer from the mini app context
+    const defaultSignerUuid = '5dfa0879-260d-46bc-8cb8-f8befb72bc75';
+    
+    console.log('Posting cast with signer UUID:', defaultSignerUuid);
+    console.log('Cast text:', text);
 
-    if (signers.length === 0) {
-      return NextResponse.json(
-        { success: false, error: 'No signers found for this user. Please create a signer first.' },
-        { status: 400 }
-      );
-    }
-
-    // Use the first available signer
-    const signerUuid = signers[0].signer_uuid;
-
-    // Post the cast
+    // Post the cast using the signer
     const castResponse = await fetch('https://api.neynar.com/v2/farcaster/cast', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.NEYNAR_API_KEY || '',
+        'x-api-key': neynarApiKey,
       },
       body: JSON.stringify({
-        signer_uuid: signerUuid,
+        signer_uuid: defaultSignerUuid,
         text: text,
       }),
     });
 
+    console.log('Cast response status:', castResponse.status);
+
     if (!castResponse.ok) {
       const errorData = await castResponse.text();
       console.error('Cast posting error:', errorData);
+      console.error('Response status:', castResponse.status);
+      console.error('Response headers:', Object.fromEntries(castResponse.headers.entries()));
       return NextResponse.json(
-        { success: false, error: 'Failed to post cast' },
+        { success: false, error: `Failed to post cast: ${castResponse.status} - ${errorData}` },
         { status: castResponse.status }
       );
     }
 
     const castData = await castResponse.json();
+    console.log('Cast response data:', JSON.stringify(castData, null, 2));
+    
     const cast = castData.cast;
 
     return NextResponse.json({

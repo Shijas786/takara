@@ -33,19 +33,13 @@ export default function ContentGenerator() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [drafts, setDrafts] = useState<Draft[]>([]);
   const [scheduledPosts, setScheduledPosts] = useState<ScheduledPost[]>([]);
-  const [isFarcasterConnected, setIsFarcasterConnected] = useState(false);
-  const [showFarcasterModal, setShowFarcasterModal] = useState(false);
-  const [qrCode, setQrCode] = useState('');
-  const [qrStatus, setQrStatus] = useState('pending');
-  const [signerUuid, setSignerUuid] = useState('');
-  const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(null);
+  const [isPosting, setIsPosting] = useState(false);
   const { toast } = useToast();
 
   // Load drafts and scheduled posts from localStorage on mount
   useEffect(() => {
     const savedDrafts = localStorage.getItem('kai_drafts');
     const savedScheduled = localStorage.getItem('kai_scheduled_posts');
-    const farcasterToken = localStorage.getItem('farcaster_token');
 
     if (savedDrafts) {
       setDrafts(JSON.parse(savedDrafts));
@@ -53,26 +47,7 @@ export default function ContentGenerator() {
     if (savedScheduled) {
       setScheduledPosts(JSON.parse(savedScheduled));
     }
-    if (farcasterToken) {
-      setIsFarcasterConnected(true);
-    }
   }, []);
-
-  // Auto-generate QR code when modal opens
-  useEffect(() => {
-    if (showFarcasterModal && !qrCode) {
-      generateQRCode();
-    }
-  }, [showFarcasterModal]);
-
-  // Cleanup polling on unmount
-  useEffect(() => {
-    return () => {
-      if (pollingInterval) {
-        clearInterval(pollingInterval);
-      }
-    };
-  }, [pollingInterval]);
 
   const generateContent = async () => {
     if (!prompt.trim()) {
@@ -99,22 +74,25 @@ export default function ContentGenerator() {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to generate content');
-      }
-
       const data = await response.json();
-      setGeneratedContent(data.content);
-      
-      toast({
-        title: "Content Generated!",
-        description: "Your AI-generated post is ready",
-      });
 
+      if (data.success) {
+        setGeneratedContent(data.content);
+        toast({
+          title: "Content Generated!",
+          description: "Your evolved content is ready",
+        });
+      } else {
+        toast({
+          title: "Generation Failed",
+          description: data.error || "Failed to generate content",
+          variant: "destructive",
+        });
+      }
     } catch (error) {
       console.error('Generation error:', error);
       toast({
-        title: "Generation Failed",
+        title: "Generation Error",
         description: "Failed to generate content. Please try again.",
         variant: "destructive",
       });
@@ -124,8 +102,15 @@ export default function ContentGenerator() {
   };
 
   const copyToClipboard = async () => {
-    if (!generatedContent) return;
-    
+    if (!generatedContent) {
+      toast({
+        title: "No Content",
+        description: "Generate content first to copy",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       await navigator.clipboard.writeText(generatedContent);
       toast({
@@ -135,34 +120,48 @@ export default function ContentGenerator() {
     } catch (error) {
       toast({
         title: "Copy Failed",
-        description: "Failed to copy to clipboard",
+        description: "Failed to copy content",
         variant: "destructive",
       });
     }
   };
 
   const downloadContent = () => {
-    if (!generatedContent) return;
-    
+    if (!generatedContent) {
+      toast({
+        title: "No Content",
+        description: "Generate content first to download",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const blob = new Blob([generatedContent], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `kai-post-${Date.now()}.txt`;
+    a.download = `kai-content-${Date.now()}.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    
+
     toast({
       title: "Downloaded!",
-      description: "Content saved as text file",
+      description: "Content saved to your device",
     });
   };
 
   const saveDraft = () => {
-    if (!generatedContent || !prompt) return;
-    
+    if (!generatedContent) {
+      toast({
+        title: "No Content",
+        description: "Generate content first to save",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const newDraft: Draft = {
       id: Date.now().toString(),
       content: generatedContent,
@@ -170,10 +169,10 @@ export default function ContentGenerator() {
       timestamp: Date.now(),
     };
 
-    const updatedDrafts = [newDraft, ...drafts.slice(0, 9)]; // Keep only 10 drafts
+    const updatedDrafts = [newDraft, ...drafts];
     setDrafts(updatedDrafts);
     localStorage.setItem('kai_drafts', JSON.stringify(updatedDrafts));
-    
+
     toast({
       title: "Draft Saved!",
       description: "Content saved to your drafts",
@@ -187,130 +186,43 @@ export default function ContentGenerator() {
   };
 
   const schedulePost = (content: string) => {
-    const timeSlots = ['10:00 AM', '2:00 PM', '8:00 PM'];
-    const availableSlots = timeSlots.filter(slot => 
-      !scheduledPosts.some(post => post.timeSlot === slot && !post.isPosted)
-    );
-
-    if (availableSlots.length === 0) {
-      toast({
-        title: "No Available Slots",
-        description: "All time slots are already scheduled",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const selectedSlot = availableSlots[0];
-    const scheduledTime = new Date();
-    scheduledTime.setHours(
-      selectedSlot.includes('10') ? 10 : selectedSlot.includes('2') ? 14 : 20,
-      0, 0, 0
-    );
+    const timeSlots = [
+      '9:00 AM', '12:00 PM', '3:00 PM', '6:00 PM', '9:00 PM'
+    ];
+    const randomSlot = timeSlots[Math.floor(Math.random() * timeSlots.length)];
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(parseInt(randomSlot.split(':')[0]), parseInt(randomSlot.split(' ')[0].split(':')[1]), 0, 0);
 
     const newScheduledPost: ScheduledPost = {
       id: Date.now().toString(),
-      content,
-      scheduledTime: scheduledTime.toISOString(),
-      timeSlot: selectedSlot,
+      content: content,
+      scheduledTime: tomorrow.toISOString(),
+      timeSlot: randomSlot,
       isPosted: false,
     };
 
-    const updatedScheduled = [...scheduledPosts, newScheduledPost];
+    const updatedScheduled = [newScheduledPost, ...scheduledPosts];
     setScheduledPosts(updatedScheduled);
     localStorage.setItem('kai_scheduled_posts', JSON.stringify(updatedScheduled));
-    
+
     toast({
       title: "Post Scheduled!",
-      description: `Scheduled for ${selectedSlot}`,
+      description: `Scheduled for tomorrow at ${randomSlot}`,
     });
-  };
-
-  const generateQRCode = async () => {
-    try {
-      const response = await fetch('/api/farcaster/qr-login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ action: 'generate' }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setQrCode(data.qr_code);
-        setSignerUuid(data.signer_uuid);
-        setQrStatus('pending');
-        startPolling(data.signer_uuid);
-      } else {
-        throw new Error('Failed to generate QR code');
-      }
-    } catch (error) {
-      toast({
-        title: "QR Generation Failed",
-        description: "Failed to generate QR code. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const startPolling = (uuid: string) => {
-    const interval = setInterval(async () => {
-      try {
-        const response = await fetch('/api/farcaster/qr-login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ action: 'check', signer_uuid: uuid }),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          if (data.approved) {
-            setQrStatus('approved');
-            setIsFarcasterConnected(true);
-            localStorage.setItem('farcaster_token', JSON.stringify({
-              signer_uuid: data.signer_uuid,
-              user: data.user
-            }));
-            clearInterval(interval);
-            setPollingInterval(null);
-            setShowFarcasterModal(false);
-            toast({
-              title: "Connected to Farcaster!",
-              description: `Welcome, ${data.user.username}!`,
-            });
-          } else if (data.status === 'expired') {
-            setQrStatus('expired');
-            clearInterval(interval);
-            setPollingInterval(null);
-          }
-        }
-      } catch (error) {
-        console.error('Polling error:', error);
-      }
-    }, 2000); // Poll every 2 seconds
-
-    setPollingInterval(interval);
   };
 
   const postToFarcaster = async () => {
     if (!generatedContent) {
       toast({
         title: "No Content",
-        description: "Please generate content first",
+        description: "Generate content first to post",
         variant: "destructive",
       });
       return;
     }
 
-    if (!isFarcasterConnected) {
-      setShowFarcasterModal(true);
-      return;
-    }
-
-    // Post to Farcaster using stored token
+    setIsPosting(true);
     try {
       const response = await fetch('/api/farcaster/post', {
         method: 'POST',
@@ -322,47 +234,52 @@ export default function ContentGenerator() {
         }),
       });
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (data.success) {
         toast({
           title: "Posted to Farcaster!",
-          description: "Your content is now live on Farcaster",
+          description: "Your evolved content is now live",
         });
       } else {
-        throw new Error('Failed to post');
+        toast({
+          title: "Post Failed",
+          description: data.error || "Failed to post to Farcaster",
+          variant: "destructive",
+        });
       }
     } catch (error) {
+      console.error('Post error:', error);
       toast({
-        title: "Post Failed",
-        description: "Failed to post to Farcaster. Please reconnect.",
+        title: "Post Error",
+        description: "Failed to post to Farcaster. Please try again.",
         variant: "destructive",
       });
-      setIsFarcasterConnected(false);
-      localStorage.removeItem('farcaster_token');
+    } finally {
+      setIsPosting(false);
     }
   };
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      {/* Hero Section */}
+      {/* Header */}
       <div className="text-center mb-12">
-        <h2 className="text-2xl font-bold text-white mb-4">
-          Content Kai Evolution
-        </h2>
+        <h2 className="text-2xl font-bold text-white mb-4">Content Kai Evolution</h2>
         <p className="text-slate-300 max-w-2xl mx-auto mb-6">
           Paste your idea, thought, or reply — and let Kai rework it using real styles from top crypto influencers. Whether it's a sharp quote, spicy reply, or a viral CTA, Kai evolves your words for maximum impact.
         </p>
         <p className="text-blue-400 text-sm">
-          🦋 Link your Farcaster to save and post instantly.
+          🦋 Open in Farcaster to post instantly.
         </p>
       </div>
 
-      {/* Content Generation */}
-      <Card className="p-6 bg-slate-800 border-slate-700">
+      {/* Content Input */}
+      <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
         <div className="flex items-center space-x-3 mb-4">
-          <MessageCircle className="w-6 h-6 text-blue-400" />
+          <Sparkles className="w-6 h-6 text-blue-400" />
           <h2 className="text-xl font-semibold text-white">Your Content</h2>
         </div>
-
+        
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -373,61 +290,50 @@ export default function ContentGenerator() {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               className="w-full h-24 resize-none bg-slate-700 border-slate-600 text-white placeholder-slate-400"
-              disabled={isGenerating}
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Evolution Style
-              </label>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Evolution Style</label>
               <Select value={evolutionStyle} onValueChange={setEvolutionStyle}>
                 <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
-                  <SelectValue placeholder="Select style" />
+                  <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-800 border-slate-600">
+                <SelectContent className="bg-slate-700 border-slate-600">
                   <SelectItem value="based">Based</SelectItem>
-                  <SelectItem value="influencers">Influencers</SelectItem>
-                  <SelectItem value="ct-style">CT Style</SelectItem>
+                  <SelectItem value="influencer">Influencer Style</SelectItem>
                   <SelectItem value="reply-guy">Reply Guy</SelectItem>
-                  <SelectItem value="alpha-leak">Alpha Leak</SelectItem>
-                  <SelectItem value="fud-buster">FUD Buster</SelectItem>
-                  <SelectItem value="viral-shitpost">Viral Shitpost</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Evolution Length
-              </label>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Evolution Length</label>
               <Select value={evolutionLength} onValueChange={setEvolutionLength}>
                 <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
-                  <SelectValue placeholder="Select length" />
+                  <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-800 border-slate-600">
-                  <SelectItem value="short">Short</SelectItem>
-                  <SelectItem value="medium">Medium</SelectItem>
-                  <SelectItem value="long">Long</SelectItem>
+                <SelectContent className="bg-slate-700 border-slate-600">
+                  <SelectItem value="short">Short & Punchy</SelectItem>
+                  <SelectItem value="medium">Medium & Balanced</SelectItem>
+                  <SelectItem value="long">Long & Detailed</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Evolution Tone
-              </label>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Evolution Tone</label>
               <Select value={evolutionTone} onValueChange={setEvolutionTone}>
                 <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
-                  <SelectValue placeholder="Select tone" />
+                  <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-800 border-slate-600">
-                  <SelectItem value="authentic">Authentic</SelectItem>
-                  <SelectItem value="aggressive">Aggressive</SelectItem>
-                  <SelectItem value="humorous">Humorous</SelectItem>
-                  <SelectItem value="educational">Educational</SelectItem>
-                  <SelectItem value="mysterious">Mysterious</SelectItem>
+                <SelectContent className="bg-slate-700 border-slate-600">
+                  <SelectItem value="authentic">Authentic & Real</SelectItem>
+                  <SelectItem value="confident">Confident & Bold</SelectItem>
+                  <SelectItem value="friendly">Friendly & Approachable</SelectItem>
+                  <SelectItem value="authoritative">Authoritative & Expert</SelectItem>
+                  <SelectItem value="playful">Playful & Fun</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -442,7 +348,7 @@ export default function ContentGenerator() {
               {isGenerating ? (
                 <>
                   <Sparkles className="w-4 h-4 mr-2 animate-spin" />
-                  Generating...
+                  Kai Evolution
                 </>
               ) : (
                 <>
@@ -460,180 +366,129 @@ export default function ContentGenerator() {
             </Button>
           </div>
         </div>
-      </Card>
+      </div>
 
       {/* Generated Content */}
       {generatedContent && (
-        <Card className="p-6 bg-slate-800 border-slate-700">
+        <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
           <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center space-x-3">
-              <CheckCircle className="w-6 h-6 text-green-400" />
-              <h3 className="text-lg font-semibold text-white">Generated Content</h3>
+            <h3 className="text-lg font-semibold text-white">Evolved Content</h3>
+            <div className="flex space-x-2">
+              <Button
+                onClick={copyToClipboard}
+                size="sm"
+                variant="outline"
+                className="border-slate-600 text-slate-300 hover:bg-slate-700"
+              >
+                <Copy className="w-4 h-4 mr-1" />
+                Copy
+              </Button>
+              <Button
+                onClick={downloadContent}
+                size="sm"
+                variant="outline"
+                className="border-slate-600 text-slate-300 hover:bg-slate-700"
+              >
+                <Download className="w-4 h-4 mr-1" />
+                Download
+              </Button>
+              <Button
+                onClick={saveDraft}
+                size="sm"
+                variant="outline"
+                className="border-slate-600 text-slate-300 hover:bg-slate-700"
+              >
+                <Save className="w-4 h-4 mr-1" />
+                Save Draft
+              </Button>
             </div>
-            <Badge variant="secondary" className="bg-green-900 text-green-300">
-              Ready
-            </Badge>
           </div>
-
-          <div className="p-4 bg-slate-700 rounded-lg border border-slate-600 mb-4">
+          
+          <div className="bg-slate-700 rounded-lg p-4 mb-4">
             <p className="text-white whitespace-pre-wrap">{generatedContent}</p>
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            <Button 
-              onClick={copyToClipboard}
-              variant="outline"
-              size="sm"
-              className="text-blue-400 border-blue-500 hover:bg-blue-900"
+          <div className="flex space-x-3">
+            <Button
+              onClick={postToFarcaster}
+              disabled={isPosting}
+              className="bg-purple-600 hover:bg-purple-700 text-white"
             >
-              <Copy className="w-4 h-4 mr-2" />
-              Copy
+              {isPosting ? (
+                <>
+                  <MessageCircle className="w-4 h-4 mr-2 animate-spin" />
+                  Posting...
+                </>
+              ) : (
+                <>
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Post to Farcaster
+                </>
+              )}
             </Button>
-            
-            <Button 
-              onClick={downloadContent}
-              variant="outline"
-              size="sm"
-              className="text-purple-400 border-purple-500 hover:bg-purple-900"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Download
-            </Button>
-            
-            <Button 
-              onClick={saveDraft}
-              variant="outline"
-              size="sm"
-              className="text-green-400 border-green-500 hover:bg-green-900"
-            >
-              <Save className="w-4 h-4 mr-2" />
-              Save Draft
-            </Button>
-            
-            <Button 
+            <Button
               onClick={() => schedulePost(generatedContent)}
               variant="outline"
-              size="sm"
-              className="text-orange-400 border-orange-500 hover:bg-orange-900"
+              className="border-slate-600 text-slate-300 hover:bg-slate-700"
             >
               <Clock className="w-4 h-4 mr-2" />
               Schedule Post
             </Button>
-            
-            <Button 
-              onClick={postToFarcaster}
-              className="bg-purple-600 hover:bg-purple-700 text-white"
-              size="sm"
-            >
-              <MessageCircle className="w-4 h-4 mr-2" />
-              {isFarcasterConnected ? 'Post to Farcaster' : 'Connect & Post'}
-            </Button>
           </div>
-        </Card>
+        </div>
       )}
 
-      {/* Drafts Section */}
+      {/* Drafts */}
       {drafts.length > 0 && (
-        <Card className="p-6 bg-slate-800 border-slate-700">
-          <div className="flex items-center space-x-3 mb-4">
-            <Save className="w-6 h-6 text-yellow-400" />
-            <h3 className="text-lg font-semibold text-white">Your Drafts</h3>
-            <Badge variant="secondary" className="bg-yellow-900 text-yellow-300">
-              {drafts.length}/10
-            </Badge>
-          </div>
-
+        <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
+          <h3 className="text-lg font-semibold text-white mb-4">Your Drafts</h3>
           <div className="space-y-3">
             {drafts.map((draft) => (
-              <div key={draft.id} className="p-4 bg-slate-700 rounded-lg border border-slate-600">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <p className="text-sm text-slate-400 mb-2">
-                      {new Date(draft.timestamp).toLocaleDateString()}
-                    </p>
-                    <p className="text-white text-sm mb-2">{draft.content}</p>
-                    <p className="text-xs text-slate-400 italic">"{draft.prompt}"</p>
-                  </div>
-                  <div className="flex space-x-2 ml-4">
-                    <Button 
-                      onClick={() => setGeneratedContent(draft.content)}
-                      variant="outline"
-                      size="sm"
-                      className="text-blue-400 border-blue-500 hover:bg-blue-900"
-                    >
-                      <Copy className="w-3 h-3 mr-1" />
-                      Use
-                    </Button>
-                    <Button 
-                      onClick={() => deleteDraft(draft.id)}
-                      variant="outline"
-                      size="sm"
-                      className="text-red-400 border-red-500 hover:bg-red-900"
-                    >
-                      <Trash2 className="w-3 h-3 mr-1" />
-                      Delete
-                    </Button>
+              <div key={draft.id} className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
+                <div className="flex-1">
+                  <p className="text-white text-sm truncate">{draft.content}</p>
+                  <p className="text-slate-400 text-xs">
+                    {new Date(draft.timestamp).toLocaleDateString()}
+                  </p>
+                </div>
+                <Button
+                  onClick={() => deleteDraft(draft.id)}
+                  size="sm"
+                  variant="outline"
+                  className="border-red-600 text-red-400 hover:bg-red-900"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Scheduled Posts */}
+      {scheduledPosts.length > 0 && (
+        <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
+          <h3 className="text-lg font-semibold text-white mb-4">Scheduled Posts</h3>
+          <div className="space-y-3">
+            {scheduledPosts.map((post) => (
+              <div key={post.id} className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
+                <div className="flex-1">
+                  <p className="text-white text-sm truncate">{post.content}</p>
+                  <div className="flex items-center space-x-2 mt-1">
+                    <Clock className="w-4 h-4 text-slate-400" />
+                    <span className="text-slate-400 text-xs">
+                      {post.timeSlot} - {new Date(post.scheduledTime).toLocaleDateString()}
+                    </span>
+                    {post.isPosted && (
+                      <Badge variant="secondary" className="bg-green-100 text-green-800">
+                        <CheckCircle className="w-3 h-3 mr-1" />
+                        Posted
+                      </Badge>
+                    )}
                   </div>
                 </div>
               </div>
             ))}
-          </div>
-        </Card>
-      )}
-
-      {/* Farcaster Connection Modal */}
-      {showFarcasterModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-slate-800 rounded-lg p-6 max-w-md w-full mx-4 border border-slate-700">
-            <h3 className="text-lg font-semibold mb-4 text-white">Connect to Farcaster</h3>
-            <p className="text-slate-300 mb-4">
-              Scan the QR code with your Warpcast app to connect your Farcaster account.
-            </p>
-            <div className="text-center">
-              {qrCode ? (
-                <div className="p-4 bg-slate-700 rounded-lg mb-4 border border-slate-600">
-                  <img 
-                    src={qrCode} 
-                    alt="Farcaster QR Code" 
-                    className="w-48 h-48 mx-auto"
-                  />
-                  <p className="text-sm text-slate-400 mt-2">
-                    {qrStatus === 'pending' && 'Scan with Warpcast app...'}
-                    {qrStatus === 'approved' && '✅ Connected!'}
-                    {qrStatus === 'expired' && '❌ QR Code expired'}
-                  </p>
-                </div>
-              ) : (
-                <div className="p-4 bg-slate-700 rounded-lg mb-4 border border-slate-600">
-                  <p className="text-sm text-slate-400">Generating QR Code...</p>
-                </div>
-              )}
-              <div className="flex space-x-2">
-                <Button 
-                  onClick={() => {
-                    if (pollingInterval) {
-                      clearInterval(pollingInterval);
-                      setPollingInterval(null);
-                    }
-                    setShowFarcasterModal(false);
-                    setQrCode('');
-                    setQrStatus('pending');
-                  }}
-                  variant="outline"
-                  className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700"
-                >
-                  Cancel
-                </Button>
-                {!qrCode && (
-                  <Button 
-                    onClick={generateQRCode}
-                    className="flex-1 bg-purple-600 hover:bg-purple-700"
-                  >
-                    Generate QR
-                  </Button>
-                )}
-              </div>
-            </div>
           </div>
         </div>
       )}

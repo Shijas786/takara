@@ -157,11 +157,14 @@ export default function FarcasterConnect() {
               </label>
               <Input
                 type="text"
-                placeholder="e.g., 12345"
+                placeholder="e.g., 259913"
                 value={fid}
                 onChange={(e) => setFid(e.target.value)}
                 className="w-full"
               />
+              <p className="text-xs text-gray-500 mt-1">
+                Enter your Farcaster ID to connect and post casts
+              </p>
             </div>
             <Button 
               onClick={connectUser}
