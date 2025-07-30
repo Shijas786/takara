@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { OpenAIService } from '../../../lib/openai';
-import { Influencer } from '../../../types';
+import { OpenAIService } from '../../../../lib/openai';
+import { Influencer } from '../../../../types';
 
 export async function POST(request: NextRequest) {
   try {
