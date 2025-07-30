@@ -9,10 +9,10 @@ import { Toaster } from '../components/ui/toaster';
 export default function Home() {
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-slate-900 text-white">
       <Navigation />
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="max-w-4xl mx-auto px-4 py-8">
 
         {/* Content Generator Component */}
         <div className="mb-8">

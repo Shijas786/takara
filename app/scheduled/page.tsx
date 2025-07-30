@@ -96,20 +96,17 @@ export default function ScheduledPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="text-center">
-        <div className="flex items-center justify-center space-x-3 mb-4">
-          <img src="https://freeimage.host/i/FS6Q5zb" alt="Logo" className="w-12 h-12 rounded-lg" />
-          <h1 className="text-3xl font-bold text-gray-900">Scheduled Posts</h1>
-        </div>
-        <p className="text-gray-600">Manage your scheduled content and posting times</p>
+        <h1 className="text-2xl font-bold text-white mb-4">Scheduled Posts</h1>
+        <p className="text-slate-300">Manage your scheduled content and posting times</p>
       </div>
 
-      <Card className="p-4 bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200">
+      <Card className="p-4 bg-slate-800 border-slate-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <MessageCircle className="w-5 h-5 text-purple-600" />
-            <span className="text-sm font-medium text-gray-900">Farcaster Connection</span>
+            <MessageCircle className="w-5 h-5 text-purple-400" />
+            <span className="text-sm font-medium text-white">Farcaster Connection</span>
           </div>
-          <Badge variant="secondary" className={isFarcasterConnected ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}>
+          <Badge variant="secondary" className={isFarcasterConnected ? "bg-green-900 text-green-300" : "bg-red-900 text-red-300"}>
             {isFarcasterConnected ? 'Connected' : 'Not Connected'}
           </Badge>
         </div>
@@ -120,32 +117,32 @@ export default function ScheduledPage() {
           const scheduledPost = getScheduledForSlot(slot);
           
           return (
-            <Card key={slot} className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200">
+            <Card key={slot} className="p-6 bg-slate-800 border-slate-700">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
-                  <Clock className="w-6 h-6 text-blue-600" />
-                  <h3 className="text-lg font-semibold text-gray-900">{slot}</h3>
+                  <Clock className="w-6 h-6 text-blue-400" />
+                  <h3 className="text-lg font-semibold text-white">{slot}</h3>
                 </div>
-                <Badge variant="secondary" className={scheduledPost ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"}>
+                <Badge variant="secondary" className={scheduledPost ? "bg-green-900 text-green-300" : "bg-slate-700 text-slate-300"}>
                   {scheduledPost ? 'Scheduled' : 'Available'}
                 </Badge>
               </div>
 
               {scheduledPost ? (
                 <div className="space-y-4">
-                  <div className="p-4 bg-white rounded-lg border border-blue-200">
-                    <p className="text-gray-900 text-sm mb-2">{scheduledPost.content}</p>
-                    <p className="text-xs text-gray-500">
+                  <div className="p-4 bg-slate-700 rounded-lg border border-slate-600">
+                    <p className="text-white text-sm mb-2">{scheduledPost.content}</p>
+                    <p className="text-xs text-slate-400">
                       Scheduled for: {new Date(scheduledPost.scheduledTime).toLocaleDateString()}
                     </p>
                   </div>
                   
                   <div className="flex space-x-2">
-                    <Button onClick={() => postNow(scheduledPost)} disabled={!isFarcasterConnected} className="bg-blue-600 hover:bg-blue-700 text-white" size="sm">
+                    <Button onClick={() => postNow(scheduledPost)} disabled={!isFarcasterConnected} className="bg-blue-500 hover:bg-blue-600 text-white" size="sm">
                       <MessageCircle className="w-4 h-4 mr-2" />
                       Post Now
                     </Button>
-                    <Button onClick={() => deleteScheduledPost(scheduledPost.id)} variant="outline" size="sm" className="text-red-600 border-red-300 hover:bg-red-50">
+                    <Button onClick={() => deleteScheduledPost(scheduledPost.id)} variant="outline" size="sm" className="text-red-400 border-red-500 hover:bg-red-900">
                       <Trash2 className="w-4 h-4 mr-2" />
                       Delete
                     </Button>
@@ -153,9 +150,9 @@ export default function ScheduledPage() {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                  <p className="text-gray-600 mb-4">No post scheduled for this time slot</p>
-                  <Button onClick={() => window.location.href = '/'} variant="outline" size="sm" className="text-blue-600 border-blue-300 hover:bg-blue-50">
+                  <Calendar className="w-12 h-12 text-slate-400 mx-auto mb-3" />
+                  <p className="text-slate-300 mb-4">No post scheduled for this time slot</p>
+                  <Button onClick={() => window.location.href = '/'} variant="outline" size="sm" className="text-blue-400 border-blue-500 hover:bg-blue-900">
                     Generate & Schedule
                   </Button>
                 </div>
@@ -166,12 +163,12 @@ export default function ScheduledPage() {
       </div>
 
       {scheduledPosts.length === 0 && (
-        <Card className="p-12 bg-gradient-to-br from-gray-50 to-gray-100 border-gray-200">
+        <Card className="p-12 bg-slate-800 border-slate-700">
           <div className="text-center">
-            <Clock className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No Scheduled Posts</h3>
-            <p className="text-gray-600 mb-6">You haven't scheduled any posts yet. Generate some content and schedule it for automatic posting.</p>
-            <Button onClick={() => window.location.href = '/'} className="bg-blue-600 hover:bg-blue-700 text-white">
+            <Clock className="w-16 h-16 text-slate-400 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-white mb-2">No Scheduled Posts</h3>
+            <p className="text-slate-300 mb-6">You haven't scheduled any posts yet. Generate some content and schedule it for automatic posting.</p>
+            <Button onClick={() => window.location.href = '/'} className="bg-blue-500 hover:bg-blue-600 text-white">
               Generate Content
             </Button>
           </div>
