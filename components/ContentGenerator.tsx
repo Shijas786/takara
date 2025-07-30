@@ -35,6 +35,10 @@ export default function ContentGenerator() {
   const [scheduledPosts, setScheduledPosts] = useState<ScheduledPost[]>([]);
   const [isFarcasterConnected, setIsFarcasterConnected] = useState(false);
   const [showFarcasterModal, setShowFarcasterModal] = useState(false);
+  const [qrCode, setQrCode] = useState('');
+  const [qrStatus, setQrStatus] = useState('pending');
+  const [signerUuid, setSignerUuid] = useState('');
+  const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
 
   // Load drafts and scheduled posts from localStorage on mount
@@ -53,6 +57,22 @@ export default function ContentGenerator() {
       setIsFarcasterConnected(true);
     }
   }, []);
+
+  // Auto-generate QR code when modal opens
+  useEffect(() => {
+    if (showFarcasterModal && !qrCode) {
+      generateQRCode();
+    }
+  }, [showFarcasterModal]);
+
+  // Cleanup polling on unmount
+  useEffect(() => {
+    return () => {
+      if (pollingInterval) {
+        clearInterval(pollingInterval);
+      }
+    };
+  }, [pollingInterval]);
 
   const generateContent = async () => {
     if (!prompt.trim()) {
@@ -204,6 +224,75 @@ export default function ContentGenerator() {
       title: "Post Scheduled!",
       description: `Scheduled for ${selectedSlot}`,
     });
+  };
+
+  const generateQRCode = async () => {
+    try {
+      const response = await fetch('/api/farcaster/qr-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action: 'generate' }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setQrCode(data.qr_code);
+        setSignerUuid(data.signer_uuid);
+        setQrStatus('pending');
+        startPolling(data.signer_uuid);
+      } else {
+        throw new Error('Failed to generate QR code');
+      }
+    } catch (error) {
+      toast({
+        title: "QR Generation Failed",
+        description: "Failed to generate QR code. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const startPolling = (uuid: string) => {
+    const interval = setInterval(async () => {
+      try {
+        const response = await fetch('/api/farcaster/qr-login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ action: 'check', signer_uuid: uuid }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.approved) {
+            setQrStatus('approved');
+            setIsFarcasterConnected(true);
+            localStorage.setItem('farcaster_token', JSON.stringify({
+              signer_uuid: data.signer_uuid,
+              user: data.user
+            }));
+            clearInterval(interval);
+            setPollingInterval(null);
+            setShowFarcasterModal(false);
+            toast({
+              title: "Connected to Farcaster!",
+              description: `Welcome, ${data.user.username}!`,
+            });
+          } else if (data.status === 'expired') {
+            setQrStatus('expired');
+            clearInterval(interval);
+            setPollingInterval(null);
+          }
+        }
+      } catch (error) {
+        console.error('Polling error:', error);
+      }
+    }, 2000); // Poll every 2 seconds
+
+    setPollingInterval(interval);
   };
 
   const postToFarcaster = async () => {
@@ -501,26 +590,48 @@ export default function ContentGenerator() {
               Scan the QR code with your Warpcast app to connect your Farcaster account.
             </p>
             <div className="text-center">
-              <div className="p-4 bg-slate-700 rounded-lg mb-4 border border-slate-600">
-                <p className="text-sm text-slate-400">QR Code will appear here</p>
-              </div>
+              {qrCode ? (
+                <div className="p-4 bg-slate-700 rounded-lg mb-4 border border-slate-600">
+                  <img 
+                    src={qrCode} 
+                    alt="Farcaster QR Code" 
+                    className="w-48 h-48 mx-auto"
+                  />
+                  <p className="text-sm text-slate-400 mt-2">
+                    {qrStatus === 'pending' && 'Scan with Warpcast app...'}
+                    {qrStatus === 'approved' && '✅ Connected!'}
+                    {qrStatus === 'expired' && '❌ QR Code expired'}
+                  </p>
+                </div>
+              ) : (
+                <div className="p-4 bg-slate-700 rounded-lg mb-4 border border-slate-600">
+                  <p className="text-sm text-slate-400">Generating QR Code...</p>
+                </div>
+              )}
               <div className="flex space-x-2">
                 <Button 
-                  onClick={() => setShowFarcasterModal(false)}
+                  onClick={() => {
+                    if (pollingInterval) {
+                      clearInterval(pollingInterval);
+                      setPollingInterval(null);
+                    }
+                    setShowFarcasterModal(false);
+                    setQrCode('');
+                    setQrStatus('pending');
+                  }}
                   variant="outline"
                   className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700"
                 >
                   Cancel
                 </Button>
-                <Button 
-                  onClick={() => {
-                    // TODO: Implement QR code generation
-                    setShowFarcasterModal(false);
-                  }}
-                  className="flex-1 bg-purple-600 hover:bg-purple-700"
-                >
-                  Generate QR
-                </Button>
+                {!qrCode && (
+                  <Button 
+                    onClick={generateQRCode}
+                    className="flex-1 bg-purple-600 hover:bg-purple-700"
+                  >
+                    Generate QR
+                  </Button>
+                )}
               </div>
             </div>
           </div>
