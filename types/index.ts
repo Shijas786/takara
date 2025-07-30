@@ -107,14 +107,29 @@ export interface OpenAIConfig {
   model: string;
 }
 
+export interface FarcasterConfig {
+  apiKey: string;
+  baseUrl: string;
+  clientId: string;
+  clientSecret: string;
+  neynarApiKey: string;
+  neynarBaseUrl: string;
+}
+
+export interface CoinbaseConfig {
+  apiKey: string;
+  apiSecret: string;
+  passphrase: string;
+  baseUrl: string;
+  sandboxUrl: string;
+}
+
 export interface AppConfig {
   contracts: ContractConfig;
   supabase: SupabaseConfig;
   openai: OpenAIConfig;
-  farcaster: {
-    apiKey: string;
-    baseUrl: string;
-  };
+  farcaster: FarcasterConfig;
+  coinbase: CoinbaseConfig;
 } 
 
 // Extend Window interface for Web3 and Coinbase Wallet

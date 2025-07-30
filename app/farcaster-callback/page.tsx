@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
 
-export default function FarcasterCallback() {
+function FarcasterCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
@@ -109,5 +109,23 @@ export default function FarcasterCallback() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function FarcasterCallback() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+        <div className="bg-white rounded-xl p-8 shadow-lg max-w-md w-full">
+          <div className="text-center">
+            <Loader2 className="w-12 h-12 text-blue-500 animate-spin mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-gray-900 mb-2">Loading...</h2>
+            <p className="text-gray-600">Preparing Farcaster connection...</p>
+          </div>
+        </div>
+      </div>
+    }>
+      <FarcasterCallbackContent />
+    </Suspense>
   );
 } 
