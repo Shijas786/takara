@@ -27,6 +27,7 @@ export default function Navigation() {
                 CLOSE
               </button>
             </div>
+          </div>
         </div>
       </div>
     </nav>
