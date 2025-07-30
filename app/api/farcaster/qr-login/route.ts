@@ -6,6 +6,8 @@ export async function POST(request: NextRequest) {
 
     if (action === 'generate') {
       // Generate QR code for Farcaster login
+      console.log('Generating QR code with API key:', process.env.NEYNAR_API_KEY ? 'Present' : 'Missing');
+      
       const response = await fetch('https://api.neynar.com/v2/farcaster/signer', {
         method: 'POST',
         headers: {
@@ -15,19 +17,33 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
           // This will create a signer that can be used for QR authentication
           signer_uuid: `kai-${Date.now()}`,
+          app_fid: 1, // Add app_fid parameter
         }),
       });
 
+      console.log('Neynar API response status:', response.status);
+      
       if (!response.ok) {
         const errorData = await response.text();
         console.error('QR generation error:', errorData);
+        console.error('Response status:', response.status);
+        console.error('Response headers:', Object.fromEntries(response.headers.entries()));
         return NextResponse.json(
-          { success: false, error: 'Failed to generate QR code' },
+          { success: false, error: `Failed to generate QR code: ${response.status} - ${errorData}` },
           { status: 500 }
         );
       }
 
       const data = await response.json();
+      console.log('Neynar API response data:', JSON.stringify(data, null, 2));
+      
+      if (!data.signer || !data.signer.signer_approval_url) {
+        console.error('Invalid response format:', data);
+        return NextResponse.json(
+          { success: false, error: 'Invalid response format from Neynar API' },
+          { status: 500 }
+        );
+      }
       
       return NextResponse.json({
         success: true,

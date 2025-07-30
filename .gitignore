@@ -127,3 +127,4 @@ scripts/influencer_data/*.json
 
 # Local development
 .local/
+.env*.local
