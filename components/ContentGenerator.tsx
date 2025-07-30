@@ -301,6 +301,7 @@ export default function ContentGenerator() {
                   <SelectItem value="based">Based</SelectItem>
                   <SelectItem value="influencers">Influencers</SelectItem>
                   <SelectItem value="ct-style">CT Style</SelectItem>
+                  <SelectItem value="reply-guy">Reply Guy</SelectItem>
                   <SelectItem value="alpha-leak">Alpha Leak</SelectItem>
                   <SelectItem value="fud-buster">FUD Buster</SelectItem>
                   <SelectItem value="viral-shitpost">Viral Shitpost</SelectItem>
