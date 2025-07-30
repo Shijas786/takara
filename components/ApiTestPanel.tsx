@@ -45,7 +45,9 @@ export default function ApiTestPanel() {
         const data = await response.json();
         updateTestResult('OpenAI', 'success', 'API connection successful', data);
       } else {
-        updateTestResult('OpenAI', 'error', 'API connection failed');
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = errorData.error || 'API connection failed';
+        updateTestResult('OpenAI', 'error', errorMessage);
       }
     } catch (error) {
       updateTestResult('OpenAI', 'error', error instanceof Error ? error.message : 'Unknown error');

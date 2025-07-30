@@ -111,8 +111,8 @@ export default function ContentEnhancer({
         });
       }
     } catch (error: any) {
-      if (error.message?.includes('401') || error.message?.includes('AuthenticationError')) {
-        setError('OpenAI API key not configured. Please add your OpenAI API key to the .env.local file. See API_SETUP.md for instructions.');
+      if (error.message?.includes('API key not configured') || error.message?.includes('401') || error.message?.includes('AuthenticationError')) {
+        setError('OpenAI API key not configured. Please add your OpenAI API key to the .env.local file. See QUICK_SETUP.md for instructions. Need help? Check the setup guide in the project root.');
       } else if (error.message?.includes('404') || error.message?.includes('does not exist')) {
         setError('Model access issue. Please check your OpenAI subscription and try again.');
       } else if (error.message?.includes('429') || error.message?.includes('quota') || error.message?.includes('RateLimit')) {

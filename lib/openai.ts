@@ -8,6 +8,11 @@ let openai: OpenAI | null = null;
 
 function getOpenAIClient(): OpenAI {
   if (!openai) {
+    // Check if API key is properly configured
+    if (!config.openai.apiKey || config.openai.apiKey === 'placeholder_openai_key') {
+      throw new Error('OpenAI API key not configured. Please add your OpenAI API key to the .env.local file. See API_KEYS_SETUP.md for instructions.');
+    }
+    
     openai = new OpenAI({
       apiKey: config.openai.apiKey,
     });
