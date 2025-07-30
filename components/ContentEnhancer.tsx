@@ -58,10 +58,30 @@ export default function ContentEnhancer({
         length: enhancementSettings.length,
       };
 
-      const enhanced = await openaiService.generateShitpost(
-        request,
-        mockInfluencer
-      );
+      // Call the server-side API route instead of direct OpenAI call
+      const response = await fetch('/api/openai/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt: userInput,
+          style: enhancementSettings.style,
+          length: enhancementSettings.length,
+          influencerId: 'kai',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate content');
+      }
+
+      const result = await response.json();
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to generate content');
+      }
+
+      const enhanced = result.content;
 
       setEnhancedContent(enhanced);
       setEditedContent(enhanced);

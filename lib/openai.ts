@@ -10,7 +10,6 @@ function getOpenAIClient(): OpenAI {
   if (!openai) {
     openai = new OpenAI({
       apiKey: config.openai.apiKey,
-      dangerouslyAllowBrowser: true, // Allow browser usage for development
     });
   }
   return openai;

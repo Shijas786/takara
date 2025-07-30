@@ -67,15 +67,30 @@ export default function AutoPostManager({
         sampleTweets: [],
       };
 
-      const enhancedContent = await openaiService.generateShitpost(
-        {
-          influencerId: 'enhancer',
+      // Call the server-side API route instead of direct OpenAI call
+      const response = await fetch('/api/openai/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           prompt: 'Generate a viral crypto post about Base ecosystem',
           style: 'based',
           length: 'medium',
-        },
-        mockInfluencer
-      );
+          influencerId: 'enhancer',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate content');
+      }
+
+      const result = await response.json();
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to generate content');
+      }
+
+      const enhancedContent = result.content;
 
       // Schedule for 2 minutes from now
       const scheduledTime = new Date();
