@@ -11,7 +11,7 @@ export const config: AppConfig = {
     anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
   },
   openai: {
-    apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY || process.env.OPENAI_API_KEY || 'placeholder_openai_key',
+    apiKey: process.env.OPENAI_API_KEY || 'placeholder_openai_key',
     model: 'gpt-3.5-turbo',
   },
   farcaster: {
@@ -23,7 +23,7 @@ export const config: AppConfig = {
     neynarBaseUrl: 'https://api.neynar.com/v2',
   },
   coinbase: {
-    apiKey: process.env.COINBASE_API_KEY || process.env.NEXT_PUBLIC_COINBASE_API_KEY || 'placeholder_coinbase_key',
+    apiKey: process.env.COINBASE_API_KEY || 'placeholder_coinbase_key',
     apiSecret: process.env.COINBASE_API_SECRET || 'placeholder_coinbase_secret',
     passphrase: process.env.COINBASE_PASSPHRASE || 'placeholder_coinbase_passphrase',
     baseUrl: 'https://api.pro.coinbase.com',
