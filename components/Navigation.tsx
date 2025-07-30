@@ -1,13 +1,9 @@
 'use client';
 
-import { Home, Clock, Settings } from 'lucide-react';
-import { Button } from './ui/button';
+import { Sparkles } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
 export default function Navigation() {
-  const pathname = usePathname();
-
   return (
     <nav className="border-b border-slate-700 bg-slate-800 sticky top-0 z-40">
       <div className="max-w-4xl mx-auto px-4 py-4">
