@@ -1,14 +1,19 @@
 {
   "accountAssociation": {
-    "signer": "0x0000000000000000000000000000000000000000",
-    "signature": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-    "timestamp": 0
+    "header": "eyJmaWQiOjI1OTkxMywidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDlmZjdjNTNhNDU3NzcxOGQwOUIxYkZiYTVlRkU2MzFCOTlmY2FmZmMifQ",
+    "payload": "eyJkb21haW4iOiJ0YWthcmEtY29udGVudC1hcHAudmVyY2VsLmFwcCJ9",
+    "signature": "MHg2NDkyZWEzN2NiZTRkN2Q2ODc5NTFmMTZmMTM2OGZkODc1YmNlMzViYjhlYTdjMGIwOGYzMDExMmQxOThiN2EyNmNlNWFjOWI1MTY3YTRlN2Q5YTMyOTAzM2Q5YzhkMTMyZDYwMmFmZGJhZGUxN2JmY2IwZWY1ODI0MTkyZWM0YTFj"
   },
   "frame": {
-    "name": "TAKARA",
     "version": "1",
+    "name": "TAKARA",
     "description": "AI-powered content creation for viral posts",
     "iconUrl": "https://takara-content-app.vercel.app/favicon.png",
-    "homeUrl": "https://takara-content-app.vercel.app/"
+    "homeUrl": "https://takara-content-app.vercel.app",
+    "imageUrl": "https://takara-content-app.vercel.app/og-image.png",
+    "buttonTitle": "🚀 Evolve Content",
+    "splashImageUrl": "https://takara-content-app.vercel.app/takara-logo.png",
+    "splashBackgroundColor": "#1e293b",
+    "webhookUrl": "https://takara-content-app.vercel.app/api/farcaster/webhook"
   }
 } 
