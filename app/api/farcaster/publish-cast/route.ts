@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { NeynarAPIClient } from '@neynar/nodejs-sdk';
 import { config } from '../../../../lib/config';
 
-const neynarClient = new NeynarAPIClient(config.farcaster.neynarApiKey);
+const neynarClient = new NeynarAPIClient({ apiKey: config.farcaster.neynarApiKey });
 
 export async function POST(request: NextRequest) {
   try {
