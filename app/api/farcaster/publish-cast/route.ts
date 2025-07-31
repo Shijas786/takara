@@ -1,8 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { NeynarAPIClient } from '@neynar/nodejs-sdk';
-import { config } from '../../../../lib/config';
-
-const neynarClient = new NeynarAPIClient(config.farcaster.neynarApiKey);
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,38 +12,49 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Prepare cast data
-    const castData: any = {
-      signer_uuid: signerUuid,
+    // Demo cast publishing
+    const demoCast = {
+      hash: `0x${Math.random().toString(16).substring(2, 10)}`,
+      thread_hash: null,
+      parent_hash: parentUrl ? `0x${Math.random().toString(16).substring(2, 10)}` : null,
+      author: {
+        fid: 12345,
+        username: 'demo_user',
+        display_name: 'Demo User',
+        pfp_url: 'https://picsum.photos/200',
+      },
       text: text,
+      timestamp: new Date().toISOString(),
+      reactions: {
+        likes: 0,
+        recasts: 0,
+        replies: 0,
+      },
+      replies: {
+        count: 0,
+      },
+      recasts: {
+        count: 0,
+      },
+      likes: {
+        count: 0,
+      },
+      channel: channelId ? { id: channelId, name: channelId } : null,
     };
-
-    // Add parent URL if provided (for replies)
-    if (parentUrl) {
-      castData.parent_url = parentUrl;
-    }
-
-    // Add channel ID if provided
-    if (channelId) {
-      castData.channel_id = channelId;
-    }
-
-    // Publish the cast
-    const result = await neynarClient.publishCast(castData);
 
     return NextResponse.json({
       success: true,
-      cast: result.cast,
-      message: 'Cast published successfully!'
+      cast: demoCast,
+      message: 'Demo cast published successfully!'
     });
 
   } catch (error: any) {
     console.error('Publish cast error:', error);
     return NextResponse.json(
-      { 
-        success: false, 
+      {
+        success: false,
         error: error.message || 'Failed to publish cast',
-        details: error.response?.data || error
+        details: error
       },
       { status: 500 }
     );
