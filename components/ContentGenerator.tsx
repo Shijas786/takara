@@ -7,8 +7,8 @@ import { Card } from './ui/card';
 import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Input } from './ui/input';
 import { useToast } from '../hooks/use-toast';
+import { useMiniApp } from '@neynar/react';
 
 interface Draft {
   id: string;
@@ -48,16 +48,15 @@ export default function ContentGenerator() {
   const [scheduledPosts, setScheduledPosts] = useState<ScheduledPost[]>([]);
   const [isPosting, setIsPosting] = useState(false);
   const [farcasterUser, setFarcasterUser] = useState<FarcasterUser | null>(null);
-  const [walletAddress, setWalletAddress] = useState('');
   const [isConnecting, setIsConnecting] = useState(false);
   const { toast } = useToast();
+  const { isSDKLoaded, context } = useMiniApp();
 
   // Load drafts, scheduled posts, and user data from localStorage on mount
   useEffect(() => {
     const savedDrafts = localStorage.getItem('kai_drafts');
     const savedScheduled = localStorage.getItem('kai_scheduled_posts');
     const savedUser = localStorage.getItem('kai_farcaster_user');
-    const savedAddress = localStorage.getItem('kai_wallet_address');
 
     if (savedDrafts) {
       setDrafts(JSON.parse(savedDrafts));
@@ -68,56 +67,73 @@ export default function ContentGenerator() {
     if (savedUser) {
       setFarcasterUser(JSON.parse(savedUser));
     }
-    if (savedAddress) {
-      setWalletAddress(savedAddress);
-    }
   }, []);
 
-  const connectWallet = async () => {
-    if (!walletAddress.trim()) {
-      toast({
-        title: "Address Required",
-        description: "Please enter your Ethereum address",
-        variant: "destructive",
-      });
-      return;
+  // Auto-connect if we have Farcaster context
+  useEffect(() => {
+    if (isSDKLoaded && context && !farcasterUser) {
+      connectFarcasterWallet();
     }
+  }, [isSDKLoaded, context, farcasterUser]);
 
+  const connectFarcasterWallet = async () => {
     setIsConnecting(true);
     try {
-      const response = await fetch('/api/farcaster/get-user-by-address', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          address: walletAddress.trim(),
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        const user = data.user;
-        setFarcasterUser(user);
-        localStorage.setItem('kai_farcaster_user', JSON.stringify(user));
-        localStorage.setItem('kai_wallet_address', walletAddress.trim());
+      if (isSDKLoaded && context) {
+        // Use Farcaster Mini App SDK - try different ways to get wallet address
+        const walletAddress = (context as any).user?.verified_accounts?.[0] || 
+                             (context as any).interactor?.verified_accounts?.[0] ||
+                             (context as any).wallet?.address;
         
-        toast({
-          title: "Connected Successfully!",
-          description: `Connected to @${user.username} (FID: ${user.fid})`,
-        });
-      } else if (data.error === 'NO_USER_FOUND') {
-        toast({
-          title: "No Farcaster Account Found",
-          description: "This Ethereum address is not connected to a Farcaster account",
-          variant: "destructive",
-        });
+        if (walletAddress) {
+          // Fetch user info using the connected wallet address
+          const response = await fetch('/api/farcaster/get-user-by-address', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              address: walletAddress,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            const user = data.user;
+            setFarcasterUser(user);
+            localStorage.setItem('kai_farcaster_user', JSON.stringify(user));
+            
+            toast({
+              title: "Connected Successfully!",
+              description: `Connected to @${user.username} (FID: ${user.fid})`,
+            });
+          } else if (data.error === 'NO_USER_FOUND') {
+            toast({
+              title: "No Farcaster Account Found",
+              description: "This wallet is not connected to a Farcaster account",
+              variant: "destructive",
+            });
+          } else {
+            toast({
+              title: "Connection Failed",
+              description: data.error || "Failed to connect to Farcaster",
+              variant: "destructive",
+            });
+          }
+        } else {
+          toast({
+            title: "Wallet Not Connected",
+            description: "Please connect your wallet in Farcaster first",
+            variant: "destructive",
+          });
+        }
       } else {
+        // Fallback: Open Warpcast for connection
+        window.open('https://warpcast.com/~/developers/frames', '_blank');
         toast({
-          title: "Connection Failed",
-          description: data.error || "Failed to connect to Farcaster",
-          variant: "destructive",
+          title: "Open Warpcast",
+          description: "Please connect your wallet in Warpcast and return here",
         });
       }
     } catch (error) {
@@ -134,9 +150,7 @@ export default function ContentGenerator() {
 
   const disconnectWallet = () => {
     setFarcasterUser(null);
-    setWalletAddress('');
     localStorage.removeItem('kai_farcaster_user');
-    localStorage.removeItem('kai_wallet_address');
     toast({
       title: "Disconnected",
       description: "Wallet disconnected successfully",
@@ -384,33 +398,28 @@ export default function ContentGenerator() {
         {!farcasterUser ? (
           <div className="space-y-4">
             <p className="text-slate-300">
-              Enter your Ethereum address to connect to your Farcaster account.
+              {isSDKLoaded && context 
+                ? "Your Farcaster wallet is connected. Click below to link your account."
+                : "Connect your Farcaster wallet to post content directly to your account."
+              }
             </p>
-            <div className="flex space-x-2">
-              <Input
-                placeholder="0x..."
-                value={walletAddress}
-                onChange={(e) => setWalletAddress(e.target.value)}
-                className="flex-1 bg-slate-700 border-slate-600 text-white placeholder-slate-400"
-              />
-              <Button 
-                onClick={connectWallet}
-                disabled={isConnecting || !walletAddress.trim()}
-                className="bg-purple-600 hover:bg-purple-700 text-white"
-              >
-                {isConnecting ? (
-                  <>
-                    <Wallet className="w-4 h-4 mr-2 animate-spin" />
-                    Connecting...
-                  </>
-                ) : (
-                  <>
-                    <Wallet className="w-4 h-4 mr-2" />
-                    Connect
-                  </>
-                )}
-              </Button>
-            </div>
+            <Button 
+              onClick={connectFarcasterWallet}
+              disabled={isConnecting}
+              className="bg-purple-600 hover:bg-purple-700 text-white"
+            >
+              {isConnecting ? (
+                <>
+                  <Wallet className="w-4 h-4 mr-2 animate-spin" />
+                  Connecting...
+                </>
+              ) : (
+                <>
+                  <Wallet className="w-4 h-4 mr-2" />
+                  {isSDKLoaded && context ? "Link Farcaster Account" : "Connect Farcaster Wallet"}
+                </>
+              )}
+            </Button>
           </div>
         ) : (
           <div className="space-y-4">
