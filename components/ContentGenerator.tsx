@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Sparkles, Copy, Download, Save, MessageCircle, Clock, Trash2, CheckCircle, User, Link } from 'lucide-react';
+import { Sparkles, Copy, Download, Save, MessageCircle, Clock, Trash2, CheckCircle, User, Wallet } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Input } from './ui/input';
 import { useToast } from '../hooks/use-toast';
 
 interface Draft {
@@ -24,11 +25,16 @@ interface ScheduledPost {
   isPosted: boolean;
 }
 
-interface UserSigner {
-  signer_uuid: string;
-  status: string;
-  fid?: number;
-  signer_approval_url?: string;
+interface FarcasterUser {
+  fid: number;
+  username: string;
+  displayName: string;
+  pfp: string;
+  custodyAddress: string;
+  followerCount: number;
+  followingCount: number;
+  verifications: string[];
+  activeStatus: string;
 }
 
 export default function ContentGenerator() {
@@ -41,16 +47,17 @@ export default function ContentGenerator() {
   const [drafts, setDrafts] = useState<Draft[]>([]);
   const [scheduledPosts, setScheduledPosts] = useState<ScheduledPost[]>([]);
   const [isPosting, setIsPosting] = useState(false);
-  const [userSigner, setUserSigner] = useState<UserSigner | null>(null);
-  const [isCreatingSigner, setIsCreatingSigner] = useState(false);
-  const [isCheckingSigner, setIsCheckingSigner] = useState(false);
+  const [farcasterUser, setFarcasterUser] = useState<FarcasterUser | null>(null);
+  const [walletAddress, setWalletAddress] = useState('');
+  const [isConnecting, setIsConnecting] = useState(false);
   const { toast } = useToast();
 
-  // Load drafts, scheduled posts, and user signer from localStorage on mount
+  // Load drafts, scheduled posts, and user data from localStorage on mount
   useEffect(() => {
     const savedDrafts = localStorage.getItem('kai_drafts');
     const savedScheduled = localStorage.getItem('kai_scheduled_posts');
-    const savedSigner = localStorage.getItem('kai_user_signer');
+    const savedUser = localStorage.getItem('kai_farcaster_user');
+    const savedAddress = localStorage.getItem('kai_wallet_address');
 
     if (savedDrafts) {
       setDrafts(JSON.parse(savedDrafts));
@@ -58,106 +65,82 @@ export default function ContentGenerator() {
     if (savedScheduled) {
       setScheduledPosts(JSON.parse(savedScheduled));
     }
-    if (savedSigner) {
-      setUserSigner(JSON.parse(savedSigner));
+    if (savedUser) {
+      setFarcasterUser(JSON.parse(savedUser));
+    }
+    if (savedAddress) {
+      setWalletAddress(savedAddress);
     }
   }, []);
 
-  const createUserSigner = async () => {
-    setIsCreatingSigner(true);
-    try {
-      const response = await fetch('/api/farcaster/create-signer', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        const newSigner = data.signer;
-        setUserSigner(newSigner);
-        localStorage.setItem('kai_user_signer', JSON.stringify(newSigner));
-        
-        toast({
-          title: "Signer Created!",
-          description: "Please approve your signer using the link below",
-        });
-
-        // Open approval URL in new tab
-        if (newSigner.signer_approval_url) {
-          window.open(newSigner.signer_approval_url, '_blank');
-        }
-      } else {
-        toast({
-          title: "Signer Creation Failed",
-          description: data.error || "Failed to create signer",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error('Create signer error:', error);
+  const connectWallet = async () => {
+    if (!walletAddress.trim()) {
       toast({
-        title: "Signer Creation Error",
-        description: "Failed to create signer. Please try again.",
+        title: "Address Required",
+        description: "Please enter your Ethereum address",
         variant: "destructive",
       });
-    } finally {
-      setIsCreatingSigner(false);
+      return;
     }
-  };
 
-  const checkSignerStatus = async () => {
-    if (!userSigner?.signer_uuid) return;
-
-    setIsCheckingSigner(true);
+    setIsConnecting(true);
     try {
-      const response = await fetch('/api/farcaster/check-signer', {
+      const response = await fetch('/api/farcaster/get-user-by-address', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          signer_uuid: userSigner.signer_uuid,
+          address: walletAddress.trim(),
         }),
       });
 
       const data = await response.json();
 
       if (data.success) {
-        const updatedSigner = data.signer;
-        setUserSigner(updatedSigner);
-        localStorage.setItem('kai_user_signer', JSON.stringify(updatedSigner));
-
-        if (data.approved) {
-          toast({
-            title: "Signer Approved!",
-            description: "You can now post to your Farcaster account",
-          });
-        } else {
-          toast({
-            title: "Signer Status",
-            description: data.message,
-          });
-        }
+        const user = data.user;
+        setFarcasterUser(user);
+        localStorage.setItem('kai_farcaster_user', JSON.stringify(user));
+        localStorage.setItem('kai_wallet_address', walletAddress.trim());
+        
+        toast({
+          title: "Connected Successfully!",
+          description: `Connected to @${user.username} (FID: ${user.fid})`,
+        });
+      } else if (data.error === 'NO_USER_FOUND') {
+        toast({
+          title: "No Farcaster Account Found",
+          description: "This Ethereum address is not connected to a Farcaster account",
+          variant: "destructive",
+        });
       } else {
         toast({
-          title: "Status Check Failed",
-          description: data.error || "Failed to check signer status",
+          title: "Connection Failed",
+          description: data.error || "Failed to connect to Farcaster",
           variant: "destructive",
         });
       }
     } catch (error) {
-      console.error('Check signer error:', error);
+      console.error('Connect wallet error:', error);
       toast({
-        title: "Status Check Error",
-        description: "Failed to check signer status. Please try again.",
+        title: "Connection Error",
+        description: "Failed to connect wallet. Please try again.",
         variant: "destructive",
       });
     } finally {
-      setIsCheckingSigner(false);
+      setIsConnecting(false);
     }
+  };
+
+  const disconnectWallet = () => {
+    setFarcasterUser(null);
+    setWalletAddress('');
+    localStorage.removeItem('kai_farcaster_user');
+    localStorage.removeItem('kai_wallet_address');
+    toast({
+      title: "Disconnected",
+      description: "Wallet disconnected successfully",
+    });
   };
 
   const generateContent = async () => {
@@ -333,9 +316,9 @@ export default function ContentGenerator() {
       return;
     }
 
-    if (!userSigner || userSigner.status !== 'approved') {
+    if (!farcasterUser) {
       toast({
-        title: "Signer Not Ready",
+        title: "Not Connected",
         description: "Please connect your Farcaster account first",
         variant: "destructive",
       });
@@ -351,7 +334,7 @@ export default function ContentGenerator() {
         },
         body: JSON.stringify({
           text: generatedContent,
-          signer_uuid: userSigner.signer_uuid,
+          fid: farcasterUser.fid,
         }),
       });
 
@@ -360,7 +343,7 @@ export default function ContentGenerator() {
       if (data.success) {
         toast({
           title: "Posted to Farcaster!",
-          description: "Your evolved content is now live on your account",
+          description: `Your evolved content is now live on @${farcasterUser.username}`,
         });
       } else {
         toast({
@@ -394,86 +377,74 @@ export default function ContentGenerator() {
       {/* Farcaster Connection */}
       <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
         <div className="flex items-center space-x-3 mb-4">
-          <User className="w-6 h-6 text-purple-400" />
+          <Wallet className="w-6 h-6 text-purple-400" />
           <h2 className="text-xl font-semibold text-white">Connect Your Farcaster Account</h2>
         </div>
         
-        {!userSigner ? (
+        {!farcasterUser ? (
           <div className="space-y-4">
             <p className="text-slate-300">
-              Connect your Farcaster account to post content directly from your profile.
+              Enter your Ethereum address to connect to your Farcaster account.
             </p>
-            <Button 
-              onClick={createUserSigner}
-              disabled={isCreatingSigner}
-              className="bg-purple-600 hover:bg-purple-700 text-white"
-            >
-              {isCreatingSigner ? (
-                <>
-                  <User className="w-4 h-4 mr-2 animate-spin" />
-                  Creating Signer...
-                </>
-              ) : (
-                <>
-                  <User className="w-4 h-4 mr-2" />
-                  Connect Farcaster Account
-                </>
-              )}
-            </Button>
+            <div className="flex space-x-2">
+              <Input
+                placeholder="0x..."
+                value={walletAddress}
+                onChange={(e) => setWalletAddress(e.target.value)}
+                className="flex-1 bg-slate-700 border-slate-600 text-white placeholder-slate-400"
+              />
+              <Button 
+                onClick={connectWallet}
+                disabled={isConnecting || !walletAddress.trim()}
+                className="bg-purple-600 hover:bg-purple-700 text-white"
+              >
+                {isConnecting ? (
+                  <>
+                    <Wallet className="w-4 h-4 mr-2 animate-spin" />
+                    Connecting...
+                  </>
+                ) : (
+                  <>
+                    <Wallet className="w-4 h-4 mr-2" />
+                    Connect
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
         ) : (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-slate-300">
-                  Signer Status: <span className={`font-semibold ${userSigner.status === 'approved' ? 'text-green-400' : 'text-yellow-400'}`}>
-                    {userSigner.status}
-                  </span>
-                </p>
-                {userSigner.fid && (
-                  <p className="text-slate-400 text-sm">FID: {userSigner.fid}</p>
+              <div className="flex items-center space-x-3">
+                {farcasterUser.pfp && (
+                  <img 
+                    src={farcasterUser.pfp} 
+                    alt={farcasterUser.displayName}
+                    className="w-10 h-10 rounded-full"
+                  />
                 )}
+                <div>
+                  <p className="text-white font-semibold">
+                    @{farcasterUser.username}
+                  </p>
+                  <p className="text-slate-400 text-sm">
+                    FID: {farcasterUser.fid} • {farcasterUser.followerCount} followers
+                  </p>
+                </div>
               </div>
-              <div className="flex space-x-2">
-                {userSigner.status !== 'approved' && (
-                  <Button
-                    onClick={checkSignerStatus}
-                    disabled={isCheckingSigner}
-                    variant="outline"
-                    className="border-slate-600 text-slate-300 hover:bg-slate-700"
-                  >
-                    {isCheckingSigner ? (
-                      <>
-                        <Link className="w-4 h-4 mr-2 animate-spin" />
-                        Checking...
-                      </>
-                    ) : (
-                      <>
-                        <Link className="w-4 h-4 mr-2" />
-                        Check Status
-                      </>
-                    )}
-                  </Button>
-                )}
-                {userSigner.signer_approval_url && userSigner.status !== 'approved' && (
-                  <Button
-                    onClick={() => window.open(userSigner.signer_approval_url, '_blank')}
-                    variant="outline"
-                    className="border-slate-600 text-slate-300 hover:bg-slate-700"
-                  >
-                    <Link className="w-4 h-4 mr-2" />
-                    Approve Signer
-                  </Button>
-                )}
-              </div>
+              <Button
+                onClick={disconnectWallet}
+                variant="outline"
+                className="border-slate-600 text-slate-300 hover:bg-slate-700"
+              >
+                Disconnect
+              </Button>
             </div>
-            {userSigner.status === 'approved' && (
-              <div className="p-3 bg-green-900/20 border border-green-600 rounded-lg">
-                <p className="text-green-400 text-sm">
-                  ✅ Your Farcaster account is connected and ready to post!
-                </p>
-              </div>
-            )}
+            <div className="p-3 bg-green-900/20 border border-green-600 rounded-lg">
+              <p className="text-green-400 text-sm">
+                ✅ Connected to Farcaster! You can now post content to your account.
+              </p>
+            </div>
           </div>
         )}
       </div>
@@ -616,7 +587,7 @@ export default function ContentGenerator() {
           <div className="flex space-x-3">
             <Button
               onClick={postToFarcaster}
-              disabled={isPosting || !userSigner || userSigner.status !== 'approved'}
+              disabled={isPosting || !farcasterUser}
               className="bg-purple-600 hover:bg-purple-700 text-white"
             >
               {isPosting ? (
