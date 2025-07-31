@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Sparkles, Copy, Download, Save, MessageCircle, Clock, Trash2, CheckCircle } from 'lucide-react';
+import { Sparkles, Copy, Download, Save, MessageCircle, Clock, Trash2, CheckCircle, User, Link } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Textarea } from './ui/textarea';
@@ -24,6 +24,13 @@ interface ScheduledPost {
   isPosted: boolean;
 }
 
+interface UserSigner {
+  signer_uuid: string;
+  status: string;
+  fid?: number;
+  signer_approval_url?: string;
+}
+
 export default function ContentGenerator() {
   const [prompt, setPrompt] = useState('');
   const [evolutionStyle, setEvolutionStyle] = useState('based');
@@ -34,12 +41,16 @@ export default function ContentGenerator() {
   const [drafts, setDrafts] = useState<Draft[]>([]);
   const [scheduledPosts, setScheduledPosts] = useState<ScheduledPost[]>([]);
   const [isPosting, setIsPosting] = useState(false);
+  const [userSigner, setUserSigner] = useState<UserSigner | null>(null);
+  const [isCreatingSigner, setIsCreatingSigner] = useState(false);
+  const [isCheckingSigner, setIsCheckingSigner] = useState(false);
   const { toast } = useToast();
 
-  // Load drafts and scheduled posts from localStorage on mount
+  // Load drafts, scheduled posts, and user signer from localStorage on mount
   useEffect(() => {
     const savedDrafts = localStorage.getItem('kai_drafts');
     const savedScheduled = localStorage.getItem('kai_scheduled_posts');
+    const savedSigner = localStorage.getItem('kai_user_signer');
 
     if (savedDrafts) {
       setDrafts(JSON.parse(savedDrafts));
@@ -47,7 +58,107 @@ export default function ContentGenerator() {
     if (savedScheduled) {
       setScheduledPosts(JSON.parse(savedScheduled));
     }
+    if (savedSigner) {
+      setUserSigner(JSON.parse(savedSigner));
+    }
   }, []);
+
+  const createUserSigner = async () => {
+    setIsCreatingSigner(true);
+    try {
+      const response = await fetch('/api/farcaster/create-signer', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        const newSigner = data.signer;
+        setUserSigner(newSigner);
+        localStorage.setItem('kai_user_signer', JSON.stringify(newSigner));
+        
+        toast({
+          title: "Signer Created!",
+          description: "Please approve your signer using the link below",
+        });
+
+        // Open approval URL in new tab
+        if (newSigner.signer_approval_url) {
+          window.open(newSigner.signer_approval_url, '_blank');
+        }
+      } else {
+        toast({
+          title: "Signer Creation Failed",
+          description: data.error || "Failed to create signer",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Create signer error:', error);
+      toast({
+        title: "Signer Creation Error",
+        description: "Failed to create signer. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsCreatingSigner(false);
+    }
+  };
+
+  const checkSignerStatus = async () => {
+    if (!userSigner?.signer_uuid) return;
+
+    setIsCheckingSigner(true);
+    try {
+      const response = await fetch('/api/farcaster/check-signer', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          signer_uuid: userSigner.signer_uuid,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        const updatedSigner = data.signer;
+        setUserSigner(updatedSigner);
+        localStorage.setItem('kai_user_signer', JSON.stringify(updatedSigner));
+
+        if (data.approved) {
+          toast({
+            title: "Signer Approved!",
+            description: "You can now post to your Farcaster account",
+          });
+        } else {
+          toast({
+            title: "Signer Status",
+            description: data.message,
+          });
+        }
+      } else {
+        toast({
+          title: "Status Check Failed",
+          description: data.error || "Failed to check signer status",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Check signer error:', error);
+      toast({
+        title: "Status Check Error",
+        description: "Failed to check signer status. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsCheckingSigner(false);
+    }
+  };
 
   const generateContent = async () => {
     if (!prompt.trim()) {
@@ -222,6 +333,15 @@ export default function ContentGenerator() {
       return;
     }
 
+    if (!userSigner || userSigner.status !== 'approved') {
+      toast({
+        title: "Signer Not Ready",
+        description: "Please connect your Farcaster account first",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsPosting(true);
     try {
       const response = await fetch('/api/farcaster/post', {
@@ -231,6 +351,7 @@ export default function ContentGenerator() {
         },
         body: JSON.stringify({
           text: generatedContent,
+          signer_uuid: userSigner.signer_uuid,
         }),
       });
 
@@ -239,7 +360,7 @@ export default function ContentGenerator() {
       if (data.success) {
         toast({
           title: "Posted to Farcaster!",
-          description: "Your evolved content is now live",
+          description: "Your evolved content is now live on your account",
         });
       } else {
         toast({
@@ -268,9 +389,93 @@ export default function ContentGenerator() {
         <p className="text-slate-300 max-w-2xl mx-auto mb-6">
           Paste your idea, thought, or reply — and let Kai rework it using real styles from top crypto influencers. Whether it's a sharp quote, spicy reply, or a viral CTA, Kai evolves your words for maximum impact.
         </p>
-        <p className="text-blue-400 text-sm">
-          🦋 Open in Farcaster to post instantly.
-        </p>
+      </div>
+
+      {/* Farcaster Connection */}
+      <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
+        <div className="flex items-center space-x-3 mb-4">
+          <User className="w-6 h-6 text-purple-400" />
+          <h2 className="text-xl font-semibold text-white">Connect Your Farcaster Account</h2>
+        </div>
+        
+        {!userSigner ? (
+          <div className="space-y-4">
+            <p className="text-slate-300">
+              Connect your Farcaster account to post content directly from your profile.
+            </p>
+            <Button 
+              onClick={createUserSigner}
+              disabled={isCreatingSigner}
+              className="bg-purple-600 hover:bg-purple-700 text-white"
+            >
+              {isCreatingSigner ? (
+                <>
+                  <User className="w-4 h-4 mr-2 animate-spin" />
+                  Creating Signer...
+                </>
+              ) : (
+                <>
+                  <User className="w-4 h-4 mr-2" />
+                  Connect Farcaster Account
+                </>
+              )}
+            </Button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-slate-300">
+                  Signer Status: <span className={`font-semibold ${userSigner.status === 'approved' ? 'text-green-400' : 'text-yellow-400'}`}>
+                    {userSigner.status}
+                  </span>
+                </p>
+                {userSigner.fid && (
+                  <p className="text-slate-400 text-sm">FID: {userSigner.fid}</p>
+                )}
+              </div>
+              <div className="flex space-x-2">
+                {userSigner.status !== 'approved' && (
+                  <Button
+                    onClick={checkSignerStatus}
+                    disabled={isCheckingSigner}
+                    variant="outline"
+                    className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                  >
+                    {isCheckingSigner ? (
+                      <>
+                        <Link className="w-4 h-4 mr-2 animate-spin" />
+                        Checking...
+                      </>
+                    ) : (
+                      <>
+                        <Link className="w-4 h-4 mr-2" />
+                        Check Status
+                      </>
+                    )}
+                  </Button>
+                )}
+                {userSigner.signer_approval_url && userSigner.status !== 'approved' && (
+                  <Button
+                    onClick={() => window.open(userSigner.signer_approval_url, '_blank')}
+                    variant="outline"
+                    className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                  >
+                    <Link className="w-4 h-4 mr-2" />
+                    Approve Signer
+                  </Button>
+                )}
+              </div>
+            </div>
+            {userSigner.status === 'approved' && (
+              <div className="p-3 bg-green-900/20 border border-green-600 rounded-lg">
+                <p className="text-green-400 text-sm">
+                  ✅ Your Farcaster account is connected and ready to post!
+                </p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Content Input */}
@@ -411,7 +616,7 @@ export default function ContentGenerator() {
           <div className="flex space-x-3">
             <Button
               onClick={postToFarcaster}
-              disabled={isPosting}
+              disabled={isPosting || !userSigner || userSigner.status !== 'approved'}
               className="bg-purple-600 hover:bg-purple-700 text-white"
             >
               {isPosting ? (
@@ -422,7 +627,7 @@ export default function ContentGenerator() {
               ) : (
                 <>
                   <MessageCircle className="w-4 h-4 mr-2" />
-                  Post to Farcaster
+                  Post to Your Farcaster
                 </>
               )}
             </Button>
