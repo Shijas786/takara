@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { neynarHelpers } from '../../../lib/neynar';
+import { neynarHelpers } from '../../../../lib/neynar';
 
 export async function POST(request: NextRequest) {
   try {
