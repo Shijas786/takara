@@ -5,7 +5,7 @@ import { Sparkles } from 'lucide-react';
 import ContentGenerator from '../components/ContentGenerator';
 import Navigation from '../components/Navigation';
 import SimpleFarcasterAuth from '../components/SimpleFarcasterAuth';
-import PostToFarcaster from '../components/PostToFarcaster';
+import SimplePostToFarcaster from '../components/SimplePostToFarcaster';
 import { Toaster } from '../components/ui/toaster';
 
 export default function Home() {
@@ -32,7 +32,7 @@ export default function Home() {
 
         {/* Post to Farcaster Component */}
         <div className="mb-8">
-          <PostToFarcaster />
+          <SimplePostToFarcaster />
         </div>
       </main>
       <Toaster />
