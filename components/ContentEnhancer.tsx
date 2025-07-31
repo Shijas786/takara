@@ -39,9 +39,9 @@ export default function ContentEnhancer({
     try {
       // Create a mock influencer for the AI service (we don't need real influencer selection)
       const mockInfluencer = {
-        id: 'kai',
-        name: 'Kai Evolution',
-        handle: 'kai_evolution',
+        id: 'takara',
+        name: 'Takara Evolution',
+        handle: 'takara_evolution',
         avatar: '',
         description: 'AI-powered content evolution tool',
         style: 'crypto',
@@ -51,7 +51,7 @@ export default function ContentEnhancer({
       };
 
       const request = {
-        influencerId: 'kai',
+        influencerId: 'takara',
         mixedInfluencerId: undefined,
         prompt: userInput,
         style: enhancementSettings.style,
@@ -68,7 +68,7 @@ export default function ContentEnhancer({
           prompt: userInput,
           style: enhancementSettings.style,
           length: enhancementSettings.length,
-          influencerId: 'kai',
+          influencerId: 'takara',
         }),
       });
 
@@ -159,9 +159,9 @@ export default function ContentEnhancer({
     try {
       // Save the post to Supabase
       const mockInfluencer = {
-        id: 'kai',
-        name: 'Kai Evolution',
-        handle: 'kai_evolution',
+        id: 'takara',
+        name: 'Takara Evolution',
+        handle: 'takara_evolution',
         avatar: '',
         description: 'AI-powered content evolution tool',
         style: 'crypto',
@@ -201,7 +201,7 @@ export default function ContentEnhancer({
             <textarea
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
-              placeholder="Paste your idea, thought, or reply here... (Kai will evolve it for maximum impact)"
+              placeholder="Paste your idea, thought, or reply here... (Takara will evolve it for maximum impact)"
               className="w-full h-32 px-3 py-2 border border-blue-400/30 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 resize-none bg-blue-900/50 backdrop-blur-sm transition-all duration-300 hover:shadow-md text-blue-100 placeholder-blue-300/50 animate-input-3d"
             />
           </div>
@@ -254,7 +254,7 @@ export default function ContentEnhancer({
             >
               <div className="flex items-center justify-center space-x-2">
                 <Sparkles className={`w-4 h-4 ${isEnhancing ? 'animate-spin' : 'animate-pulse'}`} />
-                <span>{isEnhancing ? 'Evolving...' : 'Kai Evolution'}</span>
+                <span>{isEnhancing ? 'Evolving...' : 'Takara Evolution'}</span>
               </div>
             </button>
             <button
@@ -390,9 +390,9 @@ export default function ContentEnhancer({
         <div className="flex items-start space-x-3">
           <Sparkles className="w-5 h-5 text-blue-300 mt-0.5 animate-pulse" />
           <div>
-            <h3 className="text-sm font-medium text-blue-100 mb-1">How Kai Evolution Works</h3>
+            <h3 className="text-sm font-medium text-blue-100 mb-1">How Takara Evolution Works</h3>
             <p className="text-sm text-blue-200 mb-2">
-              Paste your idea, thought, or reply — and let Kai rework it using real styles from top crypto influencers. Whether it's a sharp quote, spicy reply, or a viral CTA, Kai evolves your words for maximum impact. The AI is trained on 916+ authentic tweets from top crypto Twitter personalities.
+              Paste your idea, thought, or reply — and let Takara rework it using real styles from top crypto influencers. Whether it's a sharp quote, spicy reply, or a viral CTA, Takara evolves your words for maximum impact. The AI is trained on 916+ authentic tweets from top crypto Twitter personalities.
             </p>
             <p className="text-sm text-blue-300">
               🦋 <strong>Link your Farcaster</strong> to save your evolved content and post directly to Farcaster!

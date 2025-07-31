@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import neynarService from '../../../../lib/neynar';
+import { neynarHelpers } from '../../../../lib/neynar';
 
 export async function GET(request: NextRequest) {
   try {
@@ -17,18 +17,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Check if Neynar API key is configured
-    if (!neynarService['apiKey'] || neynarService['apiKey'] === 'placeholder_neynar_key') {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Neynar API key not configured. Please add NEYNAR_API_KEY to your environment variables.'
-        },
-        { status: 400 }
-      );
-    }
-
-    const result = await neynarService.getUserCasts(parseInt(fid), limit);
+    const result = await neynarHelpers.getUserCasts(parseInt(fid), limit);
     
     return NextResponse.json({
       success: true,

@@ -6,30 +6,30 @@ import { Providers } from './providers'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Kai - Transform Your Content to Viral Evolution',
+  title: 'Takara - Transform Your Content to Viral Evolution',
   description: 'Transform ordinary content into viral success with AI-powered content evolution. Built for Base Wallet and Farcaster.',
-  keywords: 'kai, content evolution, viral content, AI, Base, Farcaster, crypto, content creation, transformation',
-  authors: [{ name: 'Kai Team' }],
-  creator: 'Kai Content Evolution',
-  publisher: 'Kai',
+  keywords: 'takara, content evolution, viral content, AI, Base, Farcaster, crypto, content creation, transformation',
+  authors: [{ name: 'Takara Team' }],
+  creator: 'Takara Content Evolution',
+  publisher: 'Takara',
   robots: 'index, follow',
   openGraph: {
-    title: 'Kai - Transform Your Content to Viral Evolution',
+    title: 'Takara - Transform Your Content to Viral Evolution',
     description: 'Transform ordinary content into viral success with AI-powered content evolution.',
-    url: 'https://kai.app',
-    siteName: 'Kai',
+    url: 'https://takara.app',
+    siteName: 'Takara',
     locale: 'en_US',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Kai - Transform Your Content to Viral Evolution',
+    title: 'Takara - Transform Your Content to Viral Evolution',
     description: 'Transform ordinary content into viral success with AI-powered content evolution.',
-    creator: '@kai_app',
+    creator: '@takara_app',
   },
   icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    icon: '/favicon.png',
+    apple: '/favicon.png',
   },
 }
 
@@ -50,7 +50,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        <meta name="fc:frame" content='{"version":"next","imageUrl":"https://kai.app/og-image.png","button":{"title":"🚀 Evolve Content","action":{"type":"launch_miniapp","name":"KAI Content Evolution","url":"https://kai.app","splashImageUrl":"https://kai.app/logo.png","splashBackgroundColor":"#1e293b"}}}' />
+        <meta name="fc:frame" content='{"version":"next","imageUrl":"https://takara.app/og-image.png","button":{"title":"🚀 Evolve Content","action":{"type":"launch_miniapp","name":"TAKARA Content Evolution","url":"https://takara.app","splashImageUrl":"https://takara.app/takara-logo.png","splashBackgroundColor":"#1e293b"}}}' />
         <script dangerouslySetInnerHTML={{
           __html: `
             // Block Coinbase analytics requests to prevent 401 errors

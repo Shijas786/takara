@@ -1,40 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
-import neynarService from '../../../../lib/neynar';
+import { neynarHelpers } from '../../../../lib/neynar';
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const fid = searchParams.get('fid');
-    const username = searchParams.get('username');
-    const address = searchParams.get('address');
+    const { address } = await request.json();
 
-    // Check if Neynar API key is configured
-    if (!neynarService['apiKey'] || neynarService['apiKey'] === 'placeholder_neynar_key') {
+    if (!address) {
       return NextResponse.json(
         {
           success: false,
-          error: 'Neynar API key not configured. Please add NEYNAR_API_KEY to your environment variables.'
+          error: 'Address parameter is required'
         },
         { status: 400 }
       );
     }
 
-    let result;
-    if (fid) {
-      result = await neynarService.getUserByFid(parseInt(fid));
-    } else if (username) {
-      result = await neynarService.getUserByUsername(username);
-    } else if (address) {
-      result = await neynarService.getUserByWalletAddress(address);
-    } else {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Please provide either fid, username, or address parameter'
-        },
-        { status: 400 }
-      );
-    }
+    const result = await neynarHelpers.getUserByAddress(address);
     
     return NextResponse.json({
       success: true,

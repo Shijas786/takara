@@ -1,6 +1,7 @@
 'use client';
 
 import { Sparkles, Zap, Star, Users, TrendingUp, Shield, Globe } from 'lucide-react';
+import Image from 'next/image';
 
 export default function ThreeScene() {
   const features = [
@@ -54,11 +55,17 @@ export default function ThreeScene() {
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-                <Sparkles className="w-4 h-4 text-white" />
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
+                <Image 
+                  src="/takara-logo.png" 
+                  alt="Takara Logo" 
+                  width={32} 
+                  height={32}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div>
-                <h1 className="text-lg font-bold text-white">Kai</h1>
+                <h1 className="text-lg font-bold text-white">Takara</h1>
                 <p className="text-xs text-slate-400">Content Evolution</p>
               </div>
             </div>
@@ -70,10 +77,10 @@ export default function ThreeScene() {
       <main className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center mb-12">
           <h2 className="text-2xl font-bold text-white mb-4">
-            Content Kai Evolution
+            Content Takara Evolution
           </h2>
           <p className="text-slate-300 max-w-2xl mx-auto mb-6">
-            Paste your idea, thought, or reply — and let Kai rework it using real styles from top crypto influencers. Whether it's a sharp quote, spicy reply, or a viral CTA, Kai evolves your words for maximum impact.
+            Paste your idea, thought, or reply — and let Takara rework it using real styles from top crypto influencers. Whether it's a sharp quote, spicy reply, or a viral CTA, Takara evolves your words for maximum impact.
           </p>
           <p className="text-blue-400 text-sm">
             🦋 Link your Farcaster to save and post instantly.
@@ -120,7 +127,7 @@ export default function ThreeScene() {
           
           <div className="flex items-center justify-between mt-6">
             <button className="px-6 py-2 bg-blue-500 text-white rounded-lg font-medium">
-              Kai Evolution
+              Takara Evolution
             </button>
             <button className="px-4 py-2 text-slate-400">
               Clear
@@ -130,9 +137,9 @@ export default function ThreeScene() {
 
         {/* How it Works */}
         <div className="bg-slate-800 border border-slate-700 rounded-lg p-6 mb-8">
-          <h3 className="text-lg font-semibold text-white mb-4">How Kai Evolution Works</h3>
+          <h3 className="text-lg font-semibold text-white mb-4">How Takara Evolution Works</h3>
           <p className="text-slate-300 mb-4">
-            Paste your idea, thought, or reply — and let Kai rework it using real styles from top crypto influencers. Whether it's a sharp quote, spicy reply, or a viral CTA, Kai evolves your words for maximum impact. The AI is trained on 916+ authentic tweets from top crypto Twitter personalities.
+            Paste your idea, thought, or reply — and let Takara rework it using real styles from top crypto influencers. Whether it's a sharp quote, spicy reply, or a viral CTA, Takara evolves your words for maximum impact. The AI is trained on 916+ authentic tweets from top crypto Twitter personalities.
           </p>
           <p className="text-blue-400 text-sm">
             🦋 <strong>Link your Farcaster</strong> to save your evolved content and post directly to Farcaster!

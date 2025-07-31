@@ -100,25 +100,7 @@ export const neynarHelpers = {
     }
   },
 
-  // Get trending feed
-  async getTrendingFeed(limit: number = 10) {
-    try {
-      const response = await fetch(`${NEYNAR_BASE_URL}/farcaster/feed/trending?limit=${limit}`, {
-        headers: {
-          'x-api-key': NEYNAR_API_KEY!,
-        },
-      });
 
-      if (!response.ok) {
-        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error('Error fetching trending feed:', error);
-      throw error;
-    }
-  },
 
   // Search users by username
   async searchUsers(query: string, limit: number = 10) {

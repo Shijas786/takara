@@ -8,7 +8,8 @@ import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useToast } from '../hooks/use-toast';
-import TrendingFeed from './TrendingFeed';
+import PostToFarcaster from './PostToFarcaster';
+
 // import { useMiniApp } from '@neynar/react';
 
 interface Draft {
@@ -55,9 +56,9 @@ export default function ContentGenerator() {
 
   // Load drafts, scheduled posts, and user data from localStorage on mount
   useEffect(() => {
-    const savedDrafts = localStorage.getItem('kai_drafts');
-    const savedScheduled = localStorage.getItem('kai_scheduled_posts');
-    const savedUser = localStorage.getItem('kai_farcaster_user');
+    const savedDrafts = localStorage.getItem('takara_drafts');
+    const savedScheduled = localStorage.getItem('takara_scheduled_posts');
+    const savedUser = localStorage.getItem('takara_farcaster_user');
 
     if (savedDrafts) {
       setDrafts(JSON.parse(savedDrafts));
@@ -102,7 +103,7 @@ export default function ContentGenerator() {
 
   const disconnectWallet = () => {
     setFarcasterUser(null);
-    localStorage.removeItem('kai_farcaster_user');
+    localStorage.removeItem('takara_farcaster_user');
     toast({
       title: "Disconnected",
       description: "Wallet disconnected successfully",
@@ -200,7 +201,7 @@ export default function ContentGenerator() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `kai-content-${Date.now()}.txt`;
+          a.download = `takara-content-${Date.now()}.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -231,7 +232,7 @@ export default function ContentGenerator() {
 
     const updatedDrafts = [newDraft, ...drafts];
     setDrafts(updatedDrafts);
-    localStorage.setItem('kai_drafts', JSON.stringify(updatedDrafts));
+    localStorage.setItem('takara_drafts', JSON.stringify(updatedDrafts));
 
     toast({
       title: "Draft Saved!",
@@ -242,7 +243,7 @@ export default function ContentGenerator() {
   const deleteDraft = (id: string) => {
     const updatedDrafts = drafts.filter(draft => draft.id !== id);
     setDrafts(updatedDrafts);
-    localStorage.setItem('kai_drafts', JSON.stringify(updatedDrafts));
+    localStorage.setItem('takara_drafts', JSON.stringify(updatedDrafts));
   };
 
   const schedulePost = (content: string) => {
@@ -264,7 +265,7 @@ export default function ContentGenerator() {
 
     const updatedScheduled = [newScheduledPost, ...scheduledPosts];
     setScheduledPosts(updatedScheduled);
-    localStorage.setItem('kai_scheduled_posts', JSON.stringify(updatedScheduled));
+    localStorage.setItem('takara_scheduled_posts', JSON.stringify(updatedScheduled));
 
     toast({
       title: "Post Scheduled!",
@@ -334,14 +335,13 @@ export default function ContentGenerator() {
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Header */}
       <div className="text-center mb-12">
-        <h2 className="text-2xl font-bold text-white mb-4">Content Kai Evolution</h2>
+        <h2 className="text-2xl font-bold text-white mb-4">Content Takara Evolution</h2>
         <p className="text-slate-300 max-w-2xl mx-auto mb-6">
-          Paste your idea, thought, or reply — and let Kai rework it using real styles from top crypto influencers. Whether it's a sharp quote, spicy reply, or a viral CTA, Kai evolves your words for maximum impact.
+          Paste your idea, thought, or reply — and let Takara rework it using real styles from top crypto influencers. Whether it's a sharp quote, spicy reply, or a viral CTA, Takara evolves your words for maximum impact.
         </p>
       </div>
 
-      {/* Trending Feed for Inspiration */}
-      <TrendingFeed />
+
 
       {/* Farcaster Connection */}
       <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
@@ -423,7 +423,7 @@ export default function ContentGenerator() {
               Enter your content to evolve
             </label>
             <Textarea
-              placeholder="Paste your idea, thought, or reply here... (Kai will evolve it for maximum impact)"
+              placeholder="Paste your idea, thought, or reply here... (Takara will evolve it for maximum impact)"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               className="w-full h-24 resize-none bg-slate-700 border-slate-600 text-white placeholder-slate-400"
@@ -485,12 +485,12 @@ export default function ContentGenerator() {
               {isGenerating ? (
                 <>
                   <Sparkles className="w-4 h-4 mr-2 animate-spin" />
-                  Kai Evolution
+                  Takara Evolution
                 </>
               ) : (
                 <>
                   <Sparkles className="w-4 h-4 mr-2" />
-                  Kai Evolution
+                  Takara Evolution
                 </>
               )}
             </Button>

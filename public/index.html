@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kai - Content Evolution</title>
+    <title>Takara - Content Evolution</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="pkce.js"></script>
     <style>
@@ -21,13 +21,11 @@
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-8">
                         <div class="flex items-center space-x-3">
-                            <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
-                                </svg>
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
+                                <img src="/takara-logo.png" alt="Takara Logo" class="w-full h-full object-cover">
                             </div>
                             <div>
-                                <h1 class="text-lg font-bold text-white">Kai</h1>
+                                <h1 class="text-lg font-bold text-white">Takara</h1>
                                 <p class="text-xs text-slate-400">Content Evolution</p>
                             </div>
                         </div>
@@ -85,7 +83,7 @@
     <script>
         // Configuration
         const CLIENT_ID = '02d332e4-b278-4c2f-a8f0-c86c15f24386';
-        const REDIRECT_URI = 'https://kai-content-app.vercel.app/callback.html';
+        const REDIRECT_URI = 'https://takara-content-app.vercel.app/callback.html';
         
         // Check if user is already connected
         window.onload = function() {

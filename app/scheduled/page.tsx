@@ -21,7 +21,7 @@ export default function ScheduledPage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    const savedScheduled = localStorage.getItem('kai_scheduled_posts');
+    const savedScheduled = localStorage.getItem('takara_scheduled_posts');
     const farcasterToken = localStorage.getItem('farcaster_token');
 
     if (savedScheduled) {
@@ -69,7 +69,7 @@ export default function ScheduledPage() {
           p.id === post.id ? { ...p, isPosted: true } : p
         );
         setScheduledPosts(updatedScheduled);
-        localStorage.setItem('kai_scheduled_posts', JSON.stringify(updatedScheduled));
+        localStorage.setItem('takara_scheduled_posts', JSON.stringify(updatedScheduled));
         
         toast({
           title: "Posted Successfully!",
