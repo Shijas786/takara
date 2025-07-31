@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { NeynarAPIClient } from '@neynar/nodejs-sdk';
+import { config } from '../../../../lib/config';
+
+const neynarClient = new NeynarAPIClient(config.farcaster.neynarApiKey);
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,19 +16,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Demo signer creation
-    const demoSigner = {
-      signer_uuid: `demo-signer-${Date.now()}`,
+    // Create a signer for the user
+    const result = await neynarClient.createSigner({
       fid: parseInt(fid),
-      status: 'approved',
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
+      app_fid: parseInt(process.env.NEXT_PUBLIC_NEYNAR_APP_FID || '0'),
+      app_mnemonic: process.env.NEYNAR_APP_MNEMONIC || '',
+    });
 
     return NextResponse.json({
       success: true,
-      signer: demoSigner,
-      message: 'Demo signer created successfully!'
+      signer: result.signer,
+      message: 'Signer created successfully!'
     });
 
   } catch (error: any) {
@@ -33,7 +35,7 @@ export async function POST(request: NextRequest) {
       { 
         success: false, 
         error: error.message || 'Failed to create signer',
-        details: error
+        details: error.response?.data || error
       },
       { status: 500 }
     );

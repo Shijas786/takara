@@ -12,15 +12,6 @@ export default function NeynarProvider({ children }: NeynarProviderProps) {
     <NeynarProviderBase
       clientId={process.env.NEXT_PUBLIC_NEYNAR_CLIENT_ID || ''}
       environment="mainnet"
-      // Disable Warpcast bridge for web app
-      warpcastBridgeConfig={{
-        enabled: false
-      }}
-      // Configure for web app
-      webAppConfig={{
-        enabled: true,
-        redirectUrl: typeof window !== 'undefined' ? window.location.origin : 'https://takara-content-app.vercel.app'
-      }}
     >
       {children}
     </NeynarProviderBase>

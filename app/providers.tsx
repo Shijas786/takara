@@ -2,11 +2,13 @@
 
 import { ReactNode } from 'react';
 import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
+import NeynarProvider from '../components/NeynarProvider';
 import { base } from 'viem/chains';
 
 export function Providers(props: { children: ReactNode }) {
   return (
-    <MiniKitProvider
+    <NeynarProvider>
+      <MiniKitProvider
         apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
         chain={base}
         config={{
@@ -20,5 +22,6 @@ export function Providers(props: { children: ReactNode }) {
       >
         {props.children}
       </MiniKitProvider>
+    </NeynarProvider>
   );
 } 
