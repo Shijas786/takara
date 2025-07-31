@@ -8,6 +8,7 @@ import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useToast } from '../hooks/use-toast';
+import TrendingFeed from './TrendingFeed';
 // import { useMiniApp } from '@neynar/react';
 
 interface Draft {
@@ -338,6 +339,9 @@ export default function ContentGenerator() {
           Paste your idea, thought, or reply — and let Kai rework it using real styles from top crypto influencers. Whether it's a sharp quote, spicy reply, or a viral CTA, Kai evolves your words for maximum impact.
         </p>
       </div>
+
+      {/* Trending Feed for Inspiration */}
+      <TrendingFeed />
 
       {/* Farcaster Connection */}
       <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">

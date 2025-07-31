@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { neynarHelpers } from '../../../lib/neynar';
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,36 +12,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const neynarApiKey = process.env.NEYNAR_API_KEY;
-    if (!neynarApiKey) {
-      return NextResponse.json(
-        { success: false, error: 'NEYNAR_API_KEY not configured' },
-        { status: 500 }
-      );
-    }
-
-    // Fetch user information by Ethereum address using Neynar API
-    const userResponse = await fetch('https://api.neynar.com/v2/farcaster/user/bulk-by-address', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': neynarApiKey,
-      },
-      body: JSON.stringify({
-        addresses: [address],
-      }),
-    });
-
-    if (!userResponse.ok) {
-      const errorData = await userResponse.text();
-      console.error('User fetch error:', errorData);
-      return NextResponse.json(
-        { success: false, error: `Failed to fetch user: ${userResponse.status} - ${errorData}` },
-        { status: userResponse.status }
-      );
-    }
-
-    const userData = await userResponse.json();
+    // Use the new Neynar helpers
+    const userData = await neynarHelpers.getUserByAddress(address);
     console.log('User data:', userData);
 
     if (!userData.users || userData.users.length === 0) {

@@ -1,227 +1,182 @@
-import { config } from './config';
+// Neynar API helper functions using direct fetch calls
+const NEYNAR_API_KEY = process.env.NEYNAR_API_KEY;
+const NEYNAR_BASE_URL = 'https://api.neynar.com/v2';
 
-
-
-class NeynarService {
-  private apiKey: string;
-  private baseUrl: string;
-
-  constructor() {
-    this.apiKey = config.farcaster.neynarApiKey;
-    this.baseUrl = config.farcaster.neynarBaseUrl;
-  }
-
-  private async makeRequest(endpoint: string, method: string = 'GET', body?: any): Promise<any> {
-    const headers: Record<string, string> = {
-      'api_key': this.apiKey,
-      'Content-Type': 'application/json',
-    };
-
-    const url = `${this.baseUrl}${endpoint}`;
-    
+export const neynarHelpers = {
+  // Get user by wallet address
+  async getUserByAddress(address: string) {
     try {
-      const response = await fetch(url, {
-        method,
-        headers,
-        body: body ? JSON.stringify(body) : undefined,
+      const response = await fetch(`${NEYNAR_BASE_URL}/farcaster/user/bulk-by-address`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': NEYNAR_API_KEY!,
+        },
+        body: JSON.stringify({
+          addresses: [address],
+        }),
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(`Neynar API error: ${response.status} ${response.statusText} - ${JSON.stringify(errorData)}`);
+        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
       }
 
       return await response.json();
     } catch (error) {
-      console.error('Neynar API request failed:', error);
+      console.error('Error fetching user by address:', error);
       throw error;
     }
-  }
+  },
 
-  /**
-   * Get user information by FID
-   */
-  async getUserByFid(fid: number): Promise<any> {
-    return this.makeRequest(`/farcaster/user?fid=${fid}`);
-  }
+  // Get user by FID
+  async getUserByFid(fid: number) {
+    try {
+      const response = await fetch(`${NEYNAR_BASE_URL}/farcaster/user?fid=${fid}`, {
+        headers: {
+          'x-api-key': NEYNAR_API_KEY!,
+        },
+      });
 
-  /**
-   * Get user information by username (fname)
-   */
-  async getUserByUsername(username: string): Promise<any> {
-    return this.makeRequest(`/farcaster/user?fname=${username}`);
-  }
+      if (!response.ok) {
+        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
+      }
 
-  /**
-   * Get user information by wallet address
-   */
-  async getUserByWalletAddress(address: string): Promise<any> {
-    return this.makeRequest(`/farcaster/user?address=${address}`);
-  }
-
-  /**
-   * Get user's casts
-   */
-  async getUserCasts(fid: number, limit: number = 25): Promise<any> {
-    return this.makeRequest(`/farcaster/casts?fid=${fid}&limit=${limit}`);
-  }
-
-  /**
-   * Get user's followers
-   */
-  async getUserFollowers(fid: number, limit: number = 25): Promise<any> {
-    return this.makeRequest(`/farcaster/followers?fid=${fid}&limit=${limit}`);
-  }
-
-  /**
-   * Get user's following
-   */
-  async getUserFollowing(fid: number, limit: number = 25): Promise<any> {
-    return this.makeRequest(`/farcaster/following?fid=${fid}&limit=${limit}`);
-  }
-
-  /**
-   * Get trending feed
-   */
-  async getTrendingFeed(limit: number = 25): Promise<any> {
-    return this.makeRequest(`/farcaster/feed/trending?limit=${limit}`);
-  }
-
-  /**
-   * Get channel feed
-   */
-  async getChannelFeed(channelId: string, limit: number = 25): Promise<any> {
-    return this.makeRequest(`/farcaster/feed/channel?channel_id=${channelId}&limit=${limit}`);
-  }
-
-  /**
-   * Search for users
-   */
-  async searchUsers(query: string, limit: number = 25): Promise<any> {
-    return this.makeRequest(`/farcaster/user/search?q=${encodeURIComponent(query)}&limit=${limit}`);
-  }
-
-  /**
-   * Get notifications for a user
-   */
-  async getNotifications(fid: number, limit: number = 25): Promise<any> {
-    return this.makeRequest(`/farcaster/notifications?fid=${fid}&limit=${limit}`);
-  }
-
-  /**
-   * Get mutual followers between two users
-   */
-  async getMutualFollowers(fid1: number, fid2: number, limit: number = 25): Promise<any> {
-    return this.makeRequest(`/farcaster/mutual-followers?fid1=${fid1}&fid2=${fid2}&limit=${limit}`);
-  }
-
-  /**
-   * Get signers for a user
-   */
-  async getSigners(fid: number): Promise<any> {
-    return this.makeRequest(`/farcaster/signer?fid=${fid}`);
-  }
-
-  /**
-   * Create a new signer for a user
-   */
-  async createSigner(fid: number): Promise<any> {
-    return this.makeRequest('/farcaster/signer', 'POST', { fid });
-  }
-
-  /**
-   * Post a cast to Farcaster
-   */
-  async postCast(signerUuid: string, text: string, replyTo?: string, channelId?: string): Promise<any> {
-    const body: any = {
-      signer_uuid: signerUuid,
-      text: text,
-    };
-
-    if (replyTo) {
-      body.parent = replyTo;
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching user by FID:', error);
+      throw error;
     }
+  },
 
-    if (channelId) {
-      body.channel_id = channelId;
+  // Post a cast
+  async postCast(signerUuid: string, text: string, parentUrl?: string) {
+    try {
+      const body: any = {
+        signer_uuid: signerUuid,
+        text: text,
+      };
+
+      if (parentUrl) {
+        body.parent_url = parentUrl;
+      }
+
+      const response = await fetch(`${NEYNAR_BASE_URL}/farcaster/cast`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': NEYNAR_API_KEY!,
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error posting cast:', error);
+      throw error;
     }
+  },
 
-    return this.makeRequest('/farcaster/cast', 'POST', body);
-  }
+  // Get user's casts
+  async getUserCasts(fid: number, limit: number = 10) {
+    try {
+      const response = await fetch(`${NEYNAR_BASE_URL}/farcaster/casts?fid=${fid}&limit=${limit}`, {
+        headers: {
+          'x-api-key': NEYNAR_API_KEY!,
+        },
+      });
 
-  /**
-   * Get cast by hash
-   */
-  async getCast(hash: string): Promise<any> {
-    return this.makeRequest(`/farcaster/cast?identifier=${hash}&type=hash`);
-  }
+      if (!response.ok) {
+        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
+      }
 
-  /**
-   * Delete a cast
-   */
-  async deleteCast(signerUuid: string, castHash: string): Promise<any> {
-    return this.makeRequest('/farcaster/cast', 'DELETE', {
-      signer_uuid: signerUuid,
-      cast_hash: castHash,
-    });
-  }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching user casts:', error);
+      throw error;
+    }
+  },
 
-  /**
-   * Like a cast
-   */
-  async likeCast(signerUuid: string, castHash: string): Promise<any> {
-    return this.makeRequest('/farcaster/reaction', 'POST', {
-      signer_uuid: signerUuid,
-      cast_hash: castHash,
-      reaction_type: 'like',
-    });
-  }
+  // Get trending feed
+  async getTrendingFeed(limit: number = 10) {
+    try {
+      const response = await fetch(`${NEYNAR_BASE_URL}/farcaster/feed/trending?limit=${limit}`, {
+        headers: {
+          'x-api-key': NEYNAR_API_KEY!,
+        },
+      });
 
-  /**
-   * Unlike a cast
-   */
-  async unlikeCast(signerUuid: string, castHash: string): Promise<any> {
-    return this.makeRequest('/farcaster/reaction', 'DELETE', {
-      signer_uuid: signerUuid,
-      cast_hash: castHash,
-      reaction_type: 'like',
-    });
-  }
+      if (!response.ok) {
+        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
+      }
 
-  /**
-   * Follow a user
-   */
-  async followUser(signerUuid: string, targetFid: number): Promise<any> {
-    return this.makeRequest('/farcaster/follow', 'POST', {
-      signer_uuid: signerUuid,
-      target_fid: targetFid,
-    });
-  }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching trending feed:', error);
+      throw error;
+    }
+  },
 
-  /**
-   * Unfollow a user
-   */
-  async unfollowUser(signerUuid: string, targetFid: number): Promise<any> {
-    return this.makeRequest('/farcaster/follow', 'DELETE', {
-      signer_uuid: signerUuid,
-      target_fid: targetFid,
-    });
-  }
+  // Search users by username
+  async searchUsers(query: string, limit: number = 10) {
+    try {
+      const response = await fetch(`${NEYNAR_BASE_URL}/farcaster/user/search?q=${encodeURIComponent(query)}&limit=${limit}`, {
+        headers: {
+          'x-api-key': NEYNAR_API_KEY!,
+        },
+      });
 
-  /**
-   * Get user's signers
-   */
-  async getUserSigners(fid: number): Promise<any> {
-    return this.makeRequest(`/farcaster/signer?fid=${fid}`);
-  }
+      if (!response.ok) {
+        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
+      }
 
-  /**
-   * Validate a signer
-   */
-  async validateSigner(signerUuid: string): Promise<any> {
-    return this.makeRequest(`/farcaster/signer?signer_uuid=${signerUuid}`);
-  }
-}
+      return await response.json();
+    } catch (error) {
+      console.error('Error searching users:', error);
+      throw error;
+    }
+  },
 
-export const neynarService = new NeynarService();
-export default neynarService; 
+  // Get mutual followers
+  async getMutualFollowers(fid1: number, fid2: number) {
+    try {
+      const response = await fetch(`${NEYNAR_BASE_URL}/farcaster/mutual-followers?fid1=${fid1}&fid2=${fid2}`, {
+        headers: {
+          'x-api-key': NEYNAR_API_KEY!,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching mutual followers:', error);
+      throw error;
+    }
+  },
+
+  // Get signers for a user
+  async getSigners(fid: number) {
+    try {
+      const response = await fetch(`${NEYNAR_BASE_URL}/farcaster/signer?fid=${fid}`, {
+        headers: {
+          'x-api-key': NEYNAR_API_KEY!,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching signers:', error);
+      throw error;
+    }
+  },
+}; 
