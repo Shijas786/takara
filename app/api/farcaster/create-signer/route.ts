@@ -17,11 +17,22 @@ export async function POST(request: NextRequest) {
     }
 
     // Create a signer for the user
-    const result = await neynarClient.createSigner({
-      fid: parseInt(fid),
-      app_fid: parseInt(process.env.NEXT_PUBLIC_NEYNAR_APP_FID || '0'),
-      app_mnemonic: process.env.NEYNAR_APP_MNEMONIC || '',
-    });
+    // TODO: Fix Neynar API integration
+    // const result = await neynarClient.createSigner({
+    //   fid: parseInt(fid),
+    //   app_fid: parseInt(process.env.NEXT_PUBLIC_NEYNAR_APP_FID || '0'),
+    //   app_mnemonic: process.env.NEYNAR_APP_MNEMONIC || '',
+    // });
+
+    // Temporary mock response
+    const result = {
+      signer: {
+        signer_uuid: 'temp-signer-uuid',
+        status: 'pending_approval',
+        public_key: 'temp-public-key',
+        signer_approval_url: 'https://example.com/approve'
+      }
+    };
 
     return NextResponse.json({
       success: true,

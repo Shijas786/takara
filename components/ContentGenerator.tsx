@@ -8,7 +8,7 @@ import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useToast } from '../hooks/use-toast';
-import PostToFarcaster from './PostToFarcaster';
+import SimplePostToFarcaster from './SimplePostToFarcaster';
 
 // import { useMiniApp } from '@neynar/react';
 
