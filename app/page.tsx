@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Sparkles } from 'lucide-react';
 import ContentGenerator from '../components/ContentGenerator';
 import Navigation from '../components/Navigation';
-import FarcasterAuth from '../components/FarcasterAuth';
+import SimpleFarcasterAuth from '../components/SimpleFarcasterAuth';
 import PostToFarcaster from '../components/PostToFarcaster';
 import { Toaster } from '../components/ui/toaster';
 
@@ -22,7 +22,7 @@ export default function Home() {
               Link your Farcaster account to save and post content directly
             </p>
           </div>
-          <FarcasterAuth />
+          <SimpleFarcasterAuth />
         </div>
 
         {/* Content Generator Component */}
