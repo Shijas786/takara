@@ -6,7 +6,7 @@ import { Sparkles, AlertTriangle, CheckCircle } from 'lucide-react';
 
 export default function TestTypeGuardPage() {
   // Example of potentially problematic data that could cause React errors
-  const problematicData = [
+  const problematicData: any[] = [
     // Valid React elements
     <Button key="valid-button">Valid Button</Button>,
     <Sparkles key="valid-icon" className="w-4 h-4" />,
@@ -21,6 +21,15 @@ export default function TestTypeGuardPage() {
     [1, 2, 3],
     () => <div>Function component</div>, // Function (not called)
   ];
+
+  // Safe stringify function
+  const safeStringify = (item: any): string => {
+    try {
+      return JSON.stringify(item).substring(0, 50);
+    } catch (error) {
+      return `[Cannot stringify: ${typeof item}]`;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-900 text-white p-8">
@@ -57,7 +66,7 @@ export default function TestTypeGuardPage() {
                 
                 <div className="flex-1">
                   <div className="text-sm text-slate-400 mb-1">
-                    Raw value: {JSON.stringify(item).substring(0, 50)}...
+                    Raw value: {safeStringify(item)}...
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-xs">Rendered:</span>
