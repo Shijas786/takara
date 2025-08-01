@@ -13,10 +13,6 @@ interface PostToFarcasterProps {
 }
 
 export default function PostToFarcaster({ generatedContent, onPostSuccess }: PostToFarcasterProps) {
-  // Local state for user and authentication
-  const [user, setUser] = useState<any>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
   const { toast } = useToast();
   const [content, setContent] = useState(generatedContent || '');
   const [channelId, setChannelId] = useState('');
@@ -35,15 +31,6 @@ export default function PostToFarcaster({ generatedContent, onPostSuccess }: Pos
   ];
 
   const handlePost = async () => {
-    if (!isAuthenticated || !user) {
-      toast({
-        title: "Not Connected",
-        description: "Please connect your Farcaster account first.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     if (!content.trim()) {
       toast({
         title: "No Content",
@@ -56,41 +43,16 @@ export default function PostToFarcaster({ generatedContent, onPostSuccess }: Pos
     setIsPosting(true);
 
     try {
-      // First, create a signer for the user if they don't have one
-      const signerResponse = await fetch('/api/farcaster/create-signer', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fid: user.fid,
-        }),
-      });
-
-      const signerData = await signerResponse.json();
-
-      if (!signerData.success) {
-        throw new Error(signerData.error || 'Failed to create signer');
-      }
-
-      // Prepare cast data
-      const castData: any = {
-        text: content,
-        signerUuid: signerData.signer.signer_uuid,
-      };
-
-      // Add channel if selected
-      if (channelId) {
-        castData.channelId = channelId;
-      }
-
-      // Post the cast
+      // Post the cast using the centralized posting functionality
       const postResponse = await fetch('/api/farcaster/publish-cast', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(castData),
+        body: JSON.stringify({
+          text: content,
+          channelId: channelId || undefined,
+        }),
       });
 
       const postData = await postResponse.json();
@@ -123,33 +85,12 @@ export default function PostToFarcaster({ generatedContent, onPostSuccess }: Pos
     }
   };
 
-  if (!isAuthenticated) {
-    return (
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>Post to Farcaster</CardTitle>
-          <CardDescription>
-            Connect your Farcaster account to post content directly
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-slate-400 text-sm">
-            Please connect your Farcaster account above to enable posting.
-          </p>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <span>Post to Farcaster</span>
-          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-        </CardTitle>
+        <CardTitle>Post to Farcaster</CardTitle>
         <CardDescription>
-          Share your evolved content with the Farcaster community
+          Share your evolved content directly to your Farcaster account
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -208,7 +149,7 @@ export default function PostToFarcaster({ generatedContent, onPostSuccess }: Pos
         </Button>
 
         <p className="text-xs text-slate-500 text-center">
-          Posted as @{user?.username ?? 'unknown'} • Powered by Neynar
+          Powered by Neynar
         </p>
       </CardContent>
     </Card>

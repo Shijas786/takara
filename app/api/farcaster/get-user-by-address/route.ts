@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     const userData = await neynarHelpers.getUserByAddress(address);
     console.log('User data:', userData);
 
-    if (!userData.users || userData.users.length === 0) {
+    if (!userData.user) {
       return NextResponse.json({
         success: false,
         error: 'NO_USER_FOUND',
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const user = userData.users[0];
+    const user = userData.user;
 
     return NextResponse.json({
       success: true,
@@ -37,7 +37,6 @@ export async function POST(request: NextRequest) {
         followerCount: user.follower_count,
         followingCount: user.following_count,
         verifications: user.verifications,
-        activeStatus: user.active_status,
       },
       message: 'Farcaster user found successfully',
     });

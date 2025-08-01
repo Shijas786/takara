@@ -50,7 +50,6 @@ export default function ContentGenerator() {
   const [scheduledPosts, setScheduledPosts] = useState<ScheduledPost[]>([]);
   const [isPosting, setIsPosting] = useState(false);
   const [farcasterUser, setFarcasterUser] = useState<FarcasterUser | null>(null);
-  const [isConnecting, setIsConnecting] = useState(false);
   const { toast } = useToast();
   // const { isSDKLoaded, context } = useMiniApp();
 
@@ -70,45 +69,6 @@ export default function ContentGenerator() {
       setFarcasterUser(JSON.parse(savedUser));
     }
   }, []);
-
-  // Auto-connect if we have Farcaster context
-  // useEffect(() => {
-  //   if (isSDKLoaded && context && !farcasterUser) {
-  //     connectFarcasterWallet();
-  //   }
-  // }, [isSDKLoaded, context, farcasterUser]);
-
-  const connectFarcasterWallet = async () => {
-    setIsConnecting(true);
-    try {
-      // For now, just show a message to connect wallet manually
-      toast({
-        title: "Connect Wallet",
-        description: "Please connect your wallet in Farcaster/Warpcast first",
-      });
-      
-      // Fallback: Open Warpcast for connection
-      window.open('https://warpcast.com/~/developers/frames', '_blank');
-    } catch (error) {
-      console.error('Connect wallet error:', error);
-      toast({
-        title: "Connection Error",
-        description: "Failed to connect wallet. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsConnecting(false);
-    }
-  };
-
-  const disconnectWallet = () => {
-    setFarcasterUser(null);
-    localStorage.removeItem('takara_farcaster_user');
-    toast({
-      title: "Disconnected",
-      description: "Wallet disconnected successfully",
-    });
-  };
 
   const generateContent = async () => {
     if (!prompt.trim()) {
@@ -339,75 +299,6 @@ export default function ContentGenerator() {
         <p className="text-slate-300 max-w-2xl mx-auto mb-6">
           Paste your idea, thought, or reply — and let Takara rework it using real styles from top crypto influencers. Whether it's a sharp quote, spicy reply, or a viral CTA, Takara evolves your words for maximum impact.
         </p>
-      </div>
-
-
-
-      {/* Farcaster Connection */}
-      <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
-        <div className="flex items-center space-x-3 mb-4">
-          <Wallet className="w-6 h-6 text-purple-400" />
-          <h2 className="text-xl font-semibold text-white">Connect Your Farcaster Account</h2>
-        </div>
-        
-        {!farcasterUser ? (
-          <div className="space-y-4">
-            <p className="text-slate-300">
-              Connect your Farcaster wallet to post content directly to your account.
-            </p>
-            <Button 
-              onClick={connectFarcasterWallet}
-              disabled={isConnecting}
-              className="bg-purple-600 hover:bg-purple-700 text-white"
-            >
-              {isConnecting ? (
-                <>
-                  <Wallet className="w-4 h-4 mr-2 animate-spin" />
-                  Connecting...
-                </>
-              ) : (
-                <>
-                  <Wallet className="w-4 h-4 mr-2" />
-                  Connect Farcaster Wallet
-                </>
-              )}
-            </Button>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                {farcasterUser.pfp && (
-                  <img 
-                    src={farcasterUser.pfp} 
-                    alt={farcasterUser.displayName}
-                    className="w-10 h-10 rounded-full"
-                  />
-                )}
-                <div>
-                  <p className="text-white font-semibold">
-                    @{farcasterUser.username}
-                  </p>
-                  <p className="text-slate-400 text-sm">
-                    FID: {farcasterUser.fid} • {farcasterUser.followerCount} followers
-                  </p>
-                </div>
-              </div>
-              <Button
-                onClick={disconnectWallet}
-                variant="outline"
-                className="border-slate-600 text-slate-300 hover:bg-slate-700"
-              >
-                Disconnect
-              </Button>
-            </div>
-            <div className="p-3 bg-green-900/20 border border-green-600 rounded-lg">
-              <p className="text-green-400 text-sm">
-                ✅ Connected to Farcaster! You can now post content to your account.
-              </p>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Content Input */}

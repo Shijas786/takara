@@ -1,164 +1,110 @@
-// Neynar API helper functions using direct fetch calls
-const NEYNAR_API_KEY = process.env.NEYNAR_API_KEY;
-const NEYNAR_BASE_URL = 'https://api.neynar.com/v2';
+import { NeynarAPIClient } from '@neynar/nodejs-sdk';
 
+// Initialize Neynar API client
+const neynarClient = new NeynarAPIClient({ 
+  apiKey: process.env.NEYNAR_API_KEY || '' 
+});
+
+// Check if API key is configured
+if (!process.env.NEYNAR_API_KEY) {
+  throw new Error('NEYNAR_API_KEY environment variable is required');
+}
+
+// Production-ready Neynar API utility functions
 export const neynarHelpers = {
-  // Get user by wallet address
-  async getUserByAddress(address: string) {
-    try {
-      const response = await fetch(`${NEYNAR_BASE_URL}/farcaster/user/bulk-by-address`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': NEYNAR_API_KEY!,
-        },
-        body: JSON.stringify({
-          addresses: [address],
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error('Error fetching user by address:', error);
-      throw error;
-    }
-  },
-
   // Get user by FID
   async getUserByFid(fid: number) {
     try {
-      const response = await fetch(`${NEYNAR_BASE_URL}/farcaster/user?fid=${fid}`, {
-        headers: {
-          'x-api-key': NEYNAR_API_KEY!,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
-      }
-
-      return await response.json();
-    } catch (error) {
+      const response = await neynarClient.lookupUserByCustodyAddress({ custodyAddress: fid.toString() });
+      return response;
+    } catch (error: any) {
       console.error('Error fetching user by FID:', error);
-      throw error;
+      throw new Error(`Failed to fetch user: ${error.message}`);
     }
   },
 
-  // Post a cast
-  async postCast(signerUuid: string, text: string, parentUrl?: string) {
+  // Get user by wallet address
+  async getUserByAddress(address: string) {
     try {
-      const body: any = {
-        signer_uuid: signerUuid,
-        text: text,
-      };
-
-      if (parentUrl) {
-        body.parent_url = parentUrl;
-      }
-
-      const response = await fetch(`${NEYNAR_BASE_URL}/farcaster/cast`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': NEYNAR_API_KEY!,
-        },
-        body: JSON.stringify(body),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error('Error posting cast:', error);
-      throw error;
+      const response = await neynarClient.lookupUserByCustodyAddress({ custodyAddress: address });
+      return response;
+    } catch (error: any) {
+      console.error('Error fetching user by address:', error);
+      throw new Error(`Failed to fetch user by address: ${error.message}`);
     }
   },
 
-  // Get user's casts
+  // Get trending feed
+  async getTrendingFeed() {
+    try {
+      const response = await neynarClient.fetchTrendingFeed({ 
+        limit: 50
+      });
+      return response;
+    } catch (error: any) {
+      console.error('Error fetching trending feed:', error);
+      throw new Error(`Failed to fetch trending feed: ${error.message}`);
+    }
+  },
+
+  // Publish a cast
+  async publishCast(signerUUID: string, text: string) {
+    try {
+      const response = await neynarClient.publishCast({
+        signerUuid: signerUUID,
+        text: text
+      });
+      return response;
+    } catch (error: any) {
+      console.error('Error publishing cast:', error);
+      throw new Error(`Failed to publish cast: ${error.message}`);
+    }
+  },
+
+  // Create a signer for a user
+  async createSigner(fid: number) {
+    try {
+      const response = await neynarClient.createSigner();
+      return response;
+    } catch (error: any) {
+      console.error('Error creating signer:', error);
+      throw new Error(`Failed to create signer: ${error.message}`);
+    }
+  },
+
+  // Get user casts
   async getUserCasts(fid: number, limit: number = 10) {
     try {
-      const response = await fetch(`${NEYNAR_BASE_URL}/farcaster/casts?fid=${fid}&limit=${limit}`, {
-        headers: {
-          'x-api-key': NEYNAR_API_KEY!,
-        },
+      const response = await neynarClient.fetchCastsForUser({
+        fid: fid,
+        limit: limit
       });
-
-      if (!response.ok) {
-        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
-      }
-
-      return await response.json();
-    } catch (error) {
+      return response;
+    } catch (error: any) {
       console.error('Error fetching user casts:', error);
-      throw error;
+      throw new Error(`Failed to fetch user casts: ${error.message}`);
     }
   },
 
-
-
-  // Search users by username
+  // Search users
   async searchUsers(query: string, limit: number = 10) {
     try {
-      const response = await fetch(`${NEYNAR_BASE_URL}/farcaster/user/search?q=${encodeURIComponent(query)}&limit=${limit}`, {
-        headers: {
-          'x-api-key': NEYNAR_API_KEY!,
-        },
+      const response = await neynarClient.searchUser({
+        q: query,
+        limit: limit
       });
-
-      if (!response.ok) {
-        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
-      }
-
-      return await response.json();
-    } catch (error) {
+      return response;
+    } catch (error: any) {
       console.error('Error searching users:', error);
-      throw error;
+      throw new Error(`Failed to search users: ${error.message}`);
     }
-  },
+  }
+};
 
-  // Get mutual followers
-  async getMutualFollowers(fid1: number, fid2: number) {
-    try {
-      const response = await fetch(`${NEYNAR_BASE_URL}/farcaster/mutual-followers?fid1=${fid1}&fid2=${fid2}`, {
-        headers: {
-          'x-api-key': NEYNAR_API_KEY!,
-        },
-      });
+// Export individual functions for direct use
+export const getUser = neynarHelpers.getUserByFid;
+export const getTrendingFeed = neynarHelpers.getTrendingFeed;
+export const publishCast = neynarHelpers.publishCast;
+export const createSigner = neynarHelpers.createSigner;
 
-      if (!response.ok) {
-        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error('Error fetching mutual followers:', error);
-      throw error;
-    }
-  },
-
-  // Get signers for a user
-  async getSigners(fid: number) {
-    try {
-      const response = await fetch(`${NEYNAR_BASE_URL}/farcaster/signer?fid=${fid}`, {
-        headers: {
-          'x-api-key': NEYNAR_API_KEY!,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error('Error fetching signers:', error);
-      throw error;
-    }
-  },
-}; 
+export default neynarHelpers; 
