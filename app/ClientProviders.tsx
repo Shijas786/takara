@@ -4,25 +4,34 @@
 import { useEffect, useState } from "react";
 
 export default function ClientProviders({ children }: { children: React.ReactNode }) {
-  const [NeynarProvider, setNeynarProvider] = useState<null | React.ComponentType<any>>(null);
+  const [NeynarProvider, setNeynarProvider] = useState<
+    null | ((props: { children: React.ReactNode }) => JSX.Element)
+  >(null);
 
   useEffect(() => {
+    let isMounted = true;
+
     import("@neynar/react").then((mod) => {
-      setNeynarProvider(() => mod.NeynarContextProvider);
+      if (mod.NeynarContextProvider && isMounted) {
+        const ProviderWrapper = (props: { children: React.ReactNode }) => (
+          <mod.NeynarContextProvider
+            settings={{
+              clientId: process.env.NEXT_PUBLIC_NEYNAR_CLIENT_ID!,
+            }}
+          >
+            {props.children}
+          </mod.NeynarContextProvider>
+        );
+        setNeynarProvider(() => ProviderWrapper);
+      }
     });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  if (!NeynarProvider) {
-    // Optional: Add loading spinner or skeleton
-    return null;
-  }
+  if (!NeynarProvider) return null; // loading state or fallback
 
-  return (
-    <NeynarProvider
-      clientId={process.env.NEXT_PUBLIC_NEYNAR_CLIENT_ID!}
-      environment="production"
-    >
-      {children}
-    </NeynarProvider>
-  );
+  return <NeynarProvider>{children}</NeynarProvider>;
 } 
