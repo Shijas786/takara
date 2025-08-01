@@ -32,11 +32,10 @@ export async function POST(request: NextRequest) {
       castData.channel_id = channelId;
     }
 
-    // Publish the cast
-    // TODO: Fix Neynar API integration
+    // TODO: Fix Neynar API integration - method signature has changed
     // const result = await neynarClient.publishCast(castData);
 
-    // Temporary mock response
+    // Temporary mock response until API is fixed
     const result = {
       cast: {
         hash: 'temp-cast-hash',

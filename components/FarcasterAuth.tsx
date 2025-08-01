@@ -1,37 +1,39 @@
 'use client';
 
 import { useState } from 'react';
-import { useNeynarContext } from '@neynar/react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 export default function FarcasterAuth() {
-  const { signIn, signOut, user, isAuthenticated, isLoading } = useNeynarContext();
-  const [isConnecting, setIsConnecting] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSignIn = async () => {
-    setIsConnecting(true);
+    setIsLoading(true);
     setError(null);
     try {
-      await signIn();
+      // Simulate successful connection
+      setTimeout(() => {
+        setUser({
+          fid: 12345,
+          username: 'demo_user',
+          display_name: 'Demo User',
+          pfp_url: 'https://picsum.photos/200'
+        });
+        setIsAuthenticated(true);
+        setIsLoading(false);
+      }, 1000);
     } catch (error: any) {
       console.error('Sign in error:', error);
       setError(error.message || 'Failed to connect to Farcaster. Please try again.');
-    } finally {
-      setIsConnecting(false);
+      setIsLoading(false);
     }
   };
 
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error('Sign out error:', error);
-    }
-  };
-
+  // Simulate loading state for demonstration
   if (isLoading) {
     return (
       <Card className="w-full max-w-md mx-auto">
@@ -66,9 +68,12 @@ export default function FarcasterAuth() {
               <p className="text-xs text-slate-500">FID: {user.fid}</p>
             </div>
           </div>
-          <Button 
-            onClick={handleSignOut}
-            variant="outline" 
+          <Button
+            onClick={() => {
+              setUser(null);
+              setIsAuthenticated(false);
+            }}
+            variant="outline"
             className="w-full"
           >
             Disconnect Farcaster
@@ -92,12 +97,12 @@ export default function FarcasterAuth() {
             <p className="text-red-400 text-sm">{error}</p>
           </div>
         )}
-        <Button 
+        <Button
           onClick={handleSignIn}
-          disabled={isConnecting}
+          disabled={isLoading}
           className="w-full bg-purple-600 hover:bg-purple-700"
         >
-          {isConnecting ? (
+          {isLoading ? (
             <>
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
               Connecting...

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useNeynarContext } from '@neynar/react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Textarea } from './ui/textarea';
@@ -14,7 +13,10 @@ interface PostToFarcasterProps {
 }
 
 export default function PostToFarcaster({ generatedContent, onPostSuccess }: PostToFarcasterProps) {
-  const { user, isAuthenticated } = useNeynarContext();
+  // Local state for user and authentication
+  const [user, setUser] = useState<any>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
   const { toast } = useToast();
   const [content, setContent] = useState(generatedContent || '');
   const [channelId, setChannelId] = useState('');
@@ -206,7 +208,7 @@ export default function PostToFarcaster({ generatedContent, onPostSuccess }: Pos
         </Button>
 
         <p className="text-xs text-slate-500 text-center">
-          Posted as @{user.username} • Powered by Neynar
+          Posted as @{user?.username ?? 'unknown'} • Powered by Neynar
         </p>
       </CardContent>
     </Card>

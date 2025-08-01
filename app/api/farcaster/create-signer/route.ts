@@ -17,14 +17,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Create a signer for the user
-    // TODO: Fix Neynar API integration
+    // TODO: Fix Neynar API integration - method signature has changed
     // const result = await neynarClient.createSigner({
     //   fid: parseInt(fid),
     //   app_fid: parseInt(process.env.NEXT_PUBLIC_NEYNAR_APP_FID || '0'),
     //   app_mnemonic: process.env.NEYNAR_APP_MNEMONIC || '',
     // });
 
-    // Temporary mock response
+    // Temporary mock response until API is fixed
     const result = {
       signer: {
         signer_uuid: 'temp-signer-uuid',
