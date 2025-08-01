@@ -1,20 +1,19 @@
 {
   "accountAssociation": {
-    "header": "eyJmaWQiOjI1OTkxMywidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDlmZjdjNTNhNDU3NzcxOGQwOUIxYkZiYTVlRkU2MzFCOTlmY2FmZmMifQ",
-    "payload": "eyJkb21haW4iOiJ0YWthcmEtY29udGVudC1hcHAudmVyY2VsLmFwcCJ9",
-    "signature": "MHg2NDkyZWEzN2NiZTRkN2Q2ODc5NTFmMTZmMTM2OGZkODc1YmNlMzViYjhlYTdjMGIwOGYzMDExMmQxOThiN2EyNmNlNWFjOWI1MTY3YTRlN2Q5YTMyOTAzM2Q5YzhkMTMyZDYwMmFmZGJhZGUxN2JmY2IwZWY1ODI0MTkyZWM0YTFj"
+    "header": "PLACEHOLDER_HEADER",
+    "payload": "PLACEHOLDER_PAYLOAD", 
+    "signature": "PLACEHOLDER_SIGNATURE"
   },
-  "frame": {
-    "name": "takara",
-    "version": "1",
+  "miniapp": {
+    "name": "Takara",
+    "version": "1.0.0",
     "iconUrl": "https://takara-content-app.vercel.app/icon.png",
     "homeUrl": "https://takara-content-app.vercel.app",
-    "imageUrl": "https://takara-content-app.vercel.app/image.png",
-    "splashImageUrl": "https://takara-content-app.vercel.app/splash.png",
-    "splashBackgroundColor": "#121212",
-    "webhookUrl": "https://api.neynar.com/f/app/02d332e4-b278-4c2f-a8f0-c86c15f24386/event",
+    "splashBackgroundColor": "#6200EA",
+    "buttonTitle": "Launch Takara",
+    "description": "Generate & share AI content seamlessly on Farcaster.",
     "primaryCategory": "social",
-    "description": "Stop struggling with content creation. TAKARA uses AI to evolve your ideas into viral content across all platforms. Get authentic styles from top crypto influencers, schedule posts, save drafts, and optimize for X, Web2, and Farcaster. Built for creators who want their content to actually perform",
-    "subtitle": "Your AI Partner for Viral Content Creation"
+    "subtitle": "AI-Powered Content Creation",
+    "webhookUrl": "https://takara-content-app.vercel.app/api/webhook"
   }
 } 
