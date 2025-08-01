@@ -25,10 +25,7 @@ const nextConfig = {
       },
     ]
   },
-  // Disable static generation for pages with client-side components
-  experimental: {
-    appDir: true,
-  },
+
 }
 
 module.exports = nextConfig 

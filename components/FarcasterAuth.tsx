@@ -1,51 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { NeynarAuthButton, useNeynarContext, SIWN_variant } from '@neynar/react';
+import ClientOnly from './ClientOnly';
 
-
-export default function FarcasterAuth() {
-  const [user, setUser] = useState<any>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+function FarcasterAuthContent() {
+  const { user } = useNeynarContext();
   const [error, setError] = useState<string | null>(null);
 
-  const handleSignIn = async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      // Simulate successful connection
-      setTimeout(() => {
-        setUser({
-          fid: 12345,
-          username: 'demo_user',
-          display_name: 'Demo User',
-          pfp_url: 'https://picsum.photos/200'
-        });
-        setIsAuthenticated(true);
-        setIsLoading(false);
-      }, 1000);
-    } catch (error: any) {
-      console.error('Sign in error:', error);
-      setError(error.message || 'Failed to connect to Farcaster. Please try again.');
-      setIsLoading(false);
-    }
-  };
-
-  // Simulate loading state for demonstration
-  if (isLoading) {
-    return (
-      <Card className="w-full max-w-md mx-auto">
-        <CardContent className="flex items-center justify-center p-6">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  if (isAuthenticated && user) {
+  if (user) {
     return (
       <Card className="w-full max-w-md mx-auto">
         <CardHeader>
@@ -69,16 +35,10 @@ export default function FarcasterAuth() {
               <p className="text-xs text-slate-500">FID: {user.fid}</p>
             </div>
           </div>
-          <Button
-            onClick={() => {
-              setUser(null);
-              setIsAuthenticated(false);
-            }}
-            variant="outline"
+          <NeynarAuthButton 
+            variant={SIWN_variant.FARCASTER}
             className="w-full"
-          >
-            Disconnect Farcaster
-          </Button>
+          />
         </CardContent>
       </Card>
     );
@@ -98,25 +58,10 @@ export default function FarcasterAuth() {
             <p className="text-red-400 text-sm">{error}</p>
           </div>
         )}
-        <Button
-          onClick={handleSignIn}
-          disabled={isLoading}
+        <NeynarAuthButton 
+          variant={SIWN_variant.FARCASTER}
           className="w-full bg-purple-600 hover:bg-purple-700"
-        >
-          {isLoading ? (
-            <>
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-              Connecting...
-            </>
-          ) : (
-            <>
-              <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-              </svg>
-              Sign In with Farcaster
-            </>
-          )}
-        </Button>
+        />
         <p className="text-xs text-slate-500 mt-2 text-center">
           Powered by Neynar • Free to use
         </p>
@@ -125,5 +70,29 @@ export default function FarcasterAuth() {
         </p>
       </CardContent>
     </Card>
+  );
+}
+
+export default function FarcasterAuth() {
+  return (
+    <ClientOnly
+      fallback={
+        <Card className="w-full max-w-md mx-auto">
+          <CardHeader>
+            <CardTitle>Connect to Farcaster</CardTitle>
+            <CardDescription>
+              Link your Farcaster account to save and post content directly
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="animate-pulse">
+              <div className="h-10 bg-slate-700 rounded"></div>
+            </div>
+          </CardContent>
+        </Card>
+      }
+    >
+      <FarcasterAuthContent />
+    </ClientOnly>
   );
 } 
