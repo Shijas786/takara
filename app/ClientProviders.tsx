@@ -3,26 +3,36 @@
 import { useEffect, useState } from "react";
 
 export default function ClientProviders({ children }: { children: React.ReactNode }) {
-  const [NeynarContextProvider, setNeynarContextProvider] = useState<React.ComponentType<any> | null>(null);
+  const [ProviderComponent, setProviderComponent] = useState<React.ComponentType<any> | null>(null);
 
   useEffect(() => {
+    let mounted = true;
+
     import("@neynar/react").then((mod) => {
-      // ✅ Store the component itself, not JSX
-      setNeynarContextProvider(() => mod.NeynarContextProvider);
+      if (mounted && mod?.NeynarContextProvider) {
+        setProviderComponent(() => mod.NeynarContextProvider); // ✅ Store component, not JSX
+      }
     });
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
-  if (!NeynarContextProvider) {
-    return null;
+  if (!ProviderComponent) {
+    console.log("NeynarContextProvider not ready");
+    return null; // or fallback UI
   }
 
+  console.log("About to render NeynarContextProvider:", ProviderComponent);
+
   return (
-    <NeynarContextProvider
+    <ProviderComponent
       settings={{
         clientId: process.env.NEXT_PUBLIC_NEYNAR_CLIENT_ID!,
       }}
     >
       {children}
-    </NeynarContextProvider>
+    </ProviderComponent>
   );
 } 
