@@ -297,7 +297,7 @@ export default function ContentGenerator() {
       <div className="text-center mb-12">
         <h2 className="text-2xl font-bold text-white mb-4">Content Takara Evolution</h2>
         <p className="text-slate-300 max-w-2xl mx-auto mb-6">
-          Paste your idea, thought, or reply — and let Takara rework it using real styles from top crypto influencers. Whether it's a sharp quote, spicy reply, or a viral CTA, Takara evolves your words for maximum impact.
+                        Paste your idea, thought, or reply — and let Takara rework it using real styles from top crypto influencers. Whether it&apos;s a sharp quote, spicy reply, or a viral CTA, Takara evolves your words for maximum impact.
         </p>
       </div>
 

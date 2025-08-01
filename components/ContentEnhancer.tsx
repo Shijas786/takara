@@ -392,7 +392,7 @@ export default function ContentEnhancer({
           <div>
             <h3 className="text-sm font-medium text-blue-100 mb-1">How Takara Evolution Works</h3>
             <p className="text-sm text-blue-200 mb-2">
-              Paste your idea, thought, or reply — and let Takara rework it using real styles from top crypto influencers. Whether it's a sharp quote, spicy reply, or a viral CTA, Takara evolves your words for maximum impact. The AI is trained on 916+ authentic tweets from top crypto Twitter personalities.
+              Paste your idea, thought, or reply — and let Takara rework it using real styles from top crypto influencers. Whether it&apos;s a sharp quote, spicy reply, or a viral CTA, Takara evolves your words for maximum impact. The AI is trained on 916+ authentic tweets from top crypto Twitter personalities.
             </p>
             <p className="text-sm text-blue-300">
               🦋 <strong>Link your Farcaster</strong> to save your evolved content and post directly to Farcaster!

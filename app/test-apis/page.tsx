@@ -40,8 +40,8 @@ export default function TestApisPage() {
             API Configuration Test
           </h2>
           <p className="text-slate-300 max-w-2xl mx-auto mb-6">
-            Use this panel to test all your API integrations and ensure they're properly configured. 
-            Make sure you've set up your environment variables before running the tests.
+            Use this panel to test all your API integrations and ensure they&apos;re properly configured. 
+            Make sure you&apos;ve set up your environment variables before running the tests.
           </p>
           <div className="text-yellow-400 text-sm">
             ⚠️ Make sure to add your API keys to the .env.local file first!

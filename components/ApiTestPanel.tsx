@@ -161,7 +161,7 @@ export default function ApiTestPanel() {
           🔧 API Integration Test Panel
         </CardTitle>
         <CardDescription>
-          Test all API integrations to ensure they're properly configured
+          Test all API integrations to ensure they&apos;re properly configured
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

@@ -80,7 +80,7 @@ export default function ThreeScene() {
             Content Takara Evolution
           </h2>
           <p className="text-slate-300 max-w-2xl mx-auto mb-6">
-            Paste your idea, thought, or reply — and let Takara rework it using real styles from top crypto influencers. Whether it's a sharp quote, spicy reply, or a viral CTA, Takara evolves your words for maximum impact.
+            Paste your idea, thought, or reply — and let Takara rework it using real styles from top crypto influencers. Whether it&apos;s a sharp quote, spicy reply, or a viral CTA, Takara evolves your words for maximum impact.
           </p>
           <p className="text-blue-400 text-sm">
             🦋 Link your Farcaster to save and post instantly.
@@ -139,7 +139,7 @@ export default function ThreeScene() {
         <div className="bg-slate-800 border border-slate-700 rounded-lg p-6 mb-8">
           <h3 className="text-lg font-semibold text-white mb-4">How Takara Evolution Works</h3>
           <p className="text-slate-300 mb-4">
-            Paste your idea, thought, or reply — and let Takara rework it using real styles from top crypto influencers. Whether it's a sharp quote, spicy reply, or a viral CTA, Takara evolves your words for maximum impact. The AI is trained on 916+ authentic tweets from top crypto Twitter personalities.
+            Paste your idea, thought, or reply — and let Takara rework it using real styles from top crypto influencers. Whether it&apos;s a sharp quote, spicy reply, or a viral CTA, Takara evolves your words for maximum impact. The AI is trained on 916+ authentic tweets from top crypto Twitter personalities.
           </p>
           <p className="text-blue-400 text-sm">
             🦋 <strong>Link your Farcaster</strong> to save your evolved content and post directly to Farcaster!

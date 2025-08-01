@@ -67,7 +67,7 @@ export default function SimpleFarcasterAuth() {
             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
           </CardTitle>
           <CardDescription>
-            You're signed in and ready to post content
+            You&apos;re signed in and ready to post content
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">

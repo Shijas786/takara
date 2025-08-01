@@ -167,7 +167,7 @@ export default function ScheduledPage() {
           <div className="text-center">
             <Clock className="w-16 h-16 text-slate-400 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-white mb-2">No Scheduled Posts</h3>
-            <p className="text-slate-300 mb-6">You haven't scheduled any posts yet. Generate some content and schedule it for automatic posting.</p>
+            <p className="text-slate-300 mb-6">You haven&apos;t scheduled any posts yet. Generate some content and schedule it for automatic posting.</p>
             <Button onClick={() => window.location.href = '/'} className="bg-blue-500 hover:bg-blue-600 text-white">
               Generate Content
             </Button>

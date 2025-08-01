@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Clock, Calendar, Settings, Play, Pause, Trash2, RefreshCw, AlertCircle, CheckCircle, XCircle } from 'lucide-react';
 import { autoPostService, AutoPostJob, AutoPostSettings } from '../lib/autoPostService';
 import { openaiService } from '../lib/openai';
@@ -20,11 +20,7 @@ export default function AutoPostManager({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    loadJobs();
-  }, [farcasterFid]);
-
-  const loadJobs = async () => {
+  const loadJobs = useCallback(async () => {
     try {
       const userJobs = await autoPostService.getUserJobs(farcasterFid);
       setJobs(userJobs);
@@ -32,7 +28,11 @@ export default function AutoPostManager({
       console.error('Failed to load jobs:', error);
       setError('Failed to load scheduled posts');
     }
-  };
+  }, [farcasterFid]);
+
+  useEffect(() => {
+    loadJobs();
+  }, [loadJobs]);
 
   const handleToggleAutoPost = () => {
     const newSettings = { ...settings, enabled: !settings.enabled };
