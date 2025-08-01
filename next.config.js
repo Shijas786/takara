@@ -12,7 +12,7 @@ const nextConfig = {
     };
     return config;
   },
-  // Disable static generation for API routes
+  // Disable static generation for API routes and main page
   async headers() {
     return [
       {
@@ -24,6 +24,10 @@ const nextConfig = {
         ],
       },
     ]
+  },
+  // Disable static generation for pages with client-side components
+  experimental: {
+    appDir: true,
   },
 }
 
