@@ -3,21 +3,18 @@
 import { useEffect, useState } from "react";
 
 export default function ClientProviders({ children }: { children: React.ReactNode }) {
-  const [NeynarContextProvider, setNeynarContextProvider] = useState<null | React.ComponentType<any>>(null);
+  const [NeynarContextProvider, setNeynarContextProvider] = useState<React.ComponentType<any> | null>(null);
 
   useEffect(() => {
     import("@neynar/react").then((mod) => {
-      // ✅ Save the actual component (NOT JSX)
+      // ✅ Store the component itself, not JSX
       setNeynarContextProvider(() => mod.NeynarContextProvider);
     });
   }, []);
 
   if (!NeynarContextProvider) {
-    console.warn("Provider not ready yet.");
     return null;
   }
-
-  console.log("Rendering with provider:", NeynarContextProvider);
 
   return (
     <NeynarContextProvider
