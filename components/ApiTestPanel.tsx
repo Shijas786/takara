@@ -5,6 +5,7 @@ import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
+import { safeRender } from '../lib/utils';
 
 interface ApiTestResult {
   name: string;
@@ -129,16 +130,21 @@ export default function ApiTestPanel() {
   };
 
   const getStatusIcon = (status: ApiTestResult['status']) => {
+    let icon;
     switch (status) {
       case 'loading':
-        return <Loader2 className="w-4 h-4 animate-spin" />;
+        icon = <Loader2 className="w-4 h-4 animate-spin" />;
+        break;
       case 'success':
-        return <CheckCircle className="w-4 h-4 text-green-500" />;
+        icon = <CheckCircle className="w-4 h-4 text-green-500" />;
+        break;
       case 'error':
-        return <XCircle className="w-4 h-4 text-red-500" />;
+        icon = <XCircle className="w-4 h-4 text-red-500" />;
+        break;
       default:
-        return null;
+        icon = null;
     }
+    return safeRender(icon, <div className="w-4 h-4" />);
   };
 
   const getStatusBadge = (status: ApiTestResult['status']) => {

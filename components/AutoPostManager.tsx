@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Clock, Calendar, Settings, Play, Pause, Trash2, RefreshCw, AlertCircle, CheckCircle, XCircle } from 'lucide-react';
 import { autoPostService, AutoPostJob, AutoPostSettings } from '../lib/autoPostService';
 import { openaiService } from '../lib/openai';
+import { safeRender } from '../lib/utils';
 
 interface AutoPostManagerProps {
   farcasterFid: string;
@@ -123,16 +124,21 @@ export default function AutoPostManager({
   };
 
   const getStatusIcon = (status: string) => {
+    let icon;
     switch (status) {
       case 'posted':
-        return <CheckCircle className="w-4 h-4 text-green-600" />;
+        icon = <CheckCircle className="w-4 h-4 text-green-600" />;
+        break;
       case 'failed':
-        return <XCircle className="w-4 h-4 text-red-600" />;
+        icon = <XCircle className="w-4 h-4 text-red-600" />;
+        break;
       case 'retrying':
-        return <RefreshCw className="w-4 h-4 text-yellow-600 animate-spin" />;
+        icon = <RefreshCw className="w-4 h-4 text-yellow-600 animate-spin" />;
+        break;
       default:
-        return <Clock className="w-4 h-4 text-blue-600" />;
+        icon = <Clock className="w-4 h-4 text-blue-600" />;
     }
+    return safeRender(icon, <Clock className="w-4 h-4 text-gray-400" />);
   };
 
   const getStatusText = (status: string) => {
