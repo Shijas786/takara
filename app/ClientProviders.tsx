@@ -11,7 +11,11 @@ export default function ClientProviders({ children }: { children: React.ReactNod
     });
   }, []);
 
-  if (!Provider) return null;
+  // Fallback guard: Ensure provider is ready and valid
+  if (!Provider || typeof Provider !== "function") {
+    console.warn("NeynarContextProvider not ready");
+    return null;
+  }
 
   return (
     <Provider
