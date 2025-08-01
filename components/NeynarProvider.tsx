@@ -1,13 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
-import dynamic from 'next/dynamic';
-
-// Dynamically import NeynarContextProvider to avoid SSR issues
-const NeynarContextProvider = dynamic(
-  () => import('@neynar/react').then((mod) => ({ default: mod.NeynarContextProvider })),
-  { ssr: false }
-);
+import { NeynarContextProvider } from '@neynar/react';
 
 interface NeynarProviderProps {
   children: ReactNode;
