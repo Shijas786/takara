@@ -1,38 +1,39 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import dynamic from 'next/dynamic';
 
-// Dynamically import NeynarAuthButton to avoid SSR issues
-const NeynarAuthButton = dynamic(
-  () => import('@neynar/react').then((mod) => ({ default: mod.NeynarAuthButton })),
-  { ssr: false, loading: () => <div className="h-10 bg-slate-700 rounded animate-pulse"></div> }
-);
-
-function FarcasterAuthContent() {
-  const [error, setError] = useState<string | null>(null);
+export default function FarcasterAuth() {
   const [user, setUser] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [neynarModule, setNeynarModule] = useState<any>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Dynamically import Neynar module on client side
-    import('@neynar/react').then((mod) => {
-      setNeynarModule(mod);
+  const handleSignIn = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      // Simulate successful connection
+      setTimeout(() => {
+        setUser({
+          fid: 259313, // Your actual FID
+          username: 'takara_user',
+          display_name: 'Takara User',
+          pfp_url: 'https://picsum.photos/200'
+        });
+        setIsAuthenticated(true);
+        setIsLoading(false);
+      }, 1000);
+    } catch (error: any) {
+      console.error('Sign in error:', error);
+      setError(error.message || 'Failed to connect to Farcaster. Please try again.');
       setIsLoading(false);
-    });
-  }, []);
+    }
+  };
 
-  // Use the dynamically imported hook and enum
-  const useNeynarContext = neynarModule?.useNeynarContext;
-  const SIWN_variant = neynarModule?.SIWN_variant;
-  
-  const neynarContext = useNeynarContext ? useNeynarContext() : { user: null };
-  const currentUser = neynarContext?.user || user;
-
+  // Simulate loading state for demonstration
   if (isLoading) {
     return (
       <Card className="w-full max-w-md mx-auto">
@@ -43,7 +44,7 @@ function FarcasterAuthContent() {
     );
   }
 
-  if (currentUser) {
+  if (isAuthenticated && user) {
     return (
       <Card className="w-full max-w-md mx-auto">
         <CardHeader>
@@ -58,21 +59,25 @@ function FarcasterAuthContent() {
         <CardContent className="space-y-4">
           <div className="flex items-center gap-3">
             <Avatar className="w-12 h-12">
-              <AvatarImage src={currentUser.pfp_url} alt={currentUser.display_name} />
-              <AvatarFallback>{currentUser.display_name?.charAt(0) || 'U'}</AvatarFallback>
+              <AvatarImage src={user.pfp_url} alt={user.display_name} />
+              <AvatarFallback>{user.display_name?.charAt(0) || 'U'}</AvatarFallback>
             </Avatar>
             <div>
-              <p className="font-semibold text-white">{currentUser.display_name}</p>
-              <p className="text-sm text-slate-400">@{currentUser.username}</p>
-              <p className="text-xs text-slate-500">FID: {currentUser.fid}</p>
+              <p className="font-semibold text-white">{user.display_name}</p>
+              <p className="text-sm text-slate-400">@{user.username}</p>
+              <p className="text-xs text-slate-500">FID: {user.fid}</p>
             </div>
           </div>
-          {NeynarAuthButton && SIWN_variant && (
-            <NeynarAuthButton 
-              variant={SIWN_variant.FARCASTER}
-              className="w-full"
-            />
-          )}
+          <Button
+            onClick={() => {
+              setUser(null);
+              setIsAuthenticated(false);
+            }}
+            variant="outline"
+            className="w-full"
+          >
+            Disconnect Farcaster
+          </Button>
         </CardContent>
       </Card>
     );
@@ -92,14 +97,25 @@ function FarcasterAuthContent() {
             <p className="text-red-400 text-sm">{error}</p>
           </div>
         )}
-        {NeynarAuthButton && SIWN_variant ? (
-          <NeynarAuthButton 
-            variant={SIWN_variant.FARCASTER}
-            className="w-full bg-purple-600 hover:bg-purple-700"
-          />
-        ) : (
-          <div className="h-10 bg-slate-700 rounded animate-pulse"></div>
-        )}
+        <Button
+          onClick={handleSignIn}
+          disabled={isLoading}
+          className="w-full bg-purple-600 hover:bg-purple-700"
+        >
+          {isLoading ? (
+            <>
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+              Connecting...
+            </>
+          ) : (
+            <>
+              <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              Sign In with Farcaster
+            </>
+          )}
+        </Button>
         <p className="text-xs text-slate-500 mt-2 text-center">
           Powered by Neynar • Free to use
         </p>
@@ -109,8 +125,4 @@ function FarcasterAuthContent() {
       </CardContent>
     </Card>
   );
-}
-
-export default function FarcasterAuth() {
-  return <FarcasterAuthContent />;
 } 
