@@ -15,12 +15,12 @@ interface PostToFarcasterProps {
 export default function PostToFarcaster({ generatedContent, onPostSuccess }: PostToFarcasterProps) {
   const { toast } = useToast();
   const [content, setContent] = useState(generatedContent || '');
-  const [channelId, setChannelId] = useState('');
+  const [channelId, setChannelId] = useState('general');
   const [isPosting, setIsPosting] = useState(false);
 
   // Popular Farcaster channels
   const channels = [
-    { id: '', name: 'No Channel (General)' },
+    { id: 'general', name: 'No Channel (General)' },
     { id: 'memes', name: 'Memes' },
     { id: 'crypto', name: 'Crypto' },
     { id: 'defi', name: 'DeFi' },
@@ -51,7 +51,7 @@ export default function PostToFarcaster({ generatedContent, onPostSuccess }: Pos
         },
         body: JSON.stringify({
           text: content,
-          channelId: channelId || undefined,
+          channelId: channelId === 'general' ? undefined : channelId,
         }),
       });
 
@@ -65,7 +65,7 @@ export default function PostToFarcaster({ generatedContent, onPostSuccess }: Pos
         
         // Clear the content
         setContent('');
-        setChannelId('');
+        setChannelId('general');
         
         // Call success callback
         onPostSuccess?.();
