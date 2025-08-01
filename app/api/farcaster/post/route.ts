@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const { text, fid } = await request.json();
+    const { text, fid, signerUuid } = await request.json();
 
-    if (!text) {
+    if (!text || !fid) {
       return NextResponse.json(
-        { success: false, error: 'Text is required' },
+        { success: false, error: 'Missing text or FID' },
         { status: 400 }
       );
     }
@@ -26,60 +26,61 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Use the existing working signer for posting
-    // In a production app, you'd need to implement proper signer management
-    const workingSignerUuid = '5dfa0879-260d-46bc-8cb8-f8befb72bc75';
-    
-    console.log('Posting cast with signer UUID:', workingSignerUuid);
-    console.log('Cast text:', text);
-    console.log('Target FID:', fid);
+    console.log('Posting cast with Neynar API:', { text, fid, signerUuid });
 
-    // Post the cast using the working signer
-    const castResponse = await fetch('https://api.neynar.com/v2/farcaster/cast', {
+    if (!signerUuid) {
+      return NextResponse.json(
+        { success: false, error: 'Signer UUID is required for posting' },
+        { status: 400 }
+      );
+    }
+
+    // Real Neynar API call to publish cast
+    const response = await fetch(`https://api.neynar.com/v2/farcaster/cast`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': neynarApiKey,
+        'api_key': neynarApiKey,
       },
       body: JSON.stringify({
-        signer_uuid: workingSignerUuid,
+        signer_uuid: signerUuid,
         text: text,
       }),
     });
 
-    console.log('Cast response status:', castResponse.status);
-
-    if (!castResponse.ok) {
-      const errorData = await castResponse.text();
-      console.error('Cast posting error:', errorData);
-      console.error('Response status:', castResponse.status);
-      console.error('Response headers:', Object.fromEntries(castResponse.headers.entries()));
+    if (!response.ok) {
+      const errorData = await response.text();
+      console.error('Neynar API error:', response.status, errorData);
       return NextResponse.json(
-        { success: false, error: `Failed to post cast: ${castResponse.status} - ${errorData}` },
-        { status: castResponse.status }
+        { success: false, error: `Neynar API error: ${response.status}` },
+        { status: response.status }
       );
     }
 
-    const castData = await castResponse.json();
-    console.log('Cast response data:', JSON.stringify(castData, null, 2));
+    const data = await response.json();
     
-    const cast = castData.cast;
+    console.log('Cast posted successfully:', data);
 
     return NextResponse.json({
       success: true,
-      cast: {
-        hash: cast.hash,
-        text: cast.text,
-        timestamp: cast.timestamp,
-        author: cast.author,
-      },
-      message: 'Cast posted successfully!',
+      message: 'Cast published successfully!',
+      hash: data.cast?.hash || 'unknown',
+      cast: data.cast || {
+        hash: 'unknown',
+        text: text,
+        timestamp: new Date().toISOString(),
+        author: {
+          fid: fid,
+          username: 'user',
+          displayName: 'User'
+        }
+      }
     });
 
   } catch (error) {
-    console.error('Post cast error:', error);
+    console.error('Farcaster post error:', error);
     return NextResponse.json(
-      { success: false, error: 'Internal server error' },
+      { success: false, error: 'Failed to post to Farcaster' },
       { status: 500 }
     );
   }

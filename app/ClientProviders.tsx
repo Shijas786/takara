@@ -1,29 +1,45 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { NeynarContextProvider } from '@neynar/react';
+import { ReactNode, useEffect, useState } from 'react';
 
-// define a placeholder wrapper component
-const Wrapper = ({ children }: { children: React.ReactNode }) => <>{children}</>;
+interface ClientProvidersProps {
+  children: ReactNode;
+}
 
-export default function ClientProviders({ children }: { children: React.ReactNode }) {
-  const [providerEl, setProviderEl] = useState<JSX.Element | null>(null);
-
+export function ClientProviders({ children }: ClientProvidersProps) {
+  const [isClient, setIsClient] = useState(false);
+  const clientId = process.env.NEXT_PUBLIC_NEYNAR_CLIENT_ID;
+  
   useEffect(() => {
-    import("@neynar/react").then((mod) => {
-      const El = (
-        <mod.NeynarContextProvider
-          settings={{
-            clientId: process.env.NEXT_PUBLIC_NEYNAR_CLIENT_ID!,
-          }}
-        >
-          {children}
-        </mod.NeynarContextProvider>
-      );
-      setProviderEl(El);
-    });
-  }, [children]);
+    setIsClient(true);
+  }, []);
 
-  if (!providerEl) return <Wrapper>{children}</Wrapper>;
+  // Don't render Neynar context during SSR to prevent hydration issues
+  if (!isClient) {
+    return <>{children}</>;
+  }
+  
+  if (!clientId) {
+    console.warn('NEXT_PUBLIC_NEYNAR_CLIENT_ID not configured, skipping Neynar context');
+    return <>{children}</>;
+  }
 
-  return providerEl;
-} 
+  try {
+    return (
+      <NeynarContextProvider
+        settings={{
+          clientId: clientId,
+        }}
+      >
+        {children}
+      </NeynarContextProvider>
+    );
+  } catch (error) {
+    console.error('Error initializing Neynar context:', error);
+    return <>{children}</>;
+  }
+}
+
+// Add default export for compatibility
+export default ClientProviders; 

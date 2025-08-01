@@ -1,7 +1,7 @@
 'use client';
 
 import { Sparkles, Zap, Star, Users, TrendingUp, Shield, Globe } from 'lucide-react';
-import Image from 'next/image';
+import { SafeImage } from './ui/image';
 
 export default function ThreeScene() {
   const features = [
@@ -56,12 +56,13 @@ export default function ThreeScene() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
-                <Image 
+                <SafeImage 
                   src="/takara-logo.png" 
                   alt="Takara Logo" 
                   width={32} 
                   height={32}
                   className="w-full h-full object-cover"
+                  fallbackSrc="https://placehold.co/32x32"
                 />
               </div>
               <div>

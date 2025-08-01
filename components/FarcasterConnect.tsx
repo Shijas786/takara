@@ -7,6 +7,7 @@ import { Card } from './ui/card';
 import { Badge } from './ui/badge';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
+import { SafeImg } from './ui/image';
 
 interface FarcasterUser {
   fid: number;
@@ -132,11 +133,16 @@ export default function FarcasterConnect() {
       {/* Header */}
       <div className="text-center">
         <div className="flex items-center justify-center space-x-3 mb-4">
-          <img 
-            src="https://freeimage.host/i/FS6Q5zb" 
-            alt="Logo" 
-            className="w-12 h-12 rounded-lg"
-          />
+          <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-200 flex items-center justify-center">
+            <SafeImg 
+              src="https://freeimage.host/i/FS6Q5zb" 
+              alt="Logo" 
+              className="w-full h-full"
+              width={48}
+              height={48}
+              fallbackSrc="https://placehold.co/150x150"
+            />
+          </div>
           <h1 className="text-3xl font-bold text-gray-900">Farcaster Connect</h1>
         </div>
         <p className="text-gray-600">Connect your Farcaster account and manage your casts</p>
@@ -188,11 +194,16 @@ export default function FarcasterConnect() {
           <div className="space-y-4">
             {/* User Info */}
             <div className="flex items-center space-x-4 p-4 bg-white rounded-lg border border-green-200">
-              <img 
-                src={user?.pfp} 
-                alt={user?.displayName}
-                className="w-12 h-12 rounded-full border-2 border-green-300"
-              />
+              <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
+                <SafeImg 
+                  src={user?.pfp || 'https://placehold.co/150x150'} 
+                  alt={user?.displayName || 'User'}
+                  className="w-full h-full"
+                  width={48}
+                  height={48}
+                  fallbackSrc="https://placehold.co/150x150"
+                />
+              </div>
               <div className="flex-1">
                 <h3 className="font-medium text-gray-900">{user?.displayName}</h3>
                 <p className="text-sm text-gray-600">@{user?.username} (FID: {user?.fid})</p>
@@ -286,11 +297,16 @@ export default function FarcasterConnect() {
               {casts.map((cast) => (
                 <div key={cast.hash} className="p-4 bg-white rounded-lg border border-gray-200">
                   <div className="flex items-start space-x-3">
-                    <img 
-                      src={cast.author.pfp} 
-                      alt={cast.author.displayName}
-                      className="w-10 h-10 rounded-full"
-                    />
+                    <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
+                      <SafeImg 
+                        src={cast.author.pfp} 
+                        alt={cast.author.displayName}
+                        className="w-full h-full"
+                        width={40}
+                        height={40}
+                        fallbackSrc="https://placehold.co/150x150"
+                      />
+                    </div>
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-1">
                         <span className="font-medium text-gray-900">{cast.author.displayName}</span>

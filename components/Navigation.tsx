@@ -2,7 +2,7 @@
 
 import { Sparkles } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { SafeImage } from './ui/image';
 
 export default function Navigation() {
   return (
@@ -12,12 +12,13 @@ export default function Navigation() {
           <div className="flex items-center space-x-8">
             <Link href="/" className="flex items-center space-x-3">
               <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
-                <Image 
+                <SafeImage 
                   src="/takara-logo.png" 
                   alt="Takara Logo" 
                   width={32} 
                   height={32}
                   className="w-full h-full object-cover"
+                  fallbackSrc="https://placehold.co/32x32"
                 />
               </div>
               <div>

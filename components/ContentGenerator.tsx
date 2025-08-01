@@ -8,7 +8,7 @@ import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useToast } from '../hooks/use-toast';
-import PostToFarcaster from './PostToFarcaster';
+import RealFarcasterAuth from './RealFarcasterAuth';
 
 // import { useMiniApp } from '@neynar/react';
 
@@ -37,6 +37,7 @@ interface FarcasterUser {
   followingCount: number;
   verifications: string[];
   activeStatus: string;
+  signerUuid: string;
 }
 
 export default function ContentGenerator() {
@@ -254,6 +255,9 @@ export default function ContentGenerator() {
 
     setIsPosting(true);
     try {
+      // Get the signer UUID from the stored user
+      const signerUuid = farcasterUser.signerUuid;
+
       const response = await fetch('/api/farcaster/post', {
         method: 'POST',
         headers: {
@@ -262,6 +266,7 @@ export default function ContentGenerator() {
         body: JSON.stringify({
           text: generatedContent,
           fid: farcasterUser.fid,
+          signerUuid: signerUuid,
         }),
       });
 
@@ -300,6 +305,9 @@ export default function ContentGenerator() {
                         Paste your idea, thought, or reply — and let Takara rework it using real styles from top crypto influencers. Whether it&apos;s a sharp quote, spicy reply, or a viral CTA, Takara evolves your words for maximum impact.
         </p>
       </div>
+
+      {/* Farcaster Authentication */}
+      <RealFarcasterAuth onUserChange={setFarcasterUser} />
 
       {/* Content Input */}
       <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
