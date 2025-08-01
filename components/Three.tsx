@@ -1,53 +1,8 @@
 'use client';
 
-import { Sparkles, Zap, Star, Users, TrendingUp, Shield, Globe } from 'lucide-react';
 import { SafeImage } from './ui/image';
 
 export default function ThreeScene() {
-  const features = [
-    {
-      title: "AI Content Generation",
-      description: "Transform your ideas into viral content with advanced AI",
-      icon: Sparkles,
-      color: "bg-blue-500"
-    },
-    {
-      title: "Base Chain Integration",
-      description: "Built for the Base ecosystem with seamless Web3 features",
-      icon: Zap,
-      color: "bg-purple-500"
-    },
-    {
-      title: "Farcaster Ready",
-      description: "Connect and share directly to Farcaster network",
-      icon: Star,
-      color: "bg-green-500"
-    }
-  ];
-
-  const benefits = [
-    {
-      icon: Users,
-      title: "Community Driven",
-      description: "Built by and for the crypto community"
-    },
-    {
-      icon: TrendingUp,
-      title: "Viral Potential",
-      description: "AI-optimized for maximum engagement"
-    },
-    {
-      icon: Shield,
-      title: "Secure & Reliable",
-      description: "Enterprise-grade security and reliability"
-    },
-    {
-      icon: Globe,
-      title: "Web3 Native",
-      description: "Seamless integration with blockchain networks"
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-slate-900 text-white">
       {/* Header */}
