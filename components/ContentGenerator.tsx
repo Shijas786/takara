@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { useToast } from '../hooks/use-toast';
 import RealFarcasterAuth from './RealFarcasterAuth';
 import { safeRender } from '../lib/utils';
+import ClientOnlyWrapper from './ClientOnlyWrapper';
 
 // import { useMiniApp } from '@neynar/react';
 
@@ -103,7 +104,7 @@ export default function ContentGenerator() {
         setGeneratedContent(data.content);
         toast({
           title: "Content Generated!",
-          description: "Your evolved content is ready",
+          description: "Your content has been evolved by Takara",
         });
       } else {
         toast({
@@ -125,15 +126,6 @@ export default function ContentGenerator() {
   };
 
   const copyToClipboard = async () => {
-    if (!generatedContent) {
-      toast({
-        title: "No Content",
-        description: "Generate content first to copy",
-        variant: "destructive",
-      });
-      return;
-    }
-
     try {
       await navigator.clipboard.writeText(generatedContent);
       toast({
@@ -141,6 +133,7 @@ export default function ContentGenerator() {
         description: "Content copied to clipboard",
       });
     } catch (error) {
+      console.error('Copy error:', error);
       toast({
         title: "Copy Failed",
         description: "Failed to copy content",
@@ -150,41 +143,23 @@ export default function ContentGenerator() {
   };
 
   const downloadContent = () => {
-    if (!generatedContent) {
-      toast({
-        title: "No Content",
-        description: "Generate content first to download",
-        variant: "destructive",
-      });
-      return;
-    }
-
     const blob = new Blob([generatedContent], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-          a.download = `takara-content-${Date.now()}.txt`;
+    a.download = `takara-content-${Date.now()}.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-
+    
     toast({
       title: "Downloaded!",
-      description: "Content saved to your device",
+      description: "Content downloaded successfully",
     });
   };
 
   const saveDraft = () => {
-    if (!generatedContent) {
-      toast({
-        title: "No Content",
-        description: "Generate content first to save",
-        variant: "destructive",
-      });
-      return;
-    }
-
     const newDraft: Draft = {
       id: Date.now().toString(),
       content: generatedContent,
@@ -192,13 +167,13 @@ export default function ContentGenerator() {
       timestamp: Date.now(),
     };
 
-    const updatedDrafts = [newDraft, ...drafts];
+    const updatedDrafts = [...drafts, newDraft];
     setDrafts(updatedDrafts);
     localStorage.setItem('takara_drafts', JSON.stringify(updatedDrafts));
 
     toast({
       title: "Draft Saved!",
-      description: "Content saved to your drafts",
+      description: "Your content has been saved as a draft",
     });
   };
 
@@ -209,42 +184,29 @@ export default function ContentGenerator() {
   };
 
   const schedulePost = (content: string) => {
-    const timeSlots = [
-      '9:00 AM', '12:00 PM', '3:00 PM', '6:00 PM', '9:00 PM'
-    ];
+    const timeSlots = ['9 AM', '12 PM', '3 PM', '6 PM', '9 PM'];
     const randomSlot = timeSlots[Math.floor(Math.random() * timeSlots.length)];
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    tomorrow.setHours(parseInt(randomSlot.split(':')[0]), parseInt(randomSlot.split(' ')[0].split(':')[1]), 0, 0);
+    const scheduledTime = new Date(Date.now() + Math.random() * 24 * 60 * 60 * 1000).toISOString();
 
     const newScheduledPost: ScheduledPost = {
       id: Date.now().toString(),
       content: content,
-      scheduledTime: tomorrow.toISOString(),
+      scheduledTime: scheduledTime,
       timeSlot: randomSlot,
       isPosted: false,
     };
 
-    const updatedScheduled = [newScheduledPost, ...scheduledPosts];
-    setScheduledPosts(updatedScheduled);
-    localStorage.setItem('takara_scheduled_posts', JSON.stringify(updatedScheduled));
+    const updatedScheduledPosts = [...scheduledPosts, newScheduledPost];
+    setScheduledPosts(updatedScheduledPosts);
+    localStorage.setItem('takara_scheduled_posts', JSON.stringify(updatedScheduledPosts));
 
     toast({
       title: "Post Scheduled!",
-      description: `Scheduled for tomorrow at ${randomSlot}`,
+      description: `Your post has been scheduled for ${randomSlot}`,
     });
   };
 
   const postToFarcaster = async () => {
-    if (!generatedContent) {
-      toast({
-        title: "No Content",
-        description: "Generate content first to post",
-        variant: "destructive",
-      });
-      return;
-    }
-
     if (!farcasterUser) {
       toast({
         title: "Not Connected",
@@ -298,237 +260,239 @@ export default function ContentGenerator() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <h2 className="text-2xl font-bold text-white mb-4">Content Takara Evolution</h2>
-        <p className="text-slate-300 max-w-2xl mx-auto mb-6">
-                        Paste your idea, thought, or reply — and let Takara rework it using real styles from top crypto influencers. Whether it&apos;s a sharp quote, spicy reply, or a viral CTA, Takara evolves your words for maximum impact.
-        </p>
-      </div>
-
-      {/* Farcaster Authentication */}
-      <RealFarcasterAuth onUserChange={setFarcasterUser} />
-
-      {/* Content Input */}
-      <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
-        <div className="flex items-center space-x-3 mb-4">
-          <Sparkles className="w-6 h-6 text-blue-400" />
-          <h2 className="text-xl font-semibold text-white">Your Content</h2>
+    <ClientOnlyWrapper>
+      <div className="max-w-4xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-2xl font-bold text-white mb-4">Content Takara Evolution</h2>
+          <p className="text-slate-300 max-w-2xl mx-auto mb-6">
+            Paste your idea, thought, or reply — and let Takara rework it using real styles from top crypto influencers. Whether it&apos;s a sharp quote, spicy reply, or a viral CTA, Takara evolves your words for maximum impact.
+          </p>
         </div>
-        
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              Enter your content to evolve
-            </label>
-            <Textarea
-              placeholder="Paste your idea, thought, or reply here... (Takara will evolve it for maximum impact)"
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              className="w-full h-24 resize-none bg-slate-700 border-slate-600 text-white placeholder-slate-400"
-            />
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Evolution Style</label>
-              <Select value={evolutionStyle} onValueChange={setEvolutionStyle}>
-                <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-slate-700 border-slate-600">
-                  <SelectItem value="based">Based</SelectItem>
-                  <SelectItem value="influencer">Influencer Style</SelectItem>
-                  <SelectItem value="reply-guy">Reply Guy</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+        {/* Farcaster Authentication */}
+        <RealFarcasterAuth onUserChange={setFarcasterUser} />
 
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Evolution Length</label>
-              <Select value={evolutionLength} onValueChange={setEvolutionLength}>
-                <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-slate-700 border-slate-600">
-                  <SelectItem value="short">Short & Punchy</SelectItem>
-                  <SelectItem value="medium">Medium & Balanced</SelectItem>
-                  <SelectItem value="long">Long & Detailed</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Evolution Tone</label>
-              <Select value={evolutionTone} onValueChange={setEvolutionTone}>
-                <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-slate-700 border-slate-600">
-                  <SelectItem value="authentic">Authentic & Real</SelectItem>
-                  <SelectItem value="confident">Confident & Bold</SelectItem>
-                  <SelectItem value="friendly">Friendly & Approachable</SelectItem>
-                  <SelectItem value="authoritative">Authoritative & Expert</SelectItem>
-                  <SelectItem value="playful">Playful & Fun</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div className="flex space-x-3">
-            <Button 
-              onClick={generateContent}
-              disabled={isGenerating || !prompt.trim()}
-              className="flex-1 bg-blue-500 hover:bg-blue-600 text-white"
-            >
-              {isGenerating ? (
-                <>
-                  <Sparkles className="w-4 h-4 mr-2 animate-spin" />
-                  Takara Evolution
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  Takara Evolution
-                </>
-              )}
-            </Button>
-            <Button 
-              onClick={() => setPrompt('')}
-              variant="outline"
-              className="border-slate-600 text-slate-300 hover:bg-slate-700"
-            >
-              Clear
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Generated Content */}
-      {generatedContent && (
+        {/* Content Input */}
         <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-white">Evolved Content</h3>
-            <div className="flex space-x-2">
-              <Button
-                onClick={copyToClipboard}
-                size="sm"
-                variant="outline"
-                className="border-slate-600 text-slate-300 hover:bg-slate-700"
-              >
-                <Copy className="w-4 h-4 mr-1" />
-                Copy
-              </Button>
-              <Button
-                onClick={downloadContent}
-                size="sm"
-                variant="outline"
-                className="border-slate-600 text-slate-300 hover:bg-slate-700"
-              >
-                <Download className="w-4 h-4 mr-1" />
-                Download
-              </Button>
-              <Button
-                onClick={saveDraft}
-                size="sm"
-                variant="outline"
-                className="border-slate-600 text-slate-300 hover:bg-slate-700"
-              >
-                <Save className="w-4 h-4 mr-1" />
-                Save Draft
-              </Button>
-            </div>
+          <div className="flex items-center space-x-3 mb-4">
+            {safeRender(<Sparkles className="w-6 h-6 text-blue-400" />)}
+            <h2 className="text-xl font-semibold text-white">Your Content</h2>
           </div>
           
-          <div className="bg-slate-700 rounded-lg p-4 mb-4">
-            <p className="text-white whitespace-pre-wrap">{generatedContent}</p>
-          </div>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">
+                Enter your content to evolve
+              </label>
+              <Textarea
+                placeholder="Paste your idea, thought, or reply here... (Takara will evolve it for maximum impact)"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                className="w-full h-24 resize-none bg-slate-700 border-slate-600 text-white placeholder-slate-400"
+              />
+            </div>
 
-          <div className="flex space-x-3">
-            <Button
-              onClick={postToFarcaster}
-              disabled={isPosting || !farcasterUser}
-              className="bg-purple-600 hover:bg-purple-700 text-white"
-            >
-              {isPosting ? (
-                <>
-                  <MessageCircle className="w-4 h-4 mr-2 animate-spin" />
-                  Posting...
-                </>
-              ) : (
-                <>
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Post to Your Farcaster
-                </>
-              )}
-            </Button>
-            <Button
-              onClick={() => schedulePost(generatedContent)}
-              variant="outline"
-              className="border-slate-600 text-slate-300 hover:bg-slate-700"
-            >
-              <Clock className="w-4 h-4 mr-2" />
-              Schedule Post
-            </Button>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">Evolution Style</label>
+                <Select value={evolutionStyle} onValueChange={setEvolutionStyle}>
+                  <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-slate-700 border-slate-600">
+                    <SelectItem value="based">Based</SelectItem>
+                    <SelectItem value="influencer">Influencer Style</SelectItem>
+                    <SelectItem value="reply-guy">Reply Guy</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">Evolution Length</label>
+                <Select value={evolutionLength} onValueChange={setEvolutionLength}>
+                  <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-slate-700 border-slate-600">
+                    <SelectItem value="short">Short & Punchy</SelectItem>
+                    <SelectItem value="medium">Medium & Balanced</SelectItem>
+                    <SelectItem value="long">Long & Detailed</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">Evolution Tone</label>
+                <Select value={evolutionTone} onValueChange={setEvolutionTone}>
+                  <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-slate-700 border-slate-600">
+                    <SelectItem value="authentic">Authentic & Real</SelectItem>
+                    <SelectItem value="confident">Confident & Bold</SelectItem>
+                    <SelectItem value="friendly">Friendly & Approachable</SelectItem>
+                    <SelectItem value="authoritative">Authoritative & Expert</SelectItem>
+                    <SelectItem value="playful">Playful & Fun</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="flex space-x-3">
+              <Button 
+                onClick={generateContent}
+                disabled={isGenerating || !prompt.trim()}
+                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white"
+              >
+                {isGenerating ? (
+                  <>
+                    {safeRender(<Sparkles className="w-4 h-4 mr-2 animate-spin" />)}
+                    Takara Evolution
+                  </>
+                ) : (
+                  <>
+                    {safeRender(<Sparkles className="w-4 h-4 mr-2" />)}
+                    Takara Evolution
+                  </>
+                )}
+              </Button>
+              <Button 
+                onClick={() => setPrompt('')}
+                variant="outline"
+                className="border-slate-600 text-slate-300 hover:bg-slate-700"
+              >
+                Clear
+              </Button>
+            </div>
           </div>
         </div>
-      )}
 
-      {/* Drafts */}
-      {drafts.length > 0 && (
-        <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
-          <h3 className="text-lg font-semibold text-white mb-4">Your Drafts</h3>
-          <div className="space-y-3">
-            {drafts.map((draft) => (
-              <div key={draft.id} className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
-                <div className="flex-1">
-                  <p className="text-white text-sm truncate">{draft.content}</p>
-                  <p className="text-slate-400 text-xs">
-                    {new Date(draft.timestamp).toLocaleDateString()}
-                  </p>
-                </div>
+        {/* Generated Content */}
+        {generatedContent && (
+          <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-white">Evolved Content</h3>
+              <div className="flex space-x-2">
                 <Button
-                  onClick={() => deleteDraft(draft.id)}
+                  onClick={copyToClipboard}
                   size="sm"
                   variant="outline"
-                  className="border-red-600 text-red-400 hover:bg-red-900"
+                  className="border-slate-600 text-slate-300 hover:bg-slate-700"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  {safeRender(<Copy className="w-4 h-4 mr-1" />)}
+                  Copy
+                </Button>
+                <Button
+                  onClick={downloadContent}
+                  size="sm"
+                  variant="outline"
+                  className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                >
+                  {safeRender(<Download className="w-4 h-4 mr-1" />)}
+                  Download
+                </Button>
+                <Button
+                  onClick={saveDraft}
+                  size="sm"
+                  variant="outline"
+                  className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                >
+                  {safeRender(<Save className="w-4 h-4 mr-1" />)}
+                  Save Draft
                 </Button>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
+            </div>
+            
+            <div className="bg-slate-700 rounded-lg p-4 mb-4">
+              <p className="text-white whitespace-pre-wrap">{generatedContent}</p>
+            </div>
 
-      {/* Scheduled Posts */}
-      {scheduledPosts.length > 0 && (
-        <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
-          <h3 className="text-lg font-semibold text-white mb-4">Scheduled Posts</h3>
-          <div className="space-y-3">
-            {scheduledPosts.map((post) => (
-              <div key={post.id} className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
-                <div className="flex-1">
-                  <p className="text-white text-sm truncate">{post.content}</p>
-                  <div className="flex items-center space-x-2 mt-1">
-                    <Clock className="w-4 h-4 text-slate-400" />
-                    <span className="text-slate-400 text-xs">
-                      {post.timeSlot} - {new Date(post.scheduledTime).toLocaleDateString()}
-                    </span>
-                    {post.isPosted && (
-                      <Badge variant="secondary" className="bg-green-100 text-green-800">
-                        <CheckCircle className="w-3 h-3 mr-1" />
-                        Posted
-                      </Badge>
-                    )}
+            <div className="flex space-x-3">
+              <Button
+                onClick={postToFarcaster}
+                disabled={isPosting || !farcasterUser}
+                className="bg-purple-600 hover:bg-purple-700 text-white"
+              >
+                {isPosting ? (
+                  <>
+                    {safeRender(<MessageCircle className="w-4 h-4 mr-2 animate-spin" />)}
+                    Posting...
+                  </>
+                ) : (
+                  <>
+                    {safeRender(<MessageCircle className="w-4 h-4 mr-2" />)}
+                    Post to Your Farcaster
+                  </>
+                )}
+              </Button>
+              <Button
+                onClick={() => schedulePost(generatedContent)}
+                variant="outline"
+                className="border-slate-600 text-slate-300 hover:bg-slate-700"
+              >
+                {safeRender(<Clock className="w-4 h-4 mr-2" />)}
+                Schedule Post
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Drafts */}
+        {drafts.length > 0 && (
+          <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
+            <h3 className="text-lg font-semibold text-white mb-4">Your Drafts</h3>
+            <div className="space-y-3">
+              {drafts.map((draft) => (
+                <div key={draft.id} className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
+                  <div className="flex-1">
+                    <p className="text-white text-sm truncate">{draft.content}</p>
+                    <p className="text-slate-400 text-xs">
+                      {new Date(draft.timestamp).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <Button
+                    onClick={() => deleteDraft(draft.id)}
+                    size="sm"
+                    variant="outline"
+                    className="border-red-600 text-red-400 hover:bg-red-900"
+                  >
+                    {safeRender(<Trash2 className="w-4 h-4" />)}
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Scheduled Posts */}
+        {scheduledPosts.length > 0 && (
+          <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
+            <h3 className="text-lg font-semibold text-white mb-4">Scheduled Posts</h3>
+            <div className="space-y-3">
+              {scheduledPosts.map((post) => (
+                <div key={post.id} className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
+                  <div className="flex-1">
+                    <p className="text-white text-sm truncate">{post.content}</p>
+                    <div className="flex items-center space-x-2 mt-1">
+                      {safeRender(<Clock className="w-4 h-4 text-slate-400" />)}
+                      <span className="text-slate-400 text-xs">
+                        {post.timeSlot} - {new Date(post.scheduledTime).toLocaleDateString()}
+                      </span>
+                      {post.isPosted && (
+                        <Badge variant="secondary" className="bg-green-100 text-green-800">
+                          {safeRender(<CheckCircle className="w-3 h-3 mr-1" />)}
+                          Posted
+                        </Badge>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </ClientOnlyWrapper>
   );
 } 

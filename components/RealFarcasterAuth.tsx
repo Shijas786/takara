@@ -7,6 +7,7 @@ import { Badge } from './ui/badge';
 import { User, MessageCircle, LogOut } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
 import { SafeImg } from './ui/image';
+import ClientOnlyWrapper from './ClientOnlyWrapper';
 
 interface FarcasterUser {
   fid: number;
@@ -23,27 +24,6 @@ interface FarcasterUser {
 
 interface RealFarcasterAuthProps {
   onUserChange: (user: FarcasterUser | null) => void;
-}
-
-// Client-only wrapper component
-function ClientOnly({ children }: { children: React.ReactNode }) {
-  const [hasMounted, setHasMounted] = useState(false);
-
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
-  if (!hasMounted) {
-    return (
-      <Card className="p-4 bg-slate-800 border-slate-700">
-        <div className="text-center">
-          <h3 className="text-lg font-semibold text-white mb-2">Loading...</h3>
-        </div>
-      </Card>
-    );
-  }
-
-  return <>{children}</>;
 }
 
 export default function RealFarcasterAuth({ onUserChange }: RealFarcasterAuthProps) {
@@ -102,7 +82,15 @@ export default function RealFarcasterAuth({ onUserChange }: RealFarcasterAuthPro
   };
 
   return (
-    <ClientOnly>
+    <ClientOnlyWrapper
+      fallback={
+        <Card className="p-4 bg-slate-800 border-slate-700">
+          <div className="text-center">
+            <h3 className="text-lg font-semibold text-white mb-2">Loading...</h3>
+          </div>
+        </Card>
+      }
+    >
       {!farcasterUser ? (
         <Card className="p-4 bg-slate-800 border-slate-700">
           <div className="text-center">
@@ -168,6 +156,6 @@ export default function RealFarcasterAuth({ onUserChange }: RealFarcasterAuthPro
           </div>
         </Card>
       )}
-    </ClientOnly>
+    </ClientOnlyWrapper>
   );
 } 

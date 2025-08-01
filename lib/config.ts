@@ -7,8 +7,8 @@ export const config: AppConfig = {
     chainId: 8453, // Base mainnet
   },
   supabase: {
-    url: process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
+    url: process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+    anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder_key',
   },
   openai: {
     apiKey: process.env.OPENAI_API_KEY || 'placeholder_openai_key',
