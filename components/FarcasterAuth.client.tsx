@@ -1,4 +1,3 @@
-// components/FarcasterAuth.client.tsx
 "use client";
 
 import {

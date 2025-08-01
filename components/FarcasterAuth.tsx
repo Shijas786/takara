@@ -1,4 +1,3 @@
-// components/FarcasterAuth.tsx
 import dynamic from "next/dynamic";
 
 const FarcasterAuthClient = dynamic(() => import("./FarcasterAuth.client"), {
