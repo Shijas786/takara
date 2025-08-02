@@ -24,17 +24,30 @@ export function isValidReactElement(node: any): node is React.ReactElement {
  * Returns the element if valid, or a fallback if not
  */
 export function safeRender(
-  element: React.ReactElement | null | undefined, 
+  element: any, 
   fallback: React.ReactNode = null
 ): React.ReactNode {
+  // Handle null and undefined
   if (element === null || element === undefined) {
     return fallback;
   }
   
+  // If it's already a valid React element, return it directly
   if (isValidReactElement(element)) {
     return element;
   }
   
+  // If it's a string, number, or other primitive, return it
+  if (typeof element === 'string' || typeof element === 'number' || typeof element === 'boolean') {
+    return element;
+  }
+  
+  // If it's an array, try to render each element safely
+  if (Array.isArray(element)) {
+    return element.map((item, index) => safeRender(item, fallback));
+  }
+  
+  // For any other case (objects, functions, etc.), return the fallback
   return fallback;
 }
 
