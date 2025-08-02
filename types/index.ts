@@ -112,6 +112,8 @@ export interface FarcasterConfig {
   baseUrl: string;
   clientId: string;
   clientSecret: string;
+  neynarApiKey: string;
+  neynarBaseUrl: string;
 }
 
 

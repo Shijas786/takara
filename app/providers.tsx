@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react';
 import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
+import NeynarProviderWrapper from '../components/NeynarProvider';
 
 import ClientOnlyWrapper from '../components/ClientOnlyWrapper';
 import WalletProvider from '../components/WalletProvider';
@@ -23,7 +24,9 @@ export function Providers(props: { children: ReactNode }) {
             },
           }}
         >
-                           {props.children}
+                                            <NeynarProviderWrapper>
+                   {props.children}
+                 </NeynarProviderWrapper>
         </MiniKitProvider>
       </WalletProvider>
     </ClientOnlyWrapper>
