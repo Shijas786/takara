@@ -9,7 +9,6 @@ import { Badge } from './ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useToast } from '../hooks/use-toast';
 
-import { safeRender } from '../lib/utils';
 import ClientOnlyWrapper from './ClientOnlyWrapper';
 
 

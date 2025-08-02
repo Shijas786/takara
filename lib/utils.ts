@@ -42,12 +42,7 @@ export function safeRender(
     return element;
   }
   
-  // If it's an array, try to render each element safely
-  if (Array.isArray(element)) {
-    return element.map((item, index) => safeRender(item, fallback));
-  }
-  
-  // For any other case (objects, functions, etc.), return the fallback
+  // For any other case (objects, functions, arrays, etc.), return the fallback
   return fallback;
 }
 

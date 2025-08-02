@@ -40,8 +40,11 @@ export function SafeComponent({
   fallback = <div>Component failed to load</div> 
 }: ClientOnlyWrapperProps) {
   const [hasError, setHasError] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
+    setHasMounted(true);
+    
     const handleError = (error: ErrorEvent) => {
       console.error('Component error:', error);
       setHasError(true);
@@ -51,9 +54,13 @@ export function SafeComponent({
     return () => window.removeEventListener('error', handleError);
   }, []);
 
+  if (!hasMounted) {
+    return <>{fallback}</>;
+  }
+
   if (hasError) {
     return <>{fallback}</>;
   }
 
-  return <ClientOnlyWrapper fallback={fallback}>{children}</ClientOnlyWrapper>;
+  return <>{children}</>;
 } 
