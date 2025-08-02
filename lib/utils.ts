@@ -11,12 +11,19 @@ export function cn(...inputs: ClassValue[]) {
  * This prevents "Objects are not valid as a React child" errors
  */
 export function isValidReactElement(node: any): node is React.ReactElement {
-  return (
-    typeof node === 'object' && 
-    node !== null && 
-    '$$typeof' in node && 
-    node.$$typeof === Symbol.for('react.element')
-  );
+  try {
+    return (
+      typeof node === 'object' && 
+      node !== null && 
+      '$$typeof' in node && 
+      node.$$typeof === Symbol.for('react.element') &&
+      'type' in node &&
+      'props' in node
+    );
+  } catch (error) {
+    console.error('Error in isValidReactElement:', error);
+    return false;
+  }
 }
 
 /**
@@ -27,23 +34,37 @@ export function safeRender(
   element: any, 
   fallback: React.ReactNode = null
 ): React.ReactNode {
-  // Handle null and undefined
-  if (element === null || element === undefined) {
+  try {
+    // Handle null and undefined
+    if (element === null || element === undefined) {
+      return fallback;
+    }
+    
+    // If it's already a valid React element, return it directly
+    if (isValidReactElement(element)) {
+      return element;
+    }
+    
+    // If it's a string, number, or other primitive, return it
+    if (typeof element === 'string' || typeof element === 'number' || typeof element === 'boolean') {
+      return element;
+    }
+    
+    // If it's an object with React element properties, it might be a React element object
+    // that wasn't properly created - return fallback
+    if (typeof element === 'object' && element !== null) {
+      if (element.$$typeof || element.type || element.props) {
+        console.warn('Detected React element object, returning fallback:', element);
+        return fallback;
+      }
+    }
+    
+    // For any other case (objects, functions, arrays, etc.), return the fallback
+    return fallback;
+  } catch (error) {
+    console.error('Error in safeRender:', error);
     return fallback;
   }
-  
-  // If it's already a valid React element, return it directly
-  if (isValidReactElement(element)) {
-    return element;
-  }
-  
-  // If it's a string, number, or other primitive, return it
-  if (typeof element === 'string' || typeof element === 'number' || typeof element === 'boolean') {
-    return element;
-  }
-  
-  // For any other case (objects, functions, arrays, etc.), return the fallback
-  return fallback;
 }
 
 /**
