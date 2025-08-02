@@ -8,11 +8,10 @@ import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useToast } from '../hooks/use-toast';
-import FarcasterAuth from './FarcasterAuth';
-import FarcasterFeed from './FarcasterFeed';
+
 import { safeRender } from '../lib/utils';
 import ClientOnlyWrapper from './ClientOnlyWrapper';
-import { farcasterAPI, farcasterUtils, type FarcasterUser } from '../lib/farcaster';
+
 
 interface Draft {
   id: string;
@@ -38,30 +37,20 @@ export default function ContentGenerator() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [drafts, setDrafts] = useState<Draft[]>([]);
   const [scheduledPosts, setScheduledPosts] = useState<ScheduledPost[]>([]);
-  const [isPosting, setIsPosting] = useState(false);
-  const [farcasterUser, setFarcasterUser] = useState<FarcasterUser | null>(null);
-  const [signerUuid, setSignerUuid] = useState<string>('');
+
+
   const { toast } = useToast();
 
-  // Load drafts, scheduled posts, and user data from localStorage on mount
+  // Load drafts and scheduled posts from localStorage on mount
   useEffect(() => {
     const savedDrafts = localStorage.getItem('takara_drafts');
     const savedScheduled = localStorage.getItem('takara_scheduled_posts');
-    const savedUser = localStorage.getItem('takara_farcaster_user');
-    const savedSigner = localStorage.getItem('takara_farcaster_signer');
 
     if (savedDrafts) {
       setDrafts(JSON.parse(savedDrafts));
     }
     if (savedScheduled) {
       setScheduledPosts(JSON.parse(savedScheduled));
-    }
-    if (savedUser) {
-      setFarcasterUser(JSON.parse(savedUser));
-    }
-    if (savedSigner) {
-      const signerData = JSON.parse(savedSigner);
-      setSignerUuid(signerData.signerUuid);
     }
   }, []);
 
@@ -198,59 +187,7 @@ export default function ContentGenerator() {
     });
   };
 
-  const postToFarcaster = async () => {
-    if (!farcasterUser) {
-      toast({
-        title: "Not Connected",
-        description: "Please connect your Farcaster account first",
-        variant: "destructive",
-      });
-      return;
-    }
 
-    if (!signerUuid) {
-      toast({
-        title: "No Signer",
-        description: "Please create and approve a Farcaster signer first",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Validate cast text
-    const validation = farcasterUtils.validateCastText(generatedContent);
-    if (!validation.isValid) {
-      toast({
-        title: "Invalid Content",
-        description: validation.error || "Content validation failed",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsPosting(true);
-    try {
-      const result = await farcasterAPI.postCast(signerUuid, generatedContent);
-      
-      toast({
-        title: "Posted to Farcaster!",
-        description: `Your evolved content is now live on @${farcasterUser.username}`,
-      });
-
-      // Clear the generated content after successful posting
-      setGeneratedContent('');
-      setPrompt('');
-    } catch (error) {
-      console.error('Post error:', error);
-      toast({
-        title: "Post Error",
-        description: "Failed to post to Farcaster. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsPosting(false);
-    }
-  };
 
   return (
     <ClientOnlyWrapper>
@@ -263,8 +200,7 @@ export default function ContentGenerator() {
           </p>
         </div>
 
-        {/* Farcaster Authentication */}
-        <FarcasterAuth onUserChange={setFarcasterUser} />
+
 
         {/* Content Input */}
         <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
@@ -403,23 +339,6 @@ export default function ContentGenerator() {
 
             <div className="flex space-x-3">
               <Button
-                onClick={postToFarcaster}
-                disabled={isPosting || !farcasterUser || !signerUuid}
-                className="bg-purple-600 hover:bg-purple-700 text-white"
-              >
-                {isPosting ? (
-                  <>
-                    <MessageCircle className="w-4 h-4 mr-2 animate-spin" />
-                    Posting...
-                  </>
-                ) : (
-                  <>
-                    <MessageCircle className="w-4 h-4 mr-2" />
-                    Post to Farcaster
-                  </>
-                )}
-              </Button>
-              <Button
                 onClick={() => schedulePost(generatedContent)}
                 variant="outline"
                 className="border-slate-600 text-slate-300 hover:bg-slate-700"
@@ -431,8 +350,7 @@ export default function ContentGenerator() {
           </div>
         )}
 
-        {/* Farcaster Feed */}
-        <FarcasterFeed user={farcasterUser} signerUuid={signerUuid} />
+
 
         {/* Drafts */}
         {drafts.length > 0 && (
