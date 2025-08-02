@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "../components/ui/toaster";
 import { Providers } from "./providers";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -48,6 +49,16 @@ export default function RootLayout({
           {children}
           <Toaster />
         </Providers>
+        <Script 
+          src="/wallet-conflict-fix.js" 
+          strategy="afterInteractive"
+          id="wallet-conflict-script"
+        />
+        <Script 
+          src="/suppress-errors.js" 
+          strategy="afterInteractive"
+          id="error-suppression-script"
+        />
       </body>
     </html>
   );

@@ -8,11 +8,11 @@ import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useToast } from '../hooks/use-toast';
-import RealFarcasterAuth from './RealFarcasterAuth';
+import FarcasterAuth from './FarcasterAuth';
+import FarcasterFeed from './FarcasterFeed';
 import { safeRender } from '../lib/utils';
 import ClientOnlyWrapper from './ClientOnlyWrapper';
-
-// import { useMiniApp } from '@neynar/react';
+import { farcasterAPI, farcasterUtils, type FarcasterUser } from '../lib/farcaster';
 
 interface Draft {
   id: string;
@@ -29,19 +29,6 @@ interface ScheduledPost {
   isPosted: boolean;
 }
 
-interface FarcasterUser {
-  fid: number;
-  username: string;
-  displayName: string;
-  pfp: string;
-  custodyAddress: string;
-  followerCount: number;
-  followingCount: number;
-  verifications: string[];
-  activeStatus: string;
-  signerUuid: string;
-}
-
 export default function ContentGenerator() {
   const [prompt, setPrompt] = useState('');
   const [evolutionStyle, setEvolutionStyle] = useState('based');
@@ -53,14 +40,15 @@ export default function ContentGenerator() {
   const [scheduledPosts, setScheduledPosts] = useState<ScheduledPost[]>([]);
   const [isPosting, setIsPosting] = useState(false);
   const [farcasterUser, setFarcasterUser] = useState<FarcasterUser | null>(null);
+  const [signerUuid, setSignerUuid] = useState<string>('');
   const { toast } = useToast();
-  // const { isSDKLoaded, context } = useMiniApp();
 
   // Load drafts, scheduled posts, and user data from localStorage on mount
   useEffect(() => {
     const savedDrafts = localStorage.getItem('takara_drafts');
     const savedScheduled = localStorage.getItem('takara_scheduled_posts');
     const savedUser = localStorage.getItem('takara_farcaster_user');
+    const savedSigner = localStorage.getItem('takara_farcaster_signer');
 
     if (savedDrafts) {
       setDrafts(JSON.parse(savedDrafts));
@@ -70,6 +58,10 @@ export default function ContentGenerator() {
     }
     if (savedUser) {
       setFarcasterUser(JSON.parse(savedUser));
+    }
+    if (savedSigner) {
+      const signerData = JSON.parse(savedSigner);
+      setSignerUuid(signerData.signerUuid);
     }
   }, []);
 
@@ -216,37 +208,38 @@ export default function ContentGenerator() {
       return;
     }
 
+    if (!signerUuid) {
+      toast({
+        title: "No Signer",
+        description: "Please create and approve a Farcaster signer first",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate cast text
+    const validation = farcasterUtils.validateCastText(generatedContent);
+    if (!validation.isValid) {
+      toast({
+        title: "Invalid Content",
+        description: validation.error || "Content validation failed",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsPosting(true);
     try {
-      // Get the signer UUID from the stored user
-      const signerUuid = farcasterUser.signerUuid;
-
-      const response = await fetch('/api/farcaster/post', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          text: generatedContent,
-          fid: farcasterUser.fid,
-          signerUuid: signerUuid,
-        }),
+      const result = await farcasterAPI.postCast(signerUuid, generatedContent);
+      
+      toast({
+        title: "Posted to Farcaster!",
+        description: `Your evolved content is now live on @${farcasterUser.username}`,
       });
 
-      const data = await response.json();
-
-      if (data.success) {
-        toast({
-          title: "Posted to Farcaster!",
-          description: `Your evolved content is now live on @${farcasterUser.username}`,
-        });
-      } else {
-        toast({
-          title: "Post Failed",
-          description: data.error || "Failed to post to Farcaster",
-          variant: "destructive",
-        });
-      }
+      // Clear the generated content after successful posting
+      setGeneratedContent('');
+      setPrompt('');
     } catch (error) {
       console.error('Post error:', error);
       toast({
@@ -271,12 +264,12 @@ export default function ContentGenerator() {
         </div>
 
         {/* Farcaster Authentication */}
-        <RealFarcasterAuth onUserChange={setFarcasterUser} />
+        <FarcasterAuth onUserChange={setFarcasterUser} />
 
         {/* Content Input */}
         <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
           <div className="flex items-center space-x-3 mb-4">
-            {safeRender(<Sparkles className="w-6 h-6 text-blue-400" />)}
+            <Sparkles className="w-6 h-6 text-blue-400" />
             <h2 className="text-xl font-semibold text-white">Your Content</h2>
           </div>
           
@@ -347,12 +340,12 @@ export default function ContentGenerator() {
               >
                 {isGenerating ? (
                   <>
-                    {safeRender(<Sparkles className="w-4 h-4 mr-2 animate-spin" />)}
+                    <Sparkles className="w-4 h-4 mr-2 animate-spin" />
                     Takara Evolution
                   </>
                 ) : (
                   <>
-                    {safeRender(<Sparkles className="w-4 h-4 mr-2" />)}
+                    <Sparkles className="w-4 h-4 mr-2" />
                     Takara Evolution
                   </>
                 )}
@@ -380,7 +373,7 @@ export default function ContentGenerator() {
                   variant="outline"
                   className="border-slate-600 text-slate-300 hover:bg-slate-700"
                 >
-                  {safeRender(<Copy className="w-4 h-4 mr-1" />)}
+                  <Copy className="w-4 h-4 mr-1" />
                   Copy
                 </Button>
                 <Button
@@ -389,7 +382,7 @@ export default function ContentGenerator() {
                   variant="outline"
                   className="border-slate-600 text-slate-300 hover:bg-slate-700"
                 >
-                  {safeRender(<Download className="w-4 h-4 mr-1" />)}
+                  <Download className="w-4 h-4 mr-1" />
                   Download
                 </Button>
                 <Button
@@ -398,7 +391,7 @@ export default function ContentGenerator() {
                   variant="outline"
                   className="border-slate-600 text-slate-300 hover:bg-slate-700"
                 >
-                  {safeRender(<Save className="w-4 h-4 mr-1" />)}
+                  <Save className="w-4 h-4 mr-1" />
                   Save Draft
                 </Button>
               </div>
@@ -411,18 +404,18 @@ export default function ContentGenerator() {
             <div className="flex space-x-3">
               <Button
                 onClick={postToFarcaster}
-                disabled={isPosting || !farcasterUser}
+                disabled={isPosting || !farcasterUser || !signerUuid}
                 className="bg-purple-600 hover:bg-purple-700 text-white"
               >
                 {isPosting ? (
                   <>
-                    {safeRender(<MessageCircle className="w-4 h-4 mr-2 animate-spin" />)}
+                    <MessageCircle className="w-4 h-4 mr-2 animate-spin" />
                     Posting...
                   </>
                 ) : (
                   <>
-                    {safeRender(<MessageCircle className="w-4 h-4 mr-2" />)}
-                    Post to Your Farcaster
+                    <MessageCircle className="w-4 h-4 mr-2" />
+                    Post to Farcaster
                   </>
                 )}
               </Button>
@@ -431,12 +424,15 @@ export default function ContentGenerator() {
                 variant="outline"
                 className="border-slate-600 text-slate-300 hover:bg-slate-700"
               >
-                {safeRender(<Clock className="w-4 h-4 mr-2" />)}
+                <Clock className="w-4 h-4 mr-2" />
                 Schedule Post
               </Button>
             </div>
           </div>
         )}
+
+        {/* Farcaster Feed */}
+        <FarcasterFeed user={farcasterUser} signerUuid={signerUuid} />
 
         {/* Drafts */}
         {drafts.length > 0 && (
@@ -457,7 +453,7 @@ export default function ContentGenerator() {
                     variant="outline"
                     className="border-red-600 text-red-400 hover:bg-red-900"
                   >
-                    {safeRender(<Trash2 className="w-4 h-4" />)}
+                    <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
               ))}
@@ -475,13 +471,13 @@ export default function ContentGenerator() {
                   <div className="flex-1">
                     <p className="text-white text-sm truncate">{post.content}</p>
                     <div className="flex items-center space-x-2 mt-1">
-                      {safeRender(<Clock className="w-4 h-4 text-slate-400" />)}
+                      <Clock className="w-4 h-4 text-slate-400" />
                       <span className="text-slate-400 text-xs">
                         {post.timeSlot} - {new Date(post.scheduledTime).toLocaleDateString()}
                       </span>
                       {post.isPosted && (
                         <Badge variant="secondary" className="bg-green-100 text-green-800">
-                          {safeRender(<CheckCircle className="w-3 h-3 mr-1" />)}
+                          <CheckCircle className="w-3 h-3 mr-1" />
                           Posted
                         </Badge>
                       )}

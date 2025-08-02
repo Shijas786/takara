@@ -19,7 +19,6 @@ export default function ApiTestPanel() {
     { name: 'OpenAI', status: 'idle' },
     { name: 'Farcaster', status: 'idle' },
     { name: 'Neynar', status: 'idle' },
-    { name: 'Coinbase', status: 'idle' },
     { name: 'Supabase', status: 'idle' },
   ]);
 
@@ -87,21 +86,7 @@ export default function ApiTestPanel() {
     }
   };
 
-  const testCoinbase = async () => {
-    updateTestResult('Coinbase', 'loading');
-    try {
-      const response = await fetch('/api/coinbase/accounts');
-      
-      if (response.ok) {
-        const data = await response.json();
-        updateTestResult('Coinbase', 'success', 'API connection successful', data);
-      } else {
-        updateTestResult('Coinbase', 'error', 'API connection failed');
-      }
-    } catch (error) {
-      updateTestResult('Coinbase', 'error', error instanceof Error ? error.message : 'Unknown error');
-    }
-  };
+
 
   const testSupabase = async () => {
     updateTestResult('Supabase', 'loading');
@@ -124,7 +109,6 @@ export default function ApiTestPanel() {
       testOpenAI(),
       testFarcaster(),
       testNeynar(),
-      testCoinbase(),
       testSupabase(),
     ]);
   };
@@ -203,9 +187,7 @@ export default function ApiTestPanel() {
           <Button onClick={testNeynar} variant="outline">
             Test Neynar
           </Button>
-          <Button onClick={testCoinbase} variant="outline">
-            Test Coinbase
-          </Button>
+
           <Button onClick={testSupabase} variant="outline">
             Test Supabase
           </Button>

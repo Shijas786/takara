@@ -116,20 +116,13 @@ export interface FarcasterConfig {
   neynarBaseUrl: string;
 }
 
-export interface CoinbaseConfig {
-  apiKey: string;
-  apiSecret: string;
-  passphrase: string;
-  baseUrl: string;
-  sandboxUrl: string;
-}
+
 
 export interface AppConfig {
   contracts: ContractConfig;
   supabase: SupabaseConfig;
   openai: OpenAIConfig;
   farcaster: FarcasterConfig;
-  coinbase: CoinbaseConfig;
 } 
 
 // Extend Window interface for Web3 and Coinbase Wallet
@@ -137,6 +130,10 @@ declare global {
   interface Window {
     ethereum?: {
       isCoinbaseWallet?: boolean;
+      isMetaMask?: boolean;
+      isNightly?: boolean;
+      isPhantom?: boolean;
+      isBraveWallet?: boolean;
       request: (args: any) => Promise<any>;
       on: (event: string, callback: any) => void;
       removeListener: (event: string, callback: any) => void;

@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import React from "react"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -23,8 +24,44 @@ export function isValidReactElement(node: any): node is React.ReactElement {
  * Returns the element if valid, or a fallback if not
  */
 export function safeRender(
-  element: any, 
+  element: React.ReactElement | null | undefined, 
   fallback: React.ReactNode = null
 ): React.ReactNode {
-  return isValidReactElement(element) ? element : fallback;
+  if (element === null || element === undefined) {
+    return fallback;
+  }
+  
+  if (isValidReactElement(element)) {
+    return element;
+  }
+  
+  return fallback;
+}
+
+/**
+ * Wallet conflict resolution utility
+ * Helps prevent conflicts between multiple wallet extensions
+ */
+export function getWalletProvider() {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  // Check for Coinbase Wallet first
+  if (window.ethereum?.isCoinbaseWallet) {
+    return window.ethereum;
+  }
+
+  // Check for MetaMask
+  if (window.ethereum?.isMetaMask) {
+    return window.ethereum;
+  }
+
+  // Check for Nightly Wallet
+  if (window.ethereum?.isNightly) {
+    return window.ethereum;
+  }
+
+  // Return the first available ethereum provider
+  return window.ethereum || null;
 }

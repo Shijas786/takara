@@ -61,7 +61,7 @@ export default function SafeComponentRenderer({
         <div>
           <h3 className="font-medium mb-2">Safely Rendered Children:</h3>
           <div className="p-4 bg-gray-50 rounded-lg">
-            {safeRender(children, <span className="text-gray-500">No children provided</span>)}
+            {children || <span className="text-gray-500">No children provided</span>}
           </div>
         </div>
 
@@ -95,7 +95,7 @@ export default function SafeComponentRenderer({
                     {isValidReactElement(element) ? '✅ Valid' : '❌ Invalid'}
                   </span>
                   <div className="flex-1">
-                    {safeRender(element, <span className="text-red-500">Invalid element</span>)}
+                    {isValidReactElement(element) ? element : <span className="text-red-500">Invalid element</span>}
                   </div>
                 </div>
               ))}

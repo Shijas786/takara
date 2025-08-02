@@ -22,13 +22,7 @@ export const config: AppConfig = {
     neynarApiKey: process.env.NEYNAR_API_KEY || 'placeholder_neynar_key',
     neynarBaseUrl: 'https://api.neynar.com/v2',
   },
-  coinbase: {
-    apiKey: process.env.COINBASE_API_KEY || 'placeholder_coinbase_key',
-    apiSecret: process.env.COINBASE_API_SECRET || 'placeholder_coinbase_secret',
-    passphrase: process.env.COINBASE_PASSPHRASE || 'placeholder_coinbase_passphrase',
-    baseUrl: 'https://api.pro.coinbase.com',
-    sandboxUrl: 'https://api-public.sandbox.pro.coinbase.com',
-  },
+
 };
 
 // Placeholder for fresh influencer data

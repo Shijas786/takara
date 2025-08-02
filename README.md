@@ -62,9 +62,7 @@
    # OpenAI
    OPENAI_API_KEY=your_openai_api_key
    
-   # Coinbase (optional)
-   COINBASE_API_KEY=your_coinbase_api_key
-   COINBASE_SECRET=your_coinbase_secret
+   
    
    # Supabase (optional)
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
@@ -155,9 +153,8 @@ NEYNAR_APP_MNEMONIC=your_app_mnemonic
 # OpenAI
 OPENAI_API_KEY=sk-...
 
-# Coinbase (optional)
-COINBASE_API_KEY=your_api_key
-COINBASE_SECRET=your_secret
+
+
 
 # Supabase (optional)
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
@@ -185,7 +182,7 @@ takara/
 │   ├── api/               # API routes
 │   │   ├── farcaster/     # Farcaster API routes
 │   │   ├── openai/        # OpenAI API routes
-│   │   ├── coinbase/      # Coinbase API routes
+
 │   │   └── supabase/      # Supabase API routes
 │   ├── globals.css        # Global styles
 │   ├── layout.tsx         # Root layout
@@ -198,7 +195,7 @@ takara/
 ├── lib/                   # Utility libraries
 │   ├── openai.ts         # AI integration
 │   ├── neynar.ts         # Neynar API
-│   ├── coinbase.ts       # Coinbase API
+
 │   └── config.ts         # Configuration
 ├── types/                 # TypeScript types
 ├── hooks/                 # Custom React hooks
@@ -231,7 +228,7 @@ npm start
 - **Auto-posting**: Scheduled content management
 
 ### 🔧 Optional Integrations
-- **Coinbase**: Crypto data and trading (configured but optional)
+
 - **Supabase**: Database storage (configured but optional)
 
 ## 🤝 Contributing

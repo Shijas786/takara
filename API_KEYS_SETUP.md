@@ -64,31 +64,7 @@ FARCASTER_CLIENT_SECRET=your_farcaster_client_secret_here
 NEYNAR_API_KEY=your_neynar_api_key_here
 ```
 
-## 3. Coinbase API Keys
 
-### How to Get Coinbase API Keys:
-
-1. Go to [Coinbase Pro](https://pro.coinbase.com/) (or Coinbase Advanced)
-2. Sign in to your account
-3. Navigate to "API" in the settings
-4. Click "New API Key"
-5. Configure permissions:
-   - **View** (required for reading account info)
-   - **Trade** (optional, for trading operations)
-   - **Transfer** (optional, for transfers)
-6. Set IP whitelist (recommended for security)
-7. Copy the generated:
-   - API Key
-   - API Secret
-   - Passphrase
-
-### Add to Environment:
-```env
-COINBASE_API_KEY=your_coinbase_api_key_here
-COINBASE_API_SECRET=your_coinbase_api_secret_here
-COINBASE_PASSPHRASE=your_coinbase_passphrase_here
-NEXT_PUBLIC_COINBASE_API_KEY=your_coinbase_api_key_here
-```
 
 ## 4. Supabase Configuration
 
@@ -147,7 +123,7 @@ After setting up all keys, you can test the configuration:
 3. **Test each integration:**
    - OpenAI: Try generating content
    - Farcaster: Try connecting your account
-   - Coinbase: Check account information
+   
    - Supabase: Verify database connection
 
 ## Troubleshooting
@@ -203,5 +179,5 @@ If you encounter issues:
 
 - [OpenAI API Documentation](https://platform.openai.com/docs)
 - [Farcaster Developer Documentation](https://developer.farcaster.xyz/)
-- [Coinbase Pro API Documentation](https://docs.pro.coinbase.com/)
+
 - [Supabase Documentation](https://supabase.com/docs) 
