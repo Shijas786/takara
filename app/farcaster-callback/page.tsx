@@ -1,131 +1,91 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
+import { Button } from '../../components/ui/button';
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
 
-function FarcasterCallbackContent() {
-  const router = useRouter();
+export default function FarcasterCallback() {
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
-  const [message, setMessage] = useState('Connecting to Farcaster...');
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const handleCallback = async () => {
       try {
         const code = searchParams.get('code');
-        const error = searchParams.get('error');
-
-        if (error) {
-          setStatus('error');
-          setMessage('Authentication failed. Please try again.');
-          setTimeout(() => router.push('/'), 3000);
-          return;
-        }
+        const state = searchParams.get('state');
 
         if (!code) {
           setStatus('error');
-          setMessage('No authorization code received.');
-          setTimeout(() => router.push('/'), 3000);
+          setMessage('No authorization code received');
           return;
         }
 
-        // Exchange code for token
-        const tokenResponse = await fetch('/api/farcaster/token', {
+        // Exchange code for access token
+        const response = await fetch('/api/farcaster/token', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ code }),
+          body: JSON.stringify({ code, state }),
         });
 
-        if (!tokenResponse.ok) {
-          throw new Error('Failed to exchange code for token');
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem('takara_farcaster_token', data.access_token);
+          setStatus('success');
+          setMessage('Successfully connected to Farcaster!');
+        } else {
+          setStatus('error');
+          setMessage('Failed to authenticate with Farcaster');
         }
-
-        const { access_token } = await tokenResponse.json();
-
-        // Store the token
-        localStorage.setItem('farcaster_token', access_token);
-
-        // Get user info
-        const userResponse = await fetch('https://api.farcaster.xyz/v2/me', {
-          headers: {
-            'Authorization': `Bearer ${access_token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!userResponse.ok) {
-          throw new Error('Failed to get user info');
-        }
-
-        setStatus('success');
-        setMessage('Successfully connected to Farcaster!');
-        
-        // Redirect back to main app
-        setTimeout(() => router.push('/'), 2000);
-
       } catch (error) {
-        console.error('Farcaster callback error:', error);
         setStatus('error');
-        setMessage('Failed to connect to Farcaster. Please try again.');
-        setTimeout(() => router.push('/'), 3000);
+        setMessage('Authentication error occurred');
       }
     };
 
     handleCallback();
-  }, [searchParams, router]);
+  }, [searchParams]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl p-8 shadow-lg max-w-md w-full">
-        <div className="text-center">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle className="text-center">Farcaster Authentication</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
           {status === 'loading' && (
-            <>
-              <Loader2 className="w-12 h-12 text-blue-500 animate-spin mx-auto mb-4" />
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Connecting to Farcaster</h2>
-              <p className="text-gray-600">{message}</p>
-            </>
+            <div className="flex items-center justify-center space-x-2">
+              <Loader2 className="h-6 w-6 animate-spin" />
+              <span>Connecting to Farcaster...</span>
+            </div>
           )}
 
           {status === 'success' && (
-            <>
-              <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" />
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Success!</h2>
-              <p className="text-gray-600">{message}</p>
-              <p className="text-sm text-gray-500 mt-2">Redirecting back to app...</p>
-            </>
+            <div className="flex items-center justify-center space-x-2 text-green-600">
+              <CheckCircle className="h-6 w-6" />
+              <span>{message}</span>
+            </div>
           )}
 
           {status === 'error' && (
-            <>
-              <XCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Connection Failed</h2>
-              <p className="text-gray-600">{message}</p>
-              <p className="text-sm text-gray-500 mt-2">Redirecting back to app...</p>
-            </>
+            <div className="flex items-center justify-center space-x-2 text-red-600">
+              <XCircle className="h-6 w-6" />
+              <span>{message}</span>
+            </div>
           )}
-        </div>
-      </div>
-    </div>
-  );
-}
 
-export default function FarcasterCallback() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-        <div className="bg-white rounded-xl p-8 shadow-lg max-w-md w-full">
-          <div className="text-center">
-            <Loader2 className="w-12 h-12 text-blue-500 animate-spin mx-auto mb-4" />
-            <h2 className="text-xl font-bold text-gray-900 mb-2">Loading...</h2>
-            <p className="text-gray-600">Preparing Farcaster connection...</p>
-          </div>
-        </div>
-      </div>
-    }>
-      <FarcasterCallbackContent />
-    </Suspense>
+          <Button 
+            onClick={() => window.location.href = '/'}
+            className="w-full"
+          >
+            Return to Takara
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
   );
 } 

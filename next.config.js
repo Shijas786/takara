@@ -30,7 +30,7 @@ const nextConfig = {
     };
     return config;
   },
-  // Add proper headers for API routes
+  // Add proper headers for API routes and Farcaster manifest
   async headers() {
     return [
       {
@@ -39,6 +39,15 @@ const nextConfig = {
           { key: 'Access-Control-Allow-Origin', value: '*' },
           { key: 'Access-Control-Allow-Methods', value: 'GET,POST,PUT,DELETE,OPTIONS' },
           { key: 'Access-Control-Allow-Headers', value: 'X-Requested-With, Content-Type, Authorization' },
+        ],
+      },
+      {
+        source: '/farcaster-manifest.json',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/json',
+          },
         ],
       },
     ];

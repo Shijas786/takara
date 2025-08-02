@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import Navigation from '../components/Navigation';
 import { Toaster } from '../components/ui/toaster';
 import ClientOnlyWrapper from '../components/ClientOnlyWrapper';
+import FarcasterConnect from '../components/FarcasterConnect';
 
 // Dynamically import the ContentGenerator to prevent SSR issues
 const ContentGenerator = dynamic(() => import('../components/ContentGenerator'), {
@@ -25,6 +26,13 @@ export default function Home() {
       <Navigation />
 
       <main className="max-w-4xl mx-auto px-4 py-8">
+        {/* Farcaster Connection */}
+        <div className="mb-8">
+          <ClientOnlyWrapper>
+            <FarcasterConnect />
+          </ClientOnlyWrapper>
+        </div>
+
         {/* Content Generator Component */}
         <div className="mb-8">
           <ClientOnlyWrapper>

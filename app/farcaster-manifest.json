@@ -1,0 +1,17 @@
+{
+  "name": "Takara Content Evolution",
+  "description": "AI-powered content generation and scheduling platform for Farcaster",
+  "icon": "https://placeholder.com/icon.png",
+  "appUrl": "https://takara-content-evolution.vercel.app",
+  "appId": "02d332e4-b278-4c2f-a8f0-c86c15f24386",
+  "permissions": [
+    "user:read",
+    "cast:read",
+    "cast:write"
+  ],
+  "features": [
+    "content_generation",
+    "scheduling",
+    "ai_assistant"
+  ]
+} 
