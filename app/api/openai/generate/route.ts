@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { OpenAIService } from '../../../../lib/openai';
+import { openaiService } from '../../../../lib/openai';
+import { sanitizeResponse } from '../../../../lib/sanitizeResponse';
 import { Influencer } from '../../../../types';
 
 export async function POST(request: NextRequest) {
@@ -26,8 +27,6 @@ export async function POST(request: NextRequest) {
       sampleTweets: [],
     };
 
-    const openaiService = new OpenAIService();
-    
     const generatedContent = await openaiService.generateShitpost(
       {
         influencerId: influencerId || 'takara',
@@ -39,10 +38,7 @@ export async function POST(request: NextRequest) {
       mockInfluencer
     );
 
-    return NextResponse.json({ 
-      success: true, 
-      content: generatedContent 
-    });
+    return NextResponse.json(sanitizeResponse({ content: generatedContent }));
   } catch (error: any) {
     console.error('OpenAI generation error:', error);
     
@@ -66,12 +62,6 @@ export async function POST(request: NextRequest) {
       errorMessage = error.message || 'Failed to generate content';
     }
     
-    return NextResponse.json(
-      { 
-        success: false, 
-        error: errorMessage 
-      },
-      { status: statusCode }
-    );
+    return NextResponse.json(sanitizeResponse({ error: errorMessage }), { status: statusCode });
   }
 } 

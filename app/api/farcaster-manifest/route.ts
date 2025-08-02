@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { sanitizeResponse } from '../../../lib/sanitizeResponse';
 
 export async function GET() {
   const manifest = {
@@ -9,7 +10,7 @@ export async function GET() {
     appId: process.env.NEXT_PUBLIC_FARCASTER_CLIENT_ID || '',
   };
 
-  return NextResponse.json(manifest);
+  return NextResponse.json(sanitizeResponse(manifest));
 }
 
 export async function OPTIONS() {

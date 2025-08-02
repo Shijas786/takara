@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sanitizeResponse } from '../../../lib/sanitizeResponse';
 
 // Force dynamic rendering to avoid static generation issues
 export const dynamic = 'force-dynamic';
@@ -32,7 +33,8 @@ export async function GET(request: NextRequest) {
     </svg>
   `;
 
-  return new NextResponse(svg, {
+  // SVG is a string, but sanitize anyway for consistency
+  return new NextResponse(sanitizeResponse(svg), {
     headers: {
       'Content-Type': 'image/svg+xml',
       'Cache-Control': 'public, max-age=3600',

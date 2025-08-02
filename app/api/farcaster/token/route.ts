@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sanitizeResponse } from '../../../../lib/sanitizeResponse';
 
 export async function POST(request: NextRequest) {
   try {
@@ -6,7 +7,7 @@ export async function POST(request: NextRequest) {
 
     if (!code) {
       return NextResponse.json(
-        { error: 'Authorization code is required' },
+        sanitizeResponse({ error: 'Authorization code is required' }),
         { status: 400 }
       );
     }
@@ -30,23 +31,23 @@ export async function POST(request: NextRequest) {
       const errorData = await tokenResponse.text();
       console.error('Farcaster token exchange error:', errorData);
       return NextResponse.json(
-        { error: 'Failed to exchange authorization code' },
+        sanitizeResponse({ error: 'Failed to exchange authorization code' }),
         { status: 400 }
       );
     }
 
     const tokenData = await tokenResponse.json();
 
-    return NextResponse.json({
+    return NextResponse.json(sanitizeResponse({
       access_token: tokenData.access_token,
       token_type: tokenData.token_type,
       expires_in: tokenData.expires_in,
-    });
+    }));
 
   } catch (error) {
     console.error('Farcaster token API error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      sanitizeResponse({ error: 'Internal server error' }),
       { status: 500 }
     );
   }

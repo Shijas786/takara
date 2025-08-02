@@ -1,6 +1,7 @@
 'use client';
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+import errorHandler from '../lib/errorHandler';
 
 interface Props {
   children: ReactNode;
@@ -23,7 +24,11 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    // Use the production error handler
+    errorHandler.handleReactError(error, {
+      componentStack: errorInfo.componentStack || '',
+      error
+    });
   }
 
   render() {

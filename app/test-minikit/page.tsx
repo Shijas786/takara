@@ -9,9 +9,9 @@ export default function TestMiniKit() {
       <p>Testing MiniKit imports...</p>
       
       <div style={{ margin: '20px 0', padding: '10px', background: '#f0f0f0' }}>
-        <h3>Available exports from @coinbase/onchainkit:</h3>
+        <h3>Available exports from Farcaster SDK:</h3>
         <ul>
-          <li>✅ Package installed: @coinbase/onchainkit</li>
+          <li>✅ Package installed: @farcaster/miniapp-sdk</li>
           <li>✅ MiniKit export configured in package.json</li>
           <li>✅ MiniKit files exist in dist/minikit/</li>
         </ul>

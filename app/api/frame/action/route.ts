@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { neynarHelpers } from '../../../../lib/neynar';
+import { sanitizeResponse } from '../../../../lib/sanitizeResponse';
 
 export async function POST(request: NextRequest) {
   try {
@@ -7,7 +8,7 @@ export async function POST(request: NextRequest) {
     const { trustedData, untrustedData } = body;
     
     if (!trustedData) {
-      return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
+      return NextResponse.json(sanitizeResponse({ error: 'Invalid request' }), { status: 400 });
     }
 
     const { messageBytes } = trustedData;
@@ -17,24 +18,23 @@ export async function POST(request: NextRequest) {
     let responseText = '';
 
     if (buttonIndex === 1) {
-      // Generate Content
-      responseText = `🎯 Content generated for: "${prompt}"\n\nVisit https://takara-content-evolution.vercel.app to see your evolved content!`;
+      responseText = `🎯 Content generated for: "${prompt}"
+
+Visit https://takara-content-evolution.vercel.app to see your evolved content!`;
     } else if (buttonIndex === 2) {
-      // Schedule Post
-      responseText = `📅 Post scheduled for: "${prompt}"\n\nCheck your scheduled posts at https://takara-content-evolution.vercel.app/scheduled`;
+      responseText = `📅 Post scheduled for: "${prompt}"
+
+Check your scheduled posts at https://takara-content-evolution.vercel.app/scheduled`;
     }
 
-    return NextResponse.json({
+    return NextResponse.json(sanitizeResponse({
       frames: [{
         text: responseText
       }]
-    });
+    }));
 
   } catch (error) {
     console.error('Frame action error:', error);
-    return NextResponse.json(
-      { error: 'Failed to process frame action' },
-      { status: 500 }
-    );
+    return NextResponse.json(sanitizeResponse({ error: 'Failed to process frame action' }), { status: 500 });
   }
 } 

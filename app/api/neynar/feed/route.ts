@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { neynarHelpers } from '../../../../lib/neynar';
+import { sanitizeResponse } from '../../../../lib/sanitizeResponse';
 
 // Force dynamic rendering to avoid static generation issues
 export const dynamic = 'force-dynamic';
@@ -12,17 +13,17 @@ export async function GET(request: NextRequest) {
 
     if (type === 'trending') {
       const response = await neynarHelpers.getTrendingFeed(limit);
-      return NextResponse.json(response);
+      return NextResponse.json(sanitizeResponse(response));
     } else {
       return NextResponse.json(
-        { error: 'Invalid feed type. Only "trending" is supported.' },
+        sanitizeResponse({ error: 'Invalid feed type. Only "trending" is supported.' }),
         { status: 400 }
       );
     }
   } catch (error) {
     console.error('Neynar feed API error:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch feed data' },
+      sanitizeResponse({ error: 'Failed to fetch feed data' }),
       { status: 500 }
     );
   }
