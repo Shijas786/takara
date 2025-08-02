@@ -15,9 +15,9 @@ export async function POST(request: NextRequest) {
 
     // Create a mock influencer for the AI service
     const mockInfluencer: Influencer = {
-      id: influencerId || 'kai',
-      name: 'Kai Evolution',
-      handle: 'kai_evolution',
+              id: influencerId || 'takara',
+        name: 'Takara Evolution',
+        handle: 'takara_evolution',
       avatar: '',
       description: 'AI-powered content evolution tool',
       style: style || 'crypto',
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     
     const generatedContent = await openaiService.generateShitpost(
       {
-        influencerId: influencerId || 'kai',
+        influencerId: influencerId || 'takara',
         mixedInfluencerId,
         prompt,
         style: style || 'crypto',

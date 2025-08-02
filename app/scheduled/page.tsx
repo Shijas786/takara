@@ -35,7 +35,7 @@ export default function ScheduledPage() {
   const deleteScheduledPost = (id: string) => {
     const updatedScheduled = scheduledPosts.filter(post => post.id !== id);
     setScheduledPosts(updatedScheduled);
-    localStorage.setItem('kai_scheduled_posts', JSON.stringify(updatedScheduled));
+            localStorage.setItem('takara_scheduled_posts', JSON.stringify(updatedScheduled));
     
     toast({
       title: "Post Deleted",

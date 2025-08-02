@@ -1,6 +1,6 @@
 # API Keys Setup Guide
 
-This guide will help you set up all the required API keys for the Kai Content Evolution platform.
+This guide will help you set up all the required API keys for the Takara Content Evolution platform.
 
 ## Prerequisites
 
@@ -25,7 +25,7 @@ This guide will help you set up all the required API keys for the Kai Content Ev
 2. Sign up or log in to your account
 3. Navigate to "API Keys" in the left sidebar
 4. Click "Create new secret key"
-5. Give it a name (e.g., "Kai Content Evolution")
+5. Give it a name (e.g., "Takara Content Evolution")
 6. Copy the generated key
 
 ### Add to Environment:
@@ -96,7 +96,7 @@ NEXT_PUBLIC_SBT_CONTRACT_ADDRESS=your_deployed_contract_address_here
 ```env
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_ONCHAINKIT_API_KEY=your_onchainkit_api_key_here
-NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=Kai Content Evolution
+NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=Takara Content Evolution
 NEXT_PUBLIC_ICON_URL=https://your-icon-url.com/icon.png
 ```
 

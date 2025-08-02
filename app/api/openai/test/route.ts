@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
         messages: [
           {
             role: 'user',
-            content: prompt || 'Hello, this is a test message from Kai Content Evolution.'
+            content: prompt || 'Hello, this is a test message from Takara Content Evolution.'
           }
         ],
         max_tokens: 50,

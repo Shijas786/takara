@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   const manifest = {
-    name: 'Kai Content Evolution',
+    name: 'Takara Content Evolution',
     description: 'AI-powered content generation and scheduling platform',
     icon: 'https://placeholder.com/icon.png',
     appUrl: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',

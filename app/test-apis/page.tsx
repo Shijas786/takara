@@ -15,7 +15,7 @@ export default function TestApisPage() {
                 <Sparkles className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h1 className="text-lg font-bold text-white">Kai</h1>
+                <h1 className="text-lg font-bold text-white">Takara</h1>
                 <p className="text-xs text-slate-400">API Configuration Test</p>
               </div>
             </div>
