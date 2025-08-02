@@ -199,79 +199,10 @@ class FarcasterAPI {
   }
 }
 
-// Neynar API integration for enhanced functionality
-class NeynarAPI {
-  private baseUrl: string;
-  private apiKey: string;
 
-  constructor() {
-    this.baseUrl = config.farcaster.neynarBaseUrl;
-    this.apiKey = config.farcaster.neynarApiKey;
-  }
-
-  private async makeRequest(endpoint: string, options: RequestInit = {}) {
-    const url = `${this.baseUrl}${endpoint}`;
-    const headers = {
-      'Content-Type': 'application/json',
-      'api_key': this.apiKey,
-      ...options.headers,
-    };
-
-    try {
-      const response = await fetch(url, {
-        ...options,
-        headers,
-      });
-
-      if (!response.ok) {
-        throw new Error(`Neynar API error: ${response.status} ${response.statusText}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error('Neynar API request failed:', error);
-      throw error;
-    }
-  }
-
-  // Get user by FID with enhanced data
-  async getUserByFid(fid: number): Promise<FarcasterUser> {
-    const data = await this.makeRequest(`/farcaster/user?fid=${fid}`);
-    return data.user;
-  }
-
-  // Get user casts with enhanced data
-  async getUserCasts(fid: number, limit: number = 20): Promise<FarcasterCast[]> {
-    const data = await this.makeRequest(`/farcaster/casts?fid=${fid}&limit=${limit}`);
-    return data.casts;
-  }
-
-  // Get trending casts
-  async getTrendingCasts(limit: number = 20): Promise<FarcasterCast[]> {
-    const data = await this.makeRequest(`/farcaster/trending?limit=${limit}`);
-    return data.casts;
-  }
-
-  // Post a cast using Neynar
-  async postCast(signerUuid: string, text: string, parentHash?: string): Promise<{ hash: string }> {
-    const payload = {
-      signer_uuid: signerUuid,
-      text,
-      ...(parentHash && { parent: { hash: parentHash } }),
-    };
-
-    const data = await this.makeRequest('/farcaster/cast', {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    });
-
-    return { hash: data.cast.hash };
-  }
-}
 
 // Export instances
 export const farcasterAPI = new FarcasterAPI();
-export const neynarAPI = new NeynarAPI();
 
 // Utility functions
 export const farcasterUtils = {

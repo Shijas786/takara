@@ -18,7 +18,6 @@ export default function ApiTestPanel() {
   const [testResults, setTestResults] = useState<ApiTestResult[]>([
     { name: 'OpenAI', status: 'idle' },
     { name: 'Farcaster', status: 'idle' },
-    { name: 'Neynar', status: 'idle' },
     { name: 'Supabase', status: 'idle' },
   ]);
 
@@ -70,21 +69,7 @@ export default function ApiTestPanel() {
     }
   };
 
-  const testNeynar = async () => {
-    updateTestResult('Neynar', 'loading');
-    try {
-      const response = await fetch('/api/neynar/feed?type=trending&limit=5');
-      
-      if (response.ok) {
-        const data = await response.json();
-        updateTestResult('Neynar', 'success', 'API connection successful', data);
-      } else {
-        updateTestResult('Neynar', 'error', 'API connection failed');
-      }
-    } catch (error) {
-      updateTestResult('Neynar', 'error', error instanceof Error ? error.message : 'Unknown error');
-    }
-  };
+
 
 
 
@@ -108,7 +93,6 @@ export default function ApiTestPanel() {
     await Promise.all([
       testOpenAI(),
       testFarcaster(),
-      testNeynar(),
       testSupabase(),
     ]);
   };
@@ -184,9 +168,7 @@ export default function ApiTestPanel() {
           <Button onClick={testFarcaster} variant="outline">
             Test Farcaster
           </Button>
-          <Button onClick={testNeynar} variant="outline">
-            Test Neynar
-          </Button>
+
 
           <Button onClick={testSupabase} variant="outline">
             Test Supabase
