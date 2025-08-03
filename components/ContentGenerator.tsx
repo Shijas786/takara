@@ -42,6 +42,9 @@ export default function ContentGenerator() {
   const miniApp = useMiniApp();
   const { toast } = useToast();
 
+  // Add defensive check for Mini App context
+  const isMiniAppAvailable = miniApp && miniApp.context && miniApp.context.user;
+
   // Load drafts and scheduled posts from localStorage on mount
   useEffect(() => {
     const savedDrafts = localStorage.getItem('takara_drafts');
@@ -198,7 +201,7 @@ export default function ContentGenerator() {
       return;
     }
 
-    if (!miniApp.context?.user) {
+    if (!isMiniAppAvailable) {
       toast({
         title: "Not Connected",
         description: "Please connect your Farcaster account first",
@@ -401,7 +404,7 @@ export default function ContentGenerator() {
               </Button>
               <Button
                 onClick={postToFarcaster}
-                disabled={isPosting || !miniApp.context?.user}
+                disabled={isPosting || !isMiniAppAvailable}
                 variant="outline"
                 className="border-purple-600 text-purple-300 hover:bg-purple-700"
               >

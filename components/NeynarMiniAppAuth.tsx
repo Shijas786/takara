@@ -20,6 +20,25 @@ export default function NeynarMiniAppAuth() {
   const [isPosting, setIsPosting] = useState(false);
   const [postText, setPostText] = useState('');
 
+  // Add defensive check for Mini App context
+  if (!miniApp || !miniApp.context) {
+    return (
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <MessageCircle className="h-5 w-5" />
+            <span>Farcaster Mini App</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-gray-600 mb-4">
+            Loading Mini App context...
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   const handleLogin = async () => {
     setIsConnecting(true);
     try {
