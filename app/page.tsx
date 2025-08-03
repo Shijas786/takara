@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import Navigation from '../components/Navigation';
 import { Toaster } from '../components/ui/toaster';
 import ClientOnlyWrapper from '../components/ClientOnlyWrapper';
-import FarcasterConnect from '../components/FarcasterConnect';
+import NeynarMiniAppAuth from '../components/NeynarMiniAppAuth';
 import ErrorBoundary from '../components/ErrorBoundary';
 
 // Dynamically import the ContentGenerator to prevent SSR issues
@@ -31,7 +31,7 @@ export default function Home() {
         <div className="mb-8">
           <ErrorBoundary>
             <ClientOnlyWrapper>
-              <FarcasterConnect />
+              <NeynarMiniAppAuth />
             </ClientOnlyWrapper>
           </ErrorBoundary>
         </div>

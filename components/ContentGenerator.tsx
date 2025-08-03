@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Sparkles, Copy, Download, Save, MessageCircle, Clock, Trash2, CheckCircle, User, Wallet } from 'lucide-react';
+import { Sparkles, Copy, Download, Save, MessageCircle, Clock, Trash2, CheckCircle, User, Wallet, Send } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useToast } from '../hooks/use-toast';
+import { useMiniApp } from '@neynar/react';
 
 import ClientOnlyWrapper from './ClientOnlyWrapper';
 
@@ -34,10 +35,11 @@ export default function ContentGenerator() {
   const [evolutionTone, setEvolutionTone] = useState('authentic');
   const [generatedContent, setGeneratedContent] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isPosting, setIsPosting] = useState(false);
   const [drafts, setDrafts] = useState<Draft[]>([]);
   const [scheduledPosts, setScheduledPosts] = useState<ScheduledPost[]>([]);
 
-
+  const miniApp = useMiniApp();
   const { toast } = useToast();
 
   // Load drafts and scheduled posts from localStorage on mount
@@ -184,6 +186,58 @@ export default function ContentGenerator() {
       title: "Post Scheduled!",
       description: `Your post has been scheduled for ${randomSlot}`,
     });
+  };
+
+  const postToFarcaster = async () => {
+    if (!generatedContent.trim()) {
+      toast({
+        title: "No Content",
+        description: "Please generate content first",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!miniApp.context?.user) {
+      toast({
+        title: "Not Connected",
+        description: "Please connect your Farcaster account first",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsPosting(true);
+    try {
+      // Use the MiniApp composeCast action instead of direct API call
+      const result = await miniApp.actions.composeCast({
+        text: generatedContent,
+        close: false, // Keep the mini app open after posting
+      });
+
+      if (result.cast) {
+        toast({
+          title: "Posted to Farcaster!",
+          description: "Your evolved content has been posted successfully",
+        });
+        console.log('Cast posted successfully:', result);
+      } else {
+        toast({
+          title: "Post Failed",
+          description: "Failed to post to Farcaster",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Error posting to Farcaster:', error);
+      toast({
+        title: "Post Error",
+        description: "Failed to post to Farcaster. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsPosting(false);
+    }
   };
 
 
@@ -344,6 +398,15 @@ export default function ContentGenerator() {
               >
                 <Clock className="w-4 h-4 mr-2" />
                 Schedule Post
+              </Button>
+              <Button
+                onClick={postToFarcaster}
+                disabled={isPosting || !miniApp.context?.user}
+                variant="outline"
+                className="border-purple-600 text-purple-300 hover:bg-purple-700"
+              >
+                <Send className="w-4 h-4 mr-2" />
+                {isPosting ? 'Posting...' : 'Post to Farcaster'}
               </Button>
             </div>
           </div>
