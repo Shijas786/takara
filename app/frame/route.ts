@@ -2,29 +2,43 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const prompt = searchParams.get('prompt') || '';
+  const text = searchParams.get('text') || 'Check out this amazing content!';
 
-  const frameHtml = `
+  const html = `
     <!DOCTYPE html>
     <html>
       <head>
         <title>Takara Content Evolution</title>
+        <meta property="og:title" content="Takara Content Evolution" />
+        <meta property="og:description" content="AI-powered content creation for Farcaster" />
+        <meta property="og:image" content="https://your-domain.com/frame-image.png" />
         <meta property="fc:frame" content="vNext" />
-        <meta property="fc:frame:image" content="https://takara-content-evolution.vercel.app/api/og?prompt=${encodeURIComponent(prompt)}" />
-        <meta property="fc:frame:button:1" content="Generate Content" />
-        <meta property="fc:frame:button:2" content="Schedule Post" />
-        <meta property="fc:frame:post_url" content="https://takara-content-evolution.vercel.app/api/frame/action" />
+        <meta property="fc:frame:image" content="https://your-domain.com/frame-image.png" />
+        <meta property="fc:frame:button:1" content="Open Takara" />
+        <meta property="fc:frame:post_url" content="https://your-domain.com/frame" />
       </head>
       <body>
         <h1>Takara Content Evolution</h1>
-        <p>AI-powered content generation for Farcaster</p>
+        <p>AI-powered content creation for Farcaster</p>
+        <p>Generated content: ${text}</p>
       </body>
     </html>
   `;
 
-  return new NextResponse(frameHtml, {
+  return new NextResponse(html, {
     headers: {
       'Content-Type': 'text/html',
     },
+  });
+}
+
+export async function POST(request: NextRequest) {
+  const data = await request.json();
+  
+  // Handle frame interaction
+  return NextResponse.json({
+    success: true,
+    message: 'Frame interaction received',
+    data: data,
   });
 } 

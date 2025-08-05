@@ -1,51 +1,89 @@
-import { Sparkles } from 'lucide-react';
-import dynamic from 'next/dynamic';
-import Navigation from '../components/Navigation';
-import { Toaster } from '../components/ui/toaster';
-import ClientOnlyWrapper from '../components/ClientOnlyWrapper';
-import NeynarMiniAppAuth from '../components/NeynarMiniAppAuth';
-import ErrorBoundary from '../components/ErrorBoundary';
+"use client"
 
-// Dynamically import the ContentGenerator to prevent SSR issues
-const ContentGenerator = dynamic(() => import('../components/ContentGenerator'), {
-  ssr: false,
-  loading: () => (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <div className="text-center mb-12">
-        <h2 className="text-2xl font-bold text-white mb-4">Content Takara Evolution</h2>
-        <p className="text-slate-300 max-w-2xl mx-auto mb-6">
-          Loading content generator...
-        </p>
-      </div>
-    </div>
-  ),
-});
+import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { AnimatedHeader } from "@/components/animated-header"
+import { HeroSection } from "@/components/hero-section"
+import { UserProfileCard } from "@/components/user-profile-card"
+import { CastComposer } from "@/components/cast-composer"
+import { FeedSection } from "@/components/feed-section"
+import { ExploreSection } from "@/components/explore-section"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { TooltipProvider } from "@/components/ui/tooltip"
+import { mockUser } from "@/lib/utils"
 
 export default function Home() {
+  const [isSignedIn, setIsSignedIn] = useState(true)
+
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
-      <Navigation />
+    <TooltipProvider>
+      <div className="min-h-screen bg-background">
+        <AnimatedHeader />
+        
+        <main className="container mx-auto px-4 py-8">
+          {/* Hero Section */}
+          <HeroSection />
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        {/* Farcaster Connection */}
-        <div className="mb-8">
-          <ErrorBoundary>
-            <ClientOnlyWrapper>
-              <NeynarMiniAppAuth />
-            </ClientOnlyWrapper>
-          </ErrorBoundary>
-        </div>
+          {/* Main Content Tabs */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mt-12"
+          >
+            <Tabs defaultValue="feed" className="space-y-6">
+              <TabsList className="grid w-full grid-cols-3 bg-background/50 backdrop-blur-sm border border-border/50">
+                <TabsTrigger value="feed" className="data-[state=active]:bg-background data-[state=active]:shadow-sm">
+                  Feed
+                </TabsTrigger>
+                <TabsTrigger value="create" className="data-[state=active]:bg-background data-[state=active]:shadow-sm">
+                  Create
+                </TabsTrigger>
+                <TabsTrigger value="explore" className="data-[state=active]:bg-background data-[state=active]:shadow-sm">
+                  Explore
+                </TabsTrigger>
+              </TabsList>
 
-        {/* Content Generator Component */}
-        <div className="mb-8">
-          <ErrorBoundary>
-            <ClientOnlyWrapper>
-              <ContentGenerator />
-            </ClientOnlyWrapper>
-          </ErrorBoundary>
-        </div>
-      </main>
-      <Toaster />
-    </div>
-  );
+              <AnimatePresence mode="wait">
+                <TabsContent key="feed" value="feed" className="space-y-6">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <FeedSection />
+                  </motion.div>
+                </TabsContent>
+
+                <TabsContent key="create" value="create" className="space-y-6">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="grid gap-6 md:grid-cols-2"
+                  >
+                    <UserProfileCard user={mockUser} isSignedIn={isSignedIn} />
+                    <CastComposer />
+                  </motion.div>
+                </TabsContent>
+
+                <TabsContent key="explore" value="explore" className="space-y-6">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ExploreSection />
+                  </motion.div>
+                </TabsContent>
+              </AnimatePresence>
+            </Tabs>
+          </motion.div>
+        </main>
+      </div>
+    </TooltipProvider>
+  )
 } 

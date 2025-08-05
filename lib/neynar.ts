@@ -1,113 +1,119 @@
-import { NeynarAPIClient } from '@neynar/nodejs-sdk';
-import { config } from './config';
+import { NeynarAPIClient, Configuration } from '@neynar/nodejs-sdk';
 
 // Initialize Neynar API client
-const neynarClient = new NeynarAPIClient({
-  apiKey: process.env.NEYNAR_API_KEY || ''
-});
+export const getNeynarClient = () => {
+  const apiKey = process.env.NEYNAR_API_KEY;
+  if (!apiKey) {
+    throw new Error('NEYNAR_API_KEY environment variable is required');
+  }
+  
+  const config = new Configuration({
+    apiKey: apiKey,
+    baseOptions: {
+      headers: {
+        "x-neynar-experimental": true,
+      },
+    },
+  });
+  
+  return new NeynarAPIClient(config);
+};
 
-// Check if API key is configured
-if (!process.env.NEYNAR_API_KEY) {
-  console.warn('NEYNAR_API_KEY environment variable is not configured');
+// EIP-712 constants for signer registration
+export const SIGNED_KEY_REQUEST_VALIDATOR_EIP_712_DOMAIN = {
+  name: 'Farcaster SignedKeyRequestValidator',
+  version: '1',
+  chainId: 10,
+  verifyingContract: '0x00000000fc700472606ed4fa22623acf62c60553' as `0x${string}`,
+};
+
+export const SIGNED_KEY_REQUEST_TYPE = [
+  { name: 'requestFid', type: 'uint256' },
+  { name: 'key', type: 'bytes' },
+  { name: 'deadline', type: 'uint256' },
+];
+
+// Storage key for authentication state
+export const STORAGE_KEY = 'neynar_authenticated_user';
+
+// Authentication state interface
+export interface StoredAuthState {
+  isAuthenticated: boolean;
+  user: {
+    fid: number;
+    username: string;
+    display_name: string;
+    pfp_url: string;
+    custody_address: string;
+    profile: {
+      bio: { text: string };
+      location?: any;
+    };
+    follower_count: number;
+    following_count: number;
+    verifications: string[];
+    verified_addresses: {
+      eth_addresses: string[];
+      sol_addresses: string[];
+      primary: {
+        eth_address: string;
+        sol_address: string;
+      };
+    };
+    power_badge: boolean;
+    score: number;
+  } | null;
+  signers: {
+    object: 'signer';
+    signer_uuid: string;
+    public_key: string;
+    status: 'approved';
+    fid: number;
+  }[];
 }
 
-// Production-ready Neynar API utility functions
-export const neynarHelpers = {
-  // Get user by FID
-  async getUserByFid(fid: number) {
-    try {
-      const response = await neynarClient.lookupUserByCustodyAddress({ custodyAddress: fid.toString() });
-      return response;
-    } catch (error) {
-      console.error('Error fetching user by FID:', error);
-      throw error;
-    }
-  },
-
-  // Get user by address
-  async getUserByAddress(address: string) {
-    try {
-      const response = await neynarClient.lookupUserByCustodyAddress({ custodyAddress: address });
-      return response;
-    } catch (error) {
-      console.error('Error fetching user by address:', error);
-      throw error;
-    }
-  },
-
-  // Get trending feed
-  async getTrendingFeed(limit: number = 20) {
-    try {
-      const response = await neynarClient.fetchTrendingFeed({
-        limit,
-        timeWindow: '24h'
-      });
-      return response;
-    } catch (error) {
-      console.error('Error fetching trending feed:', error);
-      throw error;
-    }
-  },
-
-  // Publish a cast
-  async publishCast(signerUuid: string, text: string, parentHash?: string) {
-    try {
-      const response = await neynarClient.publishCast({
-        signerUuid,
-        text,
-        ...(parentHash && { parent: parentHash })
-      });
-      return response;
-    } catch (error) {
-      console.error('Error publishing cast:', error);
-      throw error;
-    }
-  },
-
-  // Create a signer
-  async createSigner(name: string, description?: string) {
-    try {
-      const response = await neynarClient.createSigner();
-      return response;
-    } catch (error) {
-      console.error('Error creating signer:', error);
-      throw error;
-    }
-  },
-
-  // Get user casts
-  async getUserCasts(fid: number, limit: number = 20) {
-    try {
-      const response = await neynarClient.fetchCastsForUser({
-        fid,
-        limit
-      });
-      return response;
-    } catch (error) {
-      console.error('Error fetching user casts:', error);
-      throw error;
-    }
-  },
-
-  // Search for users
-  async searchUser(query: string) {
-    try {
-      const response = await neynarClient.searchUser({
-        q: query
-      });
-      return response;
-    } catch (error) {
-      console.error('Error searching user:', error);
-      throw error;
-    }
+// Utility functions for localStorage
+export const getStoredAuth = (): StoredAuthState | null => {
+  if (typeof window === 'undefined') return null;
+  
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : null;
+  } catch (error) {
+    console.error('Error reading stored auth:', error);
+    return null;
   }
 };
 
-// Export individual functions for convenience
-export const getUser = neynarHelpers.getUserByFid;
-export const getTrendingFeed = neynarHelpers.getTrendingFeed;
-export const publishCast = neynarHelpers.publishCast;
-export const createSigner = neynarHelpers.createSigner;
-export const getUserCasts = neynarHelpers.getUserCasts;
+export const setStoredAuth = (authState: StoredAuthState) => {
+  if (typeof window === 'undefined') return;
+  
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(authState));
+  } catch (error) {
+    console.error('Error storing auth:', error);
+  }
+};
 
-export default neynarHelpers; 
+export const clearStoredAuth = () => {
+  if (typeof window === 'undefined') return;
+  
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch (error) {
+    console.error('Error clearing stored auth:', error);
+  }
+};
+
+// Check if user is authenticated
+export const isAuthenticated = (): boolean => {
+  const storedAuth = getStoredAuth();
+  return storedAuth?.isAuthenticated === true && 
+         storedAuth?.signers?.some(s => s.status === 'approved') === true;
+};
+
+// Get active signer
+export const getActiveSigner = () => {
+  const storedAuth = getStoredAuth();
+  return storedAuth?.signers?.find(s => s.status === 'approved');
+}; 

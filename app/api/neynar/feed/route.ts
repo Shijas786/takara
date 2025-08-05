@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { neynarHelpers } from '../../../../lib/neynar';
+import { getNeynarClient } from '../../../../lib/neynar';
 import { sanitizeResponse } from '../../../../lib/sanitizeResponse';
 
 // Force dynamic rendering to avoid static generation issues
@@ -12,7 +12,11 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '20');
 
     if (type === 'trending') {
-      const response = await neynarHelpers.getTrendingFeed(limit);
+      const client = getNeynarClient();
+      const response = await client.fetchTrendingFeed({
+        limit,
+        timeWindow: '24h'
+      });
       return NextResponse.json(sanitizeResponse(response));
     } else {
       return NextResponse.json(

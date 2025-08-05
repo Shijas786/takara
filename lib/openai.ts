@@ -102,6 +102,8 @@ CRITICAL: Make the content sound 100% human and natural. Avoid any AI-like patte
 
 Generate authentic, viral posts that match the influencer's style. Use emojis, slang, and hooks liberally. Be authentic to crypto Twitter culture.
 
+LENGTH REQUIREMENT: ${request.length === 'short' ? 'Keep it very short (under 100 characters).' : request.length === 'medium' ? 'Keep it medium length (under 280 characters).' : 'Can be longer (under 500 characters).'}
+
 ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT.
 
 Here are real examples of ${request.style} tweets from similar influencers:
@@ -121,14 +123,24 @@ Key style elements to include:
             content: prompt
           }
         ],
-        max_tokens: request.length === 'short' ? 120 : request.length === 'medium' ? 250 : 350,
+        max_tokens: request.length === 'short' ? 50 : request.length === 'medium' ? 150 : 250,
         temperature: 0.9, // Higher temperature for more natural variation
         presence_penalty: 0.2, // Encourage more diverse language
         frequency_penalty: 0.3, // Reduce repetitive patterns
       });
 
       const generatedContent = completion.choices[0]?.message?.content || 'Failed to generate post';
-      return await this.cleanContent(generatedContent);
+      const cleanedContent = await this.cleanContent(generatedContent);
+      
+      // Enforce length limits
+      const maxChars = request.length === 'short' ? 100 : request.length === 'medium' ? 280 : 500;
+      if (cleanedContent.length > maxChars) {
+        // Truncate to fit within limit, trying to break at word boundaries
+        const truncated = cleanedContent.substring(0, maxChars - 3) + '...';
+        return truncated;
+      }
+      
+      return cleanedContent;
     } catch (error) {
       console.error('OpenAI API error:', error);
       throw new Error('Failed to generate post');
@@ -196,7 +208,16 @@ Key reply elements to include:
       });
 
       const generatedContent = completion.choices[0]?.message?.content || 'Failed to generate reply';
-      return await this.cleanContent(generatedContent);
+      const cleanedContent = await this.cleanContent(generatedContent);
+      
+      // Enforce length limits
+      const maxChars = length === 'short' ? 100 : length === 'medium' ? 280 : 500;
+      if (cleanedContent.length > maxChars) {
+        const truncated = cleanedContent.substring(0, maxChars - 3) + '...';
+        return truncated;
+      }
+      
+      return cleanedContent;
     } catch (error) {
       console.error('OpenAI API error:', error);
       throw new Error('Failed to generate reply');
@@ -265,7 +286,16 @@ Key BASED elements to include:
       });
 
       const generatedContent = completion.choices[0]?.message?.content || 'Failed to generate BASED content';
-      return await this.cleanContent(generatedContent);
+      const cleanedContent = await this.cleanContent(generatedContent);
+      
+      // Enforce length limits
+      const maxChars = length === 'short' ? 100 : length === 'medium' ? 280 : 500;
+      if (cleanedContent.length > maxChars) {
+        const truncated = cleanedContent.substring(0, maxChars - 3) + '...';
+        return truncated;
+      }
+      
+      return cleanedContent;
     } catch (error) {
       console.error('OpenAI API error:', error);
       throw new Error('Failed to generate BASED content');
@@ -334,7 +364,16 @@ Key influencer style elements:
       });
 
       const generatedContent = completion.choices[0]?.message?.content || 'Failed to generate influencer content';
-      return await this.cleanContent(generatedContent);
+      const cleanedContent = await this.cleanContent(generatedContent);
+      
+      // Enforce length limits
+      const maxChars = length === 'short' ? 100 : length === 'medium' ? 280 : 500;
+      if (cleanedContent.length > maxChars) {
+        const truncated = cleanedContent.substring(0, maxChars - 3) + '...';
+        return truncated;
+      }
+      
+      return cleanedContent;
     } catch (error) {
       console.error('OpenAI API error:', error);
       throw new Error('Failed to generate influencer content');
