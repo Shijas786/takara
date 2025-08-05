@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     }
 
     const client = getNeynarClient();
-    const response = await client.fetchSignersForUser({ fid: parseInt(fid) });
+    const response = await client.getSignersForUser({ fid: parseInt(fid) });
     
     return NextResponse.json(sanitizeResponse(response));
   } catch (error) {
