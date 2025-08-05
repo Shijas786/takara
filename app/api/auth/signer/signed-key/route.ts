@@ -24,7 +24,6 @@ export async function POST(request: NextRequest) {
     const response = await client.registerSignedKey({
       signerUuid,
       signature,
-      signedKeyRequest,
       deadline,
       requestFid,
     });
