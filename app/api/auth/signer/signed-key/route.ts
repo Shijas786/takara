@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
       signerUuid,
       signature,
       deadline,
-      requestFid,
+      appFid: requestFid,
     });
     
     return NextResponse.json(sanitizeResponse(response));
