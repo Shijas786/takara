@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { AnimatedHeader } from "@/components/animated-header"
 import { HeroSection } from "@/components/hero-section"
@@ -11,13 +11,48 @@ import { ExploreSection } from "@/components/explore-section"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { mockUser } from "@/lib/utils"
+import { useMiniKit, useAddFrame, useOpenUrl } from "@coinbase/onchainkit/minikit"
 
 export default function Home() {
   const [isSignedIn, setIsSignedIn] = useState(true)
 
+  const { setFrameReady, isFrameReady, context } = useMiniKit()
+  const addFrame = useAddFrame()
+  const openUrl = useOpenUrl()
+
+  useEffect(() => {
+    if (!isFrameReady) {
+      setFrameReady()
+    }
+  }, [setFrameReady, isFrameReady])
+
+  const handleAddFrame = async () => {
+    const result = await addFrame()
+    if (result) {
+      console.log('Frame added:', result.url, result.token)
+    }
+  }
+
   return (
     <TooltipProvider>
       <div className="min-h-screen bg-background">
+        <div className="flex justify-end items-center p-3 gap-2">
+          <button
+            type="button"
+            className="cursor-pointer bg-transparent font-semibold text-sm px-2 py-1 border rounded"
+            onClick={handleAddFrame}
+          >
+            Save Frame
+          </button>
+          <button
+            type="button"
+            className="cursor-pointer bg-transparent font-semibold text-sm px-2 py-1 border rounded"
+            onClick={() => openUrl('https://base.org/builders/minikit')}
+          >
+            BUILT WITH MINIKIT
+          </button>
+        </div>
+
         <AnimatedHeader />
         
         <main className="container mx-auto px-4 py-8">

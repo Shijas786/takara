@@ -5,9 +5,10 @@ export async function GET() {
   const manifest = {
     name: 'Takara Content Evolution',
     description: 'AI-powered content generation and scheduling platform',
-    icon: 'https://placeholder.com/icon.png',
-    appUrl: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+    icon: process.env.NEXT_PUBLIC_ICON_URL || 'https://placeholder.com/icon.png',
+    appUrl: process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
     appId: process.env.NEXT_PUBLIC_FARCASTER_CLIENT_ID || '',
+    noIndex: true,
   };
 
   return NextResponse.json(sanitizeResponse(manifest));

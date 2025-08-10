@@ -25,11 +25,12 @@ export default function WarpcastMiniAppReal() {
   useEffect(() => {
     // Mini App context is automatically available when running in Warpcast
     if (miniApp?.context?.user) {
+      const u: any = miniApp.context.user;
       setUser({
-        fid: miniApp.context.user.fid,
-        username: miniApp.context.user.username,
-        displayName: miniApp.context.user.displayName || miniApp.context.user.username,
-        pfpUrl: miniApp.context.user.pfpUrl || '',
+        fid: u.fid,
+        username: u.username || '',
+        displayName: u.displayName || u.username || '',
+        pfpUrl: u.pfpUrl || '',
       });
     }
   }, [miniApp?.context?.user]);

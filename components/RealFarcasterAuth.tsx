@@ -15,7 +15,7 @@ import {
   StoredAuthState 
 } from '../lib/neynar';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
-import QRCode from 'qrcode.react';
+import { QRCodeCanvas } from 'qrcode.react';
 
 interface FarcasterUser {
   fid: number;
@@ -133,7 +133,7 @@ export default function RealFarcasterAuth() {
       );
 
       // Use SDK to open URL in Farcaster app
-      miniApp.actions.openUrl(farccasterUrl);
+      miniApp.actions.openUrl(farcasterUrl);
     } else {
       // Desktop: Show QR code
       setSignerApprovalUrl(approvalUrl);
@@ -249,6 +249,7 @@ export default function RealFarcasterAuth() {
   const isUserAuthenticated = useBackendFlow ? isAuthenticated() : !!miniApp?.context?.user;
 
   if (isUserAuthenticated && currentUser) {
+    const cu: any = currentUser; // Narrow for union differences between contexts
     return (
       <>
         <Card className="w-full">
@@ -262,10 +263,10 @@ export default function RealFarcasterAuth() {
           <CardContent className="space-y-4">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
-                {currentUser.pfp_url ? (
+                {cu.pfp_url || cu.pfpUrl ? (
                   <img 
-                    src={currentUser.pfp_url} 
-                    alt={currentUser.display_name || currentUser.username} 
+                    src={cu.pfp_url || cu.pfpUrl} 
+                    alt={cu.display_name || cu.displayName || cu.username} 
                     className="w-10 h-10 rounded-full"
                   />
                 ) : (
@@ -273,9 +274,9 @@ export default function RealFarcasterAuth() {
                 )}
               </div>
               <div className="flex-1">
-                <p className="font-medium">{currentUser.display_name || currentUser.username}</p>
-                <p className="text-sm text-gray-500">@{currentUser.username}</p>
-                <p className="text-xs text-gray-400">FID: {currentUser.fid}</p>
+                <p className="font-medium">{cu.display_name || cu.displayName || cu.username}</p>
+                <p className="text-sm text-gray-500">@{cu.username}</p>
+                <p className="text-xs text-gray-400">FID: {cu.fid}</p>
               </div>
               <Button variant="outline" size="sm" onClick={handleLogout}>
                 <LogOut className="h-4 w-4 mr-1" />
@@ -320,7 +321,7 @@ export default function RealFarcasterAuth() {
               <DialogTitle>Approve Signer</DialogTitle>
             </DialogHeader>
             <div className="flex flex-col items-center space-y-4">
-              <QRCode value={signerApprovalUrl} size={256} />
+              <QRCodeCanvas value={signerApprovalUrl} size={256} />
               <p className="text-sm text-gray-600 text-center">
                 Scan this QR code with your Warpcast app to approve the signer
               </p>

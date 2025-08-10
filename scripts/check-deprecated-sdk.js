@@ -11,7 +11,8 @@ const path = require('path');
 const deprecatedPackages = [
   '@farcaster/frame-sdk',
   '@farcaster/frame-wagmi-connector',
-  '@coinbase/onchainkit'
+  '@farcaster/miniapp-sdk',
+  '@farcaster/miniapp-wagmi-connector'
 ];
 
 const scanDirectories = [

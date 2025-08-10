@@ -45,6 +45,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        {/* Load suppression early to catch deprecation/analytics logs */}
+        <Script
+          src="/suppress-errors.js"
+          strategy="beforeInteractive"
+          id="error-suppression-script"
+        />
         <Providers>
           {children}
           <Toaster />
@@ -53,11 +59,6 @@ export default function RootLayout({
           src="/wallet-conflict-fix.js" 
           strategy="afterInteractive"
           id="wallet-conflict-script"
-        />
-        <Script 
-          src="/suppress-errors.js" 
-          strategy="afterInteractive"
-          id="error-suppression-script"
         />
       </body>
     </html>

@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { neynarHelpers } from '../../../../lib/neynar';
 import { sanitizeResponse } from '../../../../lib/sanitizeResponse';
 
 export async function POST(request: NextRequest) {
