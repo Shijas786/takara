@@ -25,85 +25,19 @@ export interface Cast {
   parentCast?: Cast
 }
 
+// Remove mock demo user to avoid demo labels in UI
 export const mockUser: User = {
-  fid: 12345,
-  username: 'demo_user',
-  displayName: 'Demo User',
+  fid: 0,
+  username: '',
+  displayName: '',
   pfpUrl: '',
-  followers: 2847,
-  following: 892,
-  bio: 'Building the future of content creation on Farcaster 🚀',
-  verified: true
+  followers: 0,
+  following: 0,
+  bio: '',
+  verified: false
 }
 
-export const mockCasts: Cast[] = [
-  {
-    id: "1",
-    author: mockUser,
-    text: "Just launched our new AI-powered content generator! 🎉 The future of Farcaster content creation is here. What do you think?",
-    timestamp: "2024-01-15T10:30:00Z",
-    likes: 156,
-    recasts: 23,
-    replies: 12,
-    embeds: ["https://example.com/image1.jpg"]
-  },
-  {
-    id: "2",
-    author: {
-      ...mockUser,
-      username: 'crypto_enthusiast',
-      displayName: 'Crypto Enthusiast',
-      followers: 15420
-    },
-    text: "Base chain is absolutely crushing it right now! 🚀 The ecosystem is growing faster than ever. Who else is bullish on Base?",
-    timestamp: "2024-01-15T09:15:00Z",
-    likes: 342,
-    recasts: 67,
-    replies: 28
-  },
-  {
-    id: "3",
-    author: {
-      ...mockUser,
-      username: 'web3_builder',
-      displayName: 'Web3 Builder',
-      followers: 8921
-    },
-    text: "Building in public is the best way to learn and grow. Sharing my journey building on Farcaster and the amazing community here! 💪",
-    timestamp: "2024-01-15T08:45:00Z",
-    likes: 89,
-    recasts: 15,
-    replies: 7
-  },
-  {
-    id: "4",
-    author: {
-      ...mockUser,
-      username: 'defi_explorer',
-      displayName: 'DeFi Explorer',
-      followers: 12345
-    },
-    text: "The DeFi landscape is evolving rapidly. What protocols are you most excited about right now? Let's discuss! 🤔",
-    timestamp: "2024-01-15T07:30:00Z",
-    likes: 234,
-    recasts: 45,
-    replies: 31
-  },
-  {
-    id: "5",
-    author: {
-      ...mockUser,
-      username: 'nft_collector',
-      displayName: 'NFT Collector',
-      followers: 5678
-    },
-    text: "Just discovered some incredible art on Farcaster! The creativity in this community is unmatched. What's your favorite piece? 🎨",
-    timestamp: "2024-01-15T06:20:00Z",
-    likes: 178,
-    recasts: 34,
-    replies: 19
-  }
-]
+export const mockCasts: Cast[] = []
 
 export const formatNumber = (num: number): string => {
   if (num >= 1000000) {
@@ -146,7 +80,7 @@ export function isValidReactElement(node: any): node is React.ReactElement {
       typeof node === 'object' && 
       node !== null && 
       '$$typeof' in node && 
-      node.$$typeof === Symbol.for('react.element') &&
+      (node as any).$$typeof === Symbol.for('react.element') &&
       'type' in node &&
       'props' in node
     );
@@ -183,7 +117,7 @@ export function safeRender(
     // If it's an object with React element properties, it might be a React element object
     // that wasn't properly created - return fallback
     if (typeof element === 'object' && element !== null) {
-      if (element.$$typeof || element.type || element.props) {
+      if ((element as any).$$typeof || (element as any).type || (element as any).props) {
         console.warn('Detected React element object, returning fallback:', element);
         return fallback;
       }
@@ -207,20 +141,20 @@ export function getWalletProvider() {
   }
 
   // Check for Coinbase Wallet first
-  if (window.ethereum?.isCoinbaseWallet) {
-    return window.ethereum;
+  if ((window as any).ethereum?.isCoinbaseWallet) {
+    return (window as any).ethereum;
   }
 
   // Check for MetaMask
-  if (window.ethereum?.isMetaMask) {
-    return window.ethereum;
+  if ((window as any).ethereum?.isMetaMask) {
+    return (window as any).ethereum;
   }
 
   // Check for Nightly Wallet
-  if (window.ethereum?.isNightly) {
-    return window.ethereum;
+  if ((window as any).ethereum?.isNightly) {
+    return (window as any).ethereum;
   }
 
   // Return the first available ethereum provider
-  return window.ethereum || null;
+  return (window as any).ethereum || null;
 }
