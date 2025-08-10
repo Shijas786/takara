@@ -10,13 +10,12 @@ import { FeedSection } from "@/components/feed-section"
 import { ExploreSection } from "@/components/explore-section"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { mockUser } from "@/lib/utils"
 import { useMiniKit, useAddFrame, useOpenUrl } from "@coinbase/onchainkit/minikit"
 
 export default function Home() {
-  const [isSignedIn, setIsSignedIn] = useState(true)
+  const [isSignedIn, setIsSignedIn] = useState(false)
 
-  const { setFrameReady, isFrameReady, context } = useMiniKit()
+  const { setFrameReady, isFrameReady } = useMiniKit()
   const addFrame = useAddFrame()
   const openUrl = useOpenUrl()
 
@@ -99,7 +98,7 @@ export default function Home() {
                     transition={{ duration: 0.3 }}
                     className="grid gap-6 md:grid-cols-2"
                   >
-                    <UserProfileCard user={mockUser} isSignedIn={isSignedIn} />
+                    <UserProfileCard user={{ fid: 0, username: '', displayName: '', pfpUrl: '', followers: 0, following: 0, bio: '', verified: false }} isSignedIn={false} />
                     <CastComposer />
                   </motion.div>
                 </TabsContent>
