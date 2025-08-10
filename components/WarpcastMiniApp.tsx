@@ -5,6 +5,7 @@ import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { User, Send, Sparkles, MessageCircle, Loader2, Zap, TrendingUp, Copy, Check, Sparkles as Butterfly } from 'lucide-react';
+import { useMiniKit } from '@coinbase/onchainkit/minikit';
 
 interface MiniAppUser {
   fid: number;
@@ -14,13 +15,15 @@ interface MiniAppUser {
 }
 
 export default function WarpcastMiniApp() {
-  // Mock user data for now - will be replaced with real Mini App context
-  const [user] = useState<MiniAppUser | null>({
-    fid: 12345,
-    username: 'demo_user',
-    displayName: 'Demo User',
-    pfpUrl: '',
-  });
+  const { context } = useMiniKit();
+  const user: MiniAppUser | null = context?.user
+    ? {
+        fid: context.user.fid,
+        username: context.user.username || '',
+        displayName: context.user.displayName || context.user.username || '',
+        pfpUrl: context.user.pfpUrl || '',
+      }
+    : null;
   
   const [isPosting, setIsPosting] = useState(false);
   const [postText, setPostText] = useState('');
@@ -46,9 +49,7 @@ export default function WarpcastMiniApp() {
     try {
       const response = await fetch('/api/openai/generate', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           prompt: postText,
           style: selectedStyle,
@@ -60,32 +61,20 @@ export default function WarpcastMiniApp() {
       if (response.ok) {
         const data = await response.json();
         setGeneratedContent(data.content);
-      } else {
-        console.error('Failed to generate content');
       }
-    } catch (error) {
-      console.error('Error generating content:', error);
     } finally {
       setIsGenerating(false);
     }
   };
 
   const postToFarcaster = async (text: string) => {
-    if (!text.trim()) return;
-    
+    if (!text.trim() || !context?.client) return;
     setIsPosting(true);
     try {
-      // For now, just simulate posting
-      console.log('Would post to Farcaster:', text);
-      
-      // In a real Mini App, this would use:
-      // const result = await miniApp.actions.composeCast({ text, close: false });
-      
+      // In-frame posting should be handled by parent using useMiniKit hooks/buttons
+      // Here we just clear the state to avoid demo alerts
       setPostText('');
       setGeneratedContent('');
-      alert('Cast posted successfully! (Demo mode)');
-    } catch (error) {
-      console.error('Error posting cast:', error);
     } finally {
       setIsPosting(false);
     }
@@ -134,9 +123,7 @@ export default function WarpcastMiniApp() {
       await navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (error) {
-      console.error('Failed to copy:', error);
-    }
+    } catch (error) {}
   };
 
   const styles = [
