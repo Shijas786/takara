@@ -6,7 +6,7 @@
   },
   "miniapp": {
     "name": "Takara",
-    "version": "1.0.0",
+    "version": 1,
     "iconUrl": "https://takara-content-app.vercel.app/takara-logo.png",
     "homeUrl": "https://takara-content-app.vercel.app",
     "splashBackgroundColor": "#6200EA",
