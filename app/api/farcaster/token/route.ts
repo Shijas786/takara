@@ -12,6 +12,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Determine app URL with safe defaults
+    const appUrl = process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://takara-content-app.vercel.app';
+
     // Exchange authorization code for access token
     const tokenResponse = await fetch('https://api.farcaster.xyz/v2/oauth/token', {
       method: 'POST',
@@ -23,7 +26,7 @@ export async function POST(request: NextRequest) {
         code,
         client_id: process.env.NEXT_PUBLIC_FARCASTER_CLIENT_ID || '',
         client_secret: process.env.FARCASTER_CLIENT_SECRET || '',
-        redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}/farcaster-callback`,
+        redirect_uri: `${appUrl}/farcaster-callback`,
       }),
     });
 

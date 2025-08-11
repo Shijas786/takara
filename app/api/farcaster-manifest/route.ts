@@ -6,7 +6,7 @@ export async function GET() {
     name: 'Takara Content Evolution',
     description: 'AI-powered content generation and scheduling platform',
     icon: process.env.NEXT_PUBLIC_ICON_URL || 'https://placeholder.com/icon.png',
-    appUrl: process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+    appUrl: process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://takara-content-app.vercel.app',
     appId: process.env.NEXT_PUBLIC_FARCASTER_CLIENT_ID || '',
     noIndex: true,
   };

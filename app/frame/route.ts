@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const text = searchParams.get('text') || 'Check out this amazing content!';
+  const appUrl = process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://takara-content-app.vercel.app';
+  const frameImage = process.env.NEXT_PUBLIC_FRAME_IMAGE_URL || `${appUrl}/frame-image.png`;
 
   const html = `
     <!DOCTYPE html>
@@ -11,11 +13,11 @@ export async function GET(request: NextRequest) {
         <title>Takara Content Evolution</title>
         <meta property="og:title" content="Takara Content Evolution" />
         <meta property="og:description" content="AI-powered content creation for Farcaster" />
-        <meta property="og:image" content="https://your-domain.com/frame-image.png" />
+        <meta property="og:image" content="${frameImage}" />
         <meta property="fc:frame" content="vNext" />
-        <meta property="fc:frame:image" content="https://your-domain.com/frame-image.png" />
+        <meta property="fc:frame:image" content="${frameImage}" />
         <meta property="fc:frame:button:1" content="Open Takara" />
-        <meta property="fc:frame:post_url" content="https://your-domain.com/frame" />
+        <meta property="fc:frame:post_url" content="${appUrl}/frame" />
       </head>
       <body>
         <h1>Takara Content Evolution</h1>
