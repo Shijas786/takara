@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -13,6 +14,27 @@ interface UserProfileCardProps {
 }
 
 export function UserProfileCard({ user, isSignedIn = true }: UserProfileCardProps) {
+  const [isConnecting, setIsConnecting] = useState(false)
+
+  const connectToFarcaster = () => {
+    try {
+      setIsConnecting(true)
+      const clientId = process.env.NEXT_PUBLIC_FARCASTER_CLIENT_ID
+      if (!clientId) {
+        console.error('NEXT_PUBLIC_FARCASTER_CLIENT_ID is not set')
+        setIsConnecting(false)
+        return
+      }
+      const redirectUri = `${window.location.origin}/farcaster-callback`
+      const scope = 'user:read,cast:read,cast:write'
+      const authUrl = `https://api.farcaster.xyz/v2/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}&response_type=code`
+      window.location.href = authUrl
+    } catch (err) {
+      console.error('Farcaster connect error:', err)
+      setIsConnecting(false)
+    }
+  }
+
   if (!isSignedIn) {
     return (
       <motion.div
@@ -36,8 +58,8 @@ export function UserProfileCard({ user, isSignedIn = true }: UserProfileCardProp
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Button className="w-full">
-                Sign In with Farcaster
+              <Button className="w-full" onClick={connectToFarcaster} disabled={isConnecting}>
+                {isConnecting ? 'Connecting…' : 'Sign In with Farcaster'}
               </Button>
             </motion.div>
           </CardContent>
