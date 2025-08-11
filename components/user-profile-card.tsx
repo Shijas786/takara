@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { User, Edit, Settings, TrendingUp, Users } from "lucide-react"
 import { User as UserType, formatNumber } from "@/lib/utils"
+import { useToast } from "@/hooks/use-toast"
 
 interface UserProfileCardProps {
   user: UserType
@@ -15,6 +16,7 @@ interface UserProfileCardProps {
 
 export function UserProfileCard({ user, isSignedIn = true }: UserProfileCardProps) {
   const [isConnecting, setIsConnecting] = useState(false)
+  const { toast } = useToast()
 
   const connectToFarcaster = () => {
     try {
@@ -22,15 +24,26 @@ export function UserProfileCard({ user, isSignedIn = true }: UserProfileCardProp
       const clientId = process.env.NEXT_PUBLIC_FARCASTER_CLIENT_ID
       if (!clientId) {
         console.error('NEXT_PUBLIC_FARCASTER_CLIENT_ID is not set')
+        toast({
+          title: 'Farcaster setup required',
+          description: 'Set NEXT_PUBLIC_FARCASTER_CLIENT_ID in your environment and reload the app.',
+          variant: 'destructive'
+        })
         setIsConnecting(false)
         return
       }
       const redirectUri = `${window.location.origin}/farcaster-callback`
       const scope = 'user:read,cast:read,cast:write'
       const authUrl = `https://api.farcaster.xyz/v2/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}&response_type=code`
-      window.location.href = authUrl
+      console.log('Redirecting to Farcaster OAuth:', authUrl)
+      window.location.assign(authUrl)
     } catch (err) {
       console.error('Farcaster connect error:', err)
+      toast({
+        title: 'Unable to start Farcaster sign-in',
+        description: 'See console for details.',
+        variant: 'destructive'
+      })
       setIsConnecting(false)
     }
   }
