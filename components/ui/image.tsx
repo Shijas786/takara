@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 
 interface SafeImageProps {
-  src: string;
+  src: string | StaticImageData;
   alt: string;
   width?: number;
   height?: number;
@@ -35,7 +35,7 @@ export function SafeImage({
   return (
     <div className={`overflow-hidden ${className}`}>
       <Image
-        src={imgSrc}
+        src={imgSrc as string | StaticImageData}
         alt={alt}
         width={width}
         height={height}
@@ -48,7 +48,7 @@ export function SafeImage({
 }
 
 interface SafeImgProps {
-  src: string;
+  src: string | StaticImageData;
   alt: string;
   className?: string;
   fallbackSrc?: string;
@@ -77,7 +77,7 @@ export function SafeImg({
   return (
     <div className={`overflow-hidden ${className}`}>
       <Image
-        src={imgSrc}
+        src={imgSrc as string | StaticImageData}
         alt={alt}
         width={width}
         height={height}

@@ -1,6 +1,8 @@
 'use client';
 
 import { SafeImage } from './ui/image';
+import AppLogo from './logo/ChatGPT Image Jul 31, 2025, 01_08_33 PM.png';
+const logoSrc = `${(AppLogo as { src: string }).src}?v=${process.env.NEXT_PUBLIC_ASSET_VERSION || '2'}`;
 
 export default function ThreeScene() {
   return (
@@ -12,7 +14,7 @@ export default function ThreeScene() {
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
                 <SafeImage 
-                  src="/takara-logo.png" 
+                  src={logoSrc} 
                   alt="Takara Logo" 
                   width={32} 
                   height={32}

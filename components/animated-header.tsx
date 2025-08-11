@@ -3,6 +3,9 @@
 import { motion } from "framer-motion"
 import { Sparkles, MessageCircle } from "lucide-react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { SafeImage } from "@/components/ui/image"
+import AppLogo from "./logo/ChatGPT Image Jul 31, 2025, 01_08_33 PM.png"
+const logoSrc = `${(AppLogo as { src: string }).src}?v=${process.env.NEXT_PUBLIC_ASSET_VERSION || '2'}`
 
 export function AnimatedHeader() {
   return (
@@ -18,14 +21,14 @@ export function AnimatedHeader() {
           whileTap={{ scale: 0.95 }}
           className="flex items-center space-x-3"
         >
-          <div className="relative">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 p-2 shadow-lg">
-              <Sparkles className="h-6 w-6 text-white" />
-            </div>
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-gradient-to-r from-pink-400 to-purple-500"
+          <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg">
+            <SafeImage
+              src={logoSrc}
+              alt="Takara Logo"
+              width={40}
+              height={40}
+              className="w-full h-full object-cover"
+              priority
             />
           </div>
           <div>

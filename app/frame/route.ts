@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
+import AppLogo from '../../components/logo/ChatGPT Image Jul 31, 2025, 01_08_33 PM.png';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const text = searchParams.get('text') || 'Check out this amazing content!';
-  const appUrl = process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://takara-content-app.vercel.app';
-  const frameImage = process.env.NEXT_PUBLIC_FRAME_IMAGE_URL || `${appUrl}/frame-image.png`;
+  const origin = new URL(request.url).origin;
+  const appUrl = process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_APP_URL || origin;
+  const cacheBusted = `${(AppLogo as { src: string }).src}?v=${process.env.NEXT_PUBLIC_ASSET_VERSION || '2'}`;
+  const frameImage = process.env.NEXT_PUBLIC_FRAME_IMAGE_URL || `${appUrl}${cacheBusted}`;
 
   const html = `
     <!DOCTYPE html>
