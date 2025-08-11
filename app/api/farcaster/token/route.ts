@@ -12,8 +12,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Determine app URL with safe defaults
-    const appUrl = process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://takara-content-app.vercel.app';
+    // Determine app URL dynamically from the incoming request to support local/dev/prod without extra env
+    const url = new URL(request.url);
+    const originHeader = request.headers.get('origin');
+    const protocol = url.protocol || 'https:';
+    const host = url.host;
+    const origin = originHeader || `${protocol}//${host}`;
+    const appUrl = process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_APP_URL || origin;
 
     // Exchange authorization code for access token
     const tokenResponse = await fetch('https://api.farcaster.xyz/v2/oauth/token', {
