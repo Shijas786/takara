@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import AppLogo from '../../components/logo/ChatGPT Image Jul 31, 2025, 01_08_33 PM.png';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const text = searchParams.get('text') || 'Check out this amazing content!';
   const origin = new URL(request.url).origin;
   const appUrl = process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_APP_URL || origin;
-  const cacheBusted = `${(AppLogo as { src: string }).src}?v=${process.env.NEXT_PUBLIC_ASSET_VERSION || '2'}`;
-  const frameImage = process.env.NEXT_PUBLIC_FRAME_IMAGE_URL || `${appUrl}${cacheBusted}`;
+  const frameImage = process.env.NEXT_PUBLIC_FRAME_IMAGE_URL || `${appUrl}/api/og?prompt=Takara`;
 
   const html = `
     <!DOCTYPE html>
@@ -38,12 +36,13 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const data = await request.json();
-  
-  // Handle frame interaction
+  const appUrl = process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_APP_URL || new URL(request.url).origin;
+  const frameImage = process.env.NEXT_PUBLIC_FRAME_IMAGE_URL || `${appUrl}/api/og?prompt=Takara`;
+
   return NextResponse.json({
-    success: true,
-    message: 'Frame interaction received',
-    data: data,
+    version: 'vNext',
+    image: frameImage,
+    buttons: ['Open Takara'],
+    post_url: `${appUrl}/frame`,
   });
 } 

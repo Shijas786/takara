@@ -2,11 +2,12 @@ import { NextResponse } from 'next/server';
 import { sanitizeResponse } from '../../../lib/sanitizeResponse';
 
 export async function GET() {
+  const appUrl = process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://takara-content-app.vercel.app';
   const manifest = {
     name: 'Takara Content Evolution',
     description: 'AI-powered content generation and scheduling platform',
-    icon: process.env.NEXT_PUBLIC_ICON_URL || 'https://placeholder.com/icon.png',
-    appUrl: process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://takara-content-app.vercel.app',
+    icon: process.env.NEXT_PUBLIC_ICON_URL || `${appUrl}/takara-logo.png`,
+    appUrl: appUrl,
     appId: process.env.NEXT_PUBLIC_FARCASTER_CLIENT_ID || '',
     noIndex: true,
   };

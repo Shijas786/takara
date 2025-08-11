@@ -6,7 +6,11 @@ import { Providers } from "./providers";
 import Script from "next/script";
 import Navigation from "../components/Navigation";
 import AppLogo from "../components/logo/ChatGPT Image Jul 31, 2025, 01_08_33 PM.png";
-const appLogoUrl = `${(AppLogo as { src: string }).src}?v=${process.env.NEXT_PUBLIC_ASSET_VERSION || '2'}`;
+const appLogoPath = (AppLogo as { src: string }).src;
+const appLogoUrl = `${appLogoPath}?v=${process.env.NEXT_PUBLIC_ASSET_VERSION || '2'}`;
+const publicUrl = process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_APP_URL || '';
+const absoluteLogoUrl = publicUrl ? `${publicUrl}${appLogoUrl}` : appLogoUrl;
+const frameImageUrl = publicUrl ? `${publicUrl}/takara-logo.png?v=${process.env.NEXT_PUBLIC_ASSET_VERSION || '2'}` : `/takara-logo.png?v=${process.env.NEXT_PUBLIC_ASSET_VERSION || '2'}`;
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,18 +20,18 @@ export const metadata: Metadata = {
   title: "Takara - AI-Powered Content Creation",
   description: "Generate & share AI content seamlessly on Farcaster.",
   icons: {
-    icon: [{ url: (process.env.NEXT_PUBLIC_URL || '') + appLogoUrl }],
-    apple: [{ url: (process.env.NEXT_PUBLIC_URL || '') + appLogoUrl }],
-    shortcut: [{ url: (process.env.NEXT_PUBLIC_URL || '') + appLogoUrl }],
+    icon: [{ url: absoluteLogoUrl }],
+    apple: [{ url: absoluteLogoUrl }],
+    shortcut: [{ url: absoluteLogoUrl }],
   },
   openGraph: {
     title: "Takara - AI-Powered Content Creation",
     description: "Generate & share AI content seamlessly on Farcaster.",
-    url: "https://takara-content-app.vercel.app",
+    url: publicUrl || "https://takara-content-app.vercel.app",
     siteName: "Takara",
     images: [
       {
-        url: "https://takara-content-app.vercel.app/og-image.png",
+        url: `${publicUrl || ""}/takara-logo.png`,
         width: 1200,
         height: 630,
         alt: "Takara - AI-Powered Content Creation",
@@ -40,13 +44,13 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Takara - AI-Powered Content Creation",
     description: "Generate & share AI content seamlessly on Farcaster.",
-    images: ["https://takara-content-app.vercel.app/og-image.png"],
+    images: [`${publicUrl || ""}/takara-logo.png`],
   },
   other: {
     "fc:frame": "vNext",
     // Provide required frame tags so root can validate as a frame if shared
-    "fc:frame:image": process.env.NEXT_PUBLIC_FRAME_IMAGE_URL || `${process.env.NEXT_PUBLIC_URL || ''}${appLogoUrl}`,
-    "fc:frame:post_url": `${process.env.NEXT_PUBLIC_URL || ''}/frame`,
+    "fc:frame:image": process.env.NEXT_PUBLIC_FRAME_IMAGE_URL || `${publicUrl || ''}/api/og?prompt=Takara`,
+    "fc:frame:post_url": publicUrl ? `${publicUrl}/frame` : '/frame',
     "fc:frame:button:1": "Open Takara",
   },
 };
