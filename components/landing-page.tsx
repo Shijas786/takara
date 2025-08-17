@@ -270,24 +270,28 @@ export default function LandingPage() {
   // Convert slider value to dynamic length instructions
   const getDynamicLengthInstructions = (sliderValue: number, style: string) => {
     if (style === 'reply') {
-      if (sliderValue <= 25) {
-        return "CRITICAL: Maximum 1 sentence only. Keep it extremely short and casual. No more than 15-20 words.";
+      if (sliderValue <= 15) {
+        return "CRITICAL: Maximum 1 sentence only. Extremely short and casual. No more than 8-10 words maximum.";
+      } else if (sliderValue <= 30) {
+        return "CRITICAL: Maximum 1 sentence only. Keep it very short and casual. No more than 12-15 words maximum.";
       } else if (sliderValue <= 50) {
-        return "CRITICAL: Maximum 2 sentences only. Keep it very brief and casual. No more than 25-30 words total.";
+        return "CRITICAL: Maximum 2 sentences only. Keep it brief and casual. No more than 20-25 words total.";
       } else if (sliderValue <= 75) {
-        return "CRITICAL: Maximum 3 sentences only. Include personality but stay concise. No more than 40-50 words total.";
+        return "CRITICAL: Maximum 3 sentences only. Include personality but stay concise. No more than 35-40 words total.";
       } else {
-        return "CRITICAL: Maximum 4 sentences only. Add detail but maintain brevity. No more than 60-70 words total.";
+        return "CRITICAL: Maximum 4 sentences only. Add detail but maintain brevity. No more than 50-60 words total.";
       }
     } else {
-      if (sliderValue <= 25) {
-        return "CRITICAL: Maximum 1 sentence only. Extremely brief. No more than 15-20 words.";
+      if (sliderValue <= 15) {
+        return "CRITICAL: Maximum 1 sentence only. Extremely brief. No more than 8-10 words maximum.";
+      } else if (sliderValue <= 30) {
+        return "CRITICAL: Maximum 1 sentence only. Very brief. No more than 12-15 words maximum.";
       } else if (sliderValue <= 50) {
-        return "CRITICAL: Maximum 2 sentences only. Very brief with minimal detail. No more than 25-30 words total.";
+        return "CRITICAL: Maximum 2 sentences only. Brief with minimal detail. No more than 20-25 words total.";
       } else if (sliderValue <= 75) {
-        return "CRITICAL: Maximum 3 sentences only. Some detail but stay concise. No more than 40-50 words total.";
+        return "CRITICAL: Maximum 3 sentences only. Some detail but stay concise. No more than 35-40 words total.";
       } else {
-        return "CRITICAL: Maximum 4 sentences only. Comprehensive but controlled. No more than 60-70 words total.";
+        return "CRITICAL: Maximum 4 sentences only. Comprehensive but controlled. No more than 50-60 words total.";
       }
     }
   };
@@ -295,10 +299,11 @@ export default function LandingPage() {
   // Word count validation function
   const validateWordCount = (content: string, sliderValue: number): boolean => {
     const wordCount = content.trim().split(/\s+/).length;
-    if (sliderValue <= 25) return wordCount <= 20;
-    if (sliderValue <= 50) return wordCount <= 30;
-    if (sliderValue <= 75) return wordCount <= 50;
-    return wordCount <= 70;
+    if (sliderValue <= 15) return wordCount <= 10;
+    if (sliderValue <= 30) return wordCount <= 15;
+    if (sliderValue <= 50) return wordCount <= 25;
+    if (sliderValue <= 75) return wordCount <= 40;
+    return wordCount <= 60;
   };
 
   const generateContent = async () => {
@@ -581,10 +586,11 @@ IMPORTANT: If you exceed the word limit, you will be penalized. Stay within the 
               </div>
               {/* Word Limit Display */}
               <div className={`text-xs ${currentTheme.secondary} font-mono text-center`}>
-                {lengthSlider <= 25 && "Max: 20 words"}
-                {lengthSlider > 25 && lengthSlider <= 50 && "Max: 30 words"}
-                {lengthSlider > 50 && lengthSlider <= 75 && "Max: 50 words"}
-                {lengthSlider > 75 && "Max: 70 words"}
+                {lengthSlider <= 15 && "Max: 10 words"}
+                {lengthSlider > 15 && lengthSlider <= 30 && "Max: 15 words"}
+                {lengthSlider > 30 && lengthSlider <= 50 && "Max: 25 words"}
+                {lengthSlider > 50 && lengthSlider <= 75 && "Max: 40 words"}
+                {lengthSlider > 75 && "Max: 60 words"}
               </div>
             </div>
 
