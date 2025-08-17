@@ -400,7 +400,7 @@ export default function LandingPage() {
             const nextTheme = themes[(currentIndex + 1) % themes.length]
             setTerminalTheme(nextTheme)
           }}
-          className={`ml-auto sm:hidden px-2 py-1 text-xs ${currentTheme.border} border rounded ${currentTheme.secondary}`}
+          className={`ml-auto px-2 py-1 text-xs ${currentTheme.border} border rounded ${currentTheme.secondary}`}
         >
           Theme
         </button>
