@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
+import TakaraMatrixRain from "./TakaraMatrixRain"
 
 export default function LandingPage() {
   const [isAppStarted, setIsAppStarted] = useState(false)
@@ -409,10 +410,13 @@ think: you're posting this while doing something else, maybe walking, eating, or
 
   if (!isAppStarted) {
     return (
-      <div className="h-screen bg-black font-mono flex flex-col">
+      <div className="h-screen bg-black font-mono flex flex-col relative">
+        {/* Matrix Rain Background - ALSO SHOW ON LOADING PAGE */}
+        <TakaraMatrixRain />
+        
         {/* Terminal Window Header */}
         <div
-          className={`bg-gray-900 border-b ${currentTheme.border} px-2 sm:px-4 py-2 flex items-center gap-2 flex-shrink-0`}
+          className={`bg-gray-900 border-b ${currentTheme.border} px-2 sm:px-4 py-2 flex items-center gap-2 flex-shrink-0 relative z-20`}
         >
           <div className="flex gap-1 sm:gap-2">
             <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500"></div>
@@ -422,7 +426,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
           <span className={`${currentTheme.primary} text-xs sm:text-sm ml-2 sm:ml-4 truncate`}>takara@terminal:~$</span>
         </div>
 
-        <div className="flex-1 p-3 sm:p-6 flex flex-col">
+        <div className="flex-1 p-3 sm:p-6 flex flex-col relative z-20">
           <div
             className={`flex-1 bg-gray-900/30 border ${currentTheme.border} rounded-lg p-3 sm:p-4 overflow-y-auto`}
             ref={terminalRef}
@@ -477,183 +481,171 @@ think: you're posting this while doing something else, maybe walking, eating, or
   }
 
   return (
-    <div className="min-h-screen bg-black font-mono flex flex-col">
-      {/* Terminal Window Header */}
-      <div
-        className={`bg-gray-900 border-b ${currentTheme.border} px-2 sm:px-4 py-2 flex items-center gap-2 flex-shrink-0`}
-      >
-        <div className="flex gap-1 sm:gap-2">
-          <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500"></div>
-          <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-500"></div>
-          <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500"></div>
-        </div>
-        <span className={`${currentTheme.primary} text-xs sm:text-sm ml-2 sm:ml-4 truncate`}>
-          takara@terminal:~/ai-studio$
-        </span>
-
-        <button
-          onClick={() => {
-            const themes = ["green", "amber", "blue"]
-            const currentIndex = themes.indexOf(terminalTheme)
-            const nextTheme = themes[(currentIndex + 1) % themes.length]
-            setTerminalTheme(nextTheme)
-          }}
-          className={`ml-auto px-2 py-1 text-xs ${currentTheme.border} border rounded ${currentTheme.secondary}`}
-        >
-          Theme
-        </button>
-      </div>
-
-      <div className="flex-1 p-3 sm:p-6 overflow-y-auto">
-        <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
-          {/* Header */}
-          <div className="text-center space-y-2">
-            <div className="flex items-center justify-center gap-2 sm:gap-3">
-              <div
-                className={`w-8 h-8 sm:w-10 sm:h-10 ${currentTheme.bg} border ${currentTheme.border} rounded flex items-center justify-center`}
-              >
-                <span className={`text-lg sm:text-xl font-bold ${currentTheme.primary}`}>T</span>
-              </div>
-              <div>
-                <h1 className={`text-xl sm:text-3xl font-bold ${currentTheme.primary}`}>TAKARA AI STUDIO</h1>
-                <p className={`${currentTheme.secondary} text-xs sm:text-sm`}>Content Generation Terminal</p>
-              </div>
+    <div className="min-h-screen bg-black text-white relative font-mono">
+      {/* Matrix Rain Background - ALWAYS SHOW */}
+      <TakaraMatrixRain />
+      
+      {/* Main Content */}
+      <div className="relative z-20 p-4">
+        {/* Centered Header */}
+        <div className="text-center space-y-2 mb-6">
+          <div className="flex items-center justify-center gap-3">
+            <div className={`w-10 h-10 ${currentTheme.bg} border ${currentTheme.border} rounded flex items-center justify-center`}>
+              <span className={`text-xl font-bold ${currentTheme.primary}`}>T</span>
             </div>
-            <Badge className={`${currentTheme.bg} ${currentTheme.primary} ${currentTheme.border} font-mono text-xs`}>
-              [SYSTEM ONLINE] AI Engine Active
-            </Badge>
+            <div>
+              <h1 className={`text-3xl font-bold ${currentTheme.primary}`}>TAKARA AI STUDIO</h1>
+              <p className={`${currentTheme.secondary} text-sm`}>Content Generation Terminal</p>
+            </div>
+          </div>
+          <Badge className={`${currentTheme.bg} ${currentTheme.primary} ${currentTheme.border} font-mono text-xs`}>
+            [SYSTEM ONLINE] AI Engine Active
+          </Badge>
+        </div>
+
+        {/* Large Terminal Interface */}
+        <div className={`max-w-5xl mx-auto bg-black/40 border ${currentTheme.border} rounded-none p-4 space-y-3 font-mono`}>
+          {/* Content Length Section */}
+          <div className="space-y-1">
+            <div className={`text-green-400 text-sm`}>
+              <span className="text-green-400">$</span> content_length --help
+            </div>
+            <div className={`text-white text-sm ml-4`}>
+              Available options: [very-short|short|medium|long]
+            </div>
+            <div className="grid grid-cols-4 gap-1 ml-4">
+              {["very-short", "short", "medium", "long"].map((length) => (
+                <button
+                  key={length}
+                  onClick={() => setContentLength(length as any)}
+                  className={`px-2 py-1 rounded-none font-mono text-sm border ${
+                    contentLength === length
+                      ? `bg-green-600 border-green-400 text-black font-bold`
+                      : `bg-black border-green-500/50 text-white hover:bg-green-500/20 hover:text-black`
+                  }`}
+                >
+                  {length}
+                </button>
+              ))}
+            </div>
+            <div className={`text-white text-sm ml-4`}>
+              <span className="text-green-400">{">"}</span> Current: <span className="text-cyan-400">{contentLength}</span> (Max: {contentLength === "very-short" ? "5" : contentLength === "short" ? "10" : contentLength === "medium" ? "20" : "35"} words)
+            </div>
           </div>
 
-          {showCodeOutput && (
-            <div className={`bg-gray-900/50 border ${currentTheme.border} rounded-lg p-3 sm:p-4`}>
-              <div className={`${currentTheme.primary} text-xs sm:text-sm font-mono mb-2`}>[EXECUTING CODE]</div>
-              <div className="space-y-1 max-h-40 sm:max-h-none overflow-y-auto">
-                {codeLines.map((line, index) => (
-                  <div key={index} className={`${currentTheme.accent} font-mono text-xs break-all`}>
-                    {line}
-                  </div>
-                ))}
-                <div className={`${currentTheme.primary} animate-pulse`}>_</div>
-              </div>
+          {/* Content Style Section */}
+          <div className="space-y-1">
+            <div className={`text-green-400 text-sm`}>
+              <span className="text-green-400">$</span> content_style --select
             </div>
-          )}
-
-          {/* Content Generation Interface */}
-          <div className={`bg-gray-900/30 border ${currentTheme.border} rounded-lg p-4 sm:p-6 space-y-4`}>
-            {/* Length Options */}
-            <div className="space-y-2">
-              <label className={`${currentTheme.primary} text-xs sm:text-sm font-mono`}>Content Length:</label>
-              <div className="grid grid-cols-4 gap-1 sm:gap-2">
-                {(["very-short", "short", "medium", "long"] as const).map((length) => (
-                  <Button
-                    key={length}
-                    variant={contentLength === length ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setContentLength(length)}
-                    className={`font-mono text-xs ${
-                      contentLength === length
-                        ? `${currentTheme.bg} ${currentTheme.border} ${currentTheme.accent}`
-                        : `bg-transparent ${currentTheme.border} ${currentTheme.secondary} hover:${currentTheme.bg.replace("/20", "/10")}`
-                    }`}
-                  >
-                    {length === "very-short" ? "Very Short" : length}
-                  </Button>
-                ))}
-              </div>
-              {/* Word Limit Display */}
-              <div className={`text-xs ${currentTheme.secondary} font-mono text-center`}>
-                {contentLength === "very-short" && "Max: 5 words"}
-                {contentLength === "short" && "Max: 10 words"}
-                {contentLength === "medium" && "Max: 20 words"}
-                {contentLength === "long" && "Max: 35 words"}
-              </div>
+            <div className={`text-white text-sm ml-4`}>
+              Style presets: [based|reply|influencer|casual]
             </div>
-
-            {/* Style Options */}
-            <div className="space-y-2">
-              <label className={`${currentTheme.primary} text-xs sm:text-sm font-mono`}>Content Style:</label>
-              <div className="grid grid-cols-2 sm:flex gap-1 sm:gap-2">
-                {["based", "reply", "influencer", "casual"].map((style) => (
-                  <Button
-                    key={style}
-                    variant={contentStyle === style ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setContentStyle(style)}
-                    className={`font-mono text-xs ${
-                      contentStyle === style
-                        ? `${currentTheme.bg} ${currentTheme.border} ${currentTheme.accent}`
-                        : `bg-transparent ${currentTheme.border} ${currentTheme.secondary} hover:${currentTheme.bg.replace("/20", "/10")}`
-                    }`}
-                  >
-                    {style}
-                  </Button>
-                ))}
-              </div>
+            <div className="grid grid-cols-4 gap-1 ml-4">
+              {["based", "reply", "influencer", "casual"].map((style) => (
+                <button
+                  key={style}
+                  onClick={() => setContentStyle(style)}
+                  className={`px-2 py-1 rounded-none font-mono text-sm border ${
+                    contentStyle === style
+                      ? `bg-green-600 border-green-400 text-black font-bold`
+                      : `bg-black border-green-500/50 text-white hover:bg-green-500/20 hover:text-black`
+                  }`}
+                >
+                  {style}
+                </button>
+              ))}
             </div>
+            <div className={`text-white text-sm ml-4`}>
+              <span className="text-green-400">{">"}</span> Active style: <span className="text-cyan-400">{contentStyle}</span>
+            </div>
+          </div>
 
-            {/* Prompt Input */}
-            <div className="space-y-2">
-              <label className={`${currentTheme.primary} text-xs sm:text-sm font-mono`}>Content Prompt:</label>
+          {/* Prompt Input Section */}
+          <div className="space-y-1">
+            <div className={`text-green-400 text-sm`}>
+              <span className="text-green-400">$</span> prompt --input
+            </div>
+            <div className={`text-white text-sm ml-4`}>
+              Enter your content idea below:
+            </div>
+            <div className="ml-4 relative">
               <Textarea
-                placeholder={contentStyle === 'reply' ? "Paste the text you want to reply to..." : "Enter your content idea..."}
+                placeholder="Enter your content idea..."
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                className={`bg-gray-900 ${currentTheme.border} ${currentTheme.accent} placeholder:${currentTheme.secondary} focus:${currentTheme.border.replace("/50", "")} focus:ring-${terminalTheme}-400/20 font-mono text-xs sm:text-sm`}
-                rows={3}
+                className={`bg-black/30 border-green-500/50 text-white placeholder:text-gray-500 focus:border-green-400 focus:outline-none text-sm rounded-none resize-none`}
+                rows={2}
                 style={{ resize: "none" }}
               />
+              <div className="absolute right-2 top-2 text-green-400 text-xs animate-pulse">█</div>
             </div>
+          </div>
 
-            <Button
+          {/* Generate Command */}
+          <div className="space-y-1">
+            <div className={`text-green-400 text-sm`}>
+              <span className="text-green-400">$</span> generate --execute
+            </div>
+            <button
               onClick={generateContent}
               disabled={isGenerating || !prompt.trim()}
-              className={`w-full ${currentTheme.bg} border ${currentTheme.border} ${currentTheme.primary} hover:${currentTheme.bg.replace("/20", "/30")} font-mono text-xs sm:text-sm py-3 sm:py-2`}
+              className={`ml-4 px-4 py-2 rounded-none font-mono text-sm border ${
+                isGenerating || !prompt.trim()
+                  ? "bg-gray-800 border-gray-600 text-gray-500 cursor-not-allowed"
+                  : `bg-green-600 border-green-400 text-black font-bold hover:bg-green-500`
+              }`}
             >
-              {isGenerating ? "[GENERATING...]" : contentStyle === 'reply' ? "[GENERATE REPLY]" : "[GENERATE CONTENT]"}
-            </Button>
+              {isGenerating ? "[GENERATING...]" : "[GENERATE CONTENT]"}
+            </button>
+          </div>
 
-            {/* Generated Content */}
-            {generatedContent && (
-              <div className={`space-y-3 pt-4 border-t ${currentTheme.border}`}>
-                <label className={`${currentTheme.primary} text-xs sm:text-sm font-mono`}>Generated Output:</label>
+          {/* Generated Content */}
+          {generatedContent && (
+            <div className={`space-y-2 pt-3 border-t border-green-500/50`}>
+              <div className={`text-green-400 text-sm`}>
+                <span className="text-green-400">$</span> output --display
+              </div>
+              <div className={`text-white text-sm ml-4`}>
+                Generated Output:
+              </div>
+              <div className="ml-4">
                 <div
-                  className={`bg-gray-900 border ${currentTheme.border} rounded p-3 sm:p-4 max-h-40 sm:max-h-none overflow-y-auto`}
+                  className={`bg-black/30 border border-green-500/50 rounded-none p-3 max-h-32 overflow-y-auto`}
                 >
                   <pre
-                    className={`${currentTheme.accent} font-mono text-xs sm:text-sm whitespace-pre-wrap break-words`}
+                    className={`text-cyan-300 font-mono text-sm whitespace-pre-wrap break-words`}
                   >
                     {generatedContent}
                   </pre>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <Button
-                    onClick={postToFarcaster}
-                    disabled={isPosting}
-                    className="flex-1 bg-blue-500/20 border border-blue-500 text-blue-400 hover:bg-blue-500/30 font-mono text-xs sm:text-sm py-3 sm:py-2"
+              </div>
+              <div className="flex flex-col sm:flex-row gap-2 ml-4">
+                <button
+                  onClick={postToFarcaster}
+                  disabled={isPosting}
+                  className="flex-1 px-3 py-2 rounded-none font-mono text-sm border border-blue-500 text-blue-400 hover:bg-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isPosting ? "[POSTING...]" : "[POST TO FARCASTER]"}
+                </button>
+                <div className="flex gap-1">
+                  <button
+                    onClick={copyContent}
+                    className="flex-1 sm:flex-none px-3 py-2 rounded-none font-mono text-sm border border-purple-500/50 text-purple-400 hover:bg-purple-500/20"
                   >
-                    {isPosting ? "[POSTING...]" : "[POST TO FARCASTER]"}
-                  </Button>
-                  <div className="flex gap-2">
-                    <Button
-                      onClick={copyContent}
-                      className="flex-1 sm:flex-none border-purple-500/50 text-purple-400 hover:bg-purple-500/10 font-mono text-xs sm:text-sm"
-                    >
-                      [COPY]
-                    </Button>
-                    <Button
-                      onClick={() => setGeneratedContent("")}
-                      className="flex-1 sm:flex-none border-red-500/50 text-red-400 hover:bg-red-500/10 font-mono text-xs sm:text-sm"
-                    >
-                      [CLEAR]
-                    </Button>
-                  </div>
+                    [COPY]
+                  </button>
+                  <button
+                    onClick={() => setGeneratedContent("")}
+                    className="flex-1 sm:flex-none px-3 py-2 rounded-none font-mono text-sm border border-red-500/50 text-red-400 hover:bg-red-500/20"
+                  >
+                    [CLEAR]
+                  </button>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-
-
       </div>
     </div>
   )
