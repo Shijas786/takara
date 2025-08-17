@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "copy:public": "rm -rf out && mkdir -p out && cp -R public/* out/",
     "test:sanitizer": "node scripts/test-sanitizer.js"
   },
   "dependencies": {
