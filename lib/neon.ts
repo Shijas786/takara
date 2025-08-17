@@ -1,4 +1,4 @@
-import { neon } from 'neon';
+import { neon } from '@neondatabase/serverless';
 import { GeneratedPost, User, AutoPostSchedule } from '../types';
 
 // Database connection

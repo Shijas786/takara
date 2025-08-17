@@ -29,8 +29,10 @@ export default function LandingPage() {
   const [generatedContent, setGeneratedContent] = useState("")
   const [isGenerating, setIsGenerating] = useState(false)
   const [isPosting, setIsPosting] = useState(false)
-  const [contentLength, setContentLength] = useState("medium")
+  const [contentLength, setContentLength] = useState<"short" | "medium" | "long">("medium")
   const [contentStyle, setContentStyle] = useState("casual")
+  
+
 
   useEffect(() => {
     const cursorInterval = setInterval(() => {
@@ -271,21 +273,44 @@ export default function LandingPage() {
     simulateCodeExecution()
 
     try {
-      const response = await fetch("/api/generate-content", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt, length: contentLength, style: contentStyle }),
-      })
-      const data = await response.json()
-      if (data.content) {
-        setGeneratedContent(data.content)
+      // Import the AI training service dynamically
+      const { aiTrainingService } = await import('../lib/aiTrainingService');
+      
+      let content: string;
+      
+      // Handle reply style differently - treat prompt as text to reply to
+      if (contentStyle === 'reply') {
+        content = await aiTrainingService.generateReplyGuyContent(prompt, 'casual');
+        setTerminalOutput(prev => [...prev, `$ Reply generated! Replying to: "${prompt.substring(0, 50)}${prompt.length > 50 ? '...' : ''}"`])
+      } else {
+        // Generate enhanced content using learned patterns
+        content = await aiTrainingService.generateEnhancedContent(
+          prompt,
+          contentStyle,
+          contentLength
+        );
+        setTerminalOutput(prev => [...prev, `$ Content generated with AI training! Style: ${contentStyle}, Length: ${contentLength}`])
+      }
+      
+      if (content) {
+        setGeneratedContent(content)
+        
+        // Store this as a training example
+        await aiTrainingService.storeTrainingExample(
+          content,
+          contentStyle,
+          'user_generated'
+        );
       }
     } catch (error) {
       console.error("Error generating content:", error)
+      setTerminalOutput(prev => [...prev, `$ Error generating content: ${error}`])
     } finally {
       setIsGenerating(false)
     }
   }
+
+
 
   const postToFarcaster = async () => {
     if (!generatedContent.trim()) return
@@ -453,7 +478,7 @@ export default function LandingPage() {
             <div className="space-y-2">
               <label className={`${currentTheme.primary} text-xs sm:text-sm font-mono`}>Content Length:</label>
               <div className="flex gap-1 sm:gap-2">
-                {["short", "medium", "long"].map((length) => (
+                {(["short", "medium", "long"] as const).map((length) => (
                   <Button
                     key={length}
                     variant={contentLength === length ? "default" : "outline"}
@@ -475,7 +500,7 @@ export default function LandingPage() {
             <div className="space-y-2">
               <label className={`${currentTheme.primary} text-xs sm:text-sm font-mono`}>Content Style:</label>
               <div className="grid grid-cols-2 sm:flex gap-1 sm:gap-2">
-                {["based", "reply guy", "influencer", "casual"].map((style) => (
+                {["based", "reply", "influencer", "casual"].map((style) => (
                   <Button
                     key={style}
                     variant={contentStyle === style ? "default" : "outline"}
@@ -497,7 +522,7 @@ export default function LandingPage() {
             <div className="space-y-2">
               <label className={`${currentTheme.primary} text-xs sm:text-sm font-mono`}>Content Prompt:</label>
               <Textarea
-                placeholder="Enter your content idea..."
+                placeholder={contentStyle === 'reply' ? "Paste the text you want to reply to..." : "Enter your content idea..."}
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 className={`bg-gray-900 ${currentTheme.border} ${currentTheme.accent} placeholder:${currentTheme.secondary} focus:${currentTheme.border.replace("/50", "")} focus:ring-${terminalTheme}-400/20 font-mono text-xs sm:text-sm`}
@@ -511,7 +536,7 @@ export default function LandingPage() {
               disabled={isGenerating || !prompt.trim()}
               className={`w-full ${currentTheme.bg} border ${currentTheme.border} ${currentTheme.primary} hover:${currentTheme.bg.replace("/20", "/30")} font-mono text-xs sm:text-sm py-3 sm:py-2`}
             >
-              {isGenerating ? "[GENERATING...]" : "[GENERATE CONTENT]"}
+              {isGenerating ? "[GENERATING...]" : contentStyle === 'reply' ? "[GENERATE REPLY]" : "[GENERATE CONTENT]"}
             </Button>
 
             {/* Generated Content */}
@@ -554,6 +579,8 @@ export default function LandingPage() {
             )}
           </div>
         </div>
+
+
       </div>
     </div>
   )
