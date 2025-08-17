@@ -108,10 +108,6 @@ export interface OpenAIConfig {
 }
 
 export interface FarcasterConfig {
-  apiKey: string;
-  baseUrl: string;
-  clientId: string;
-  clientSecret: string;
   neynarApiKey: string;
   neynarBaseUrl: string;
 }

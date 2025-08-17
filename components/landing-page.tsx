@@ -292,18 +292,25 @@ export default function LandingPage() {
 
     setIsPosting(true)
     try {
-      const response = await fetch("/api/post-to-farcaster", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: generatedContent }),
-      })
-      const data = await response.json()
-      if (data.success) {
+      // Import the Farcaster service dynamically to avoid SSR issues
+      const { FarcasterService } = await import('../lib/farcasterService');
+      
+      const result = await FarcasterService.postCast({
+        text: generatedContent,
+      });
+      
+      if (result.success) {
         setGeneratedContent("")
         setPrompt("")
+        // Show success message
+        setTerminalOutput(prev => [...prev, `$ Cast posted successfully! Hash: ${result.hash}`])
+      } else {
+        // Show error message
+        setTerminalOutput(prev => [...prev, `$ Error posting cast: ${result.error}`])
       }
     } catch (error) {
       console.error("Error posting to Farcaster:", error)
+      setTerminalOutput(prev => [...prev, `$ Error posting cast: ${error}`])
     } finally {
       setIsPosting(false)
     }

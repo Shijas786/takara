@@ -15,10 +15,6 @@ export const config: AppConfig = {
     model: 'gpt-3.5-turbo',
   },
   farcaster: {
-    apiKey: process.env.FARCASTER_API_KEY || 'placeholder_farcaster_key',
-    baseUrl: 'https://api.farcaster.xyz/v2',
-    clientId: process.env.NEXT_PUBLIC_FARCASTER_CLIENT_ID || '',
-    clientSecret: process.env.FARCASTER_CLIENT_SECRET || '',
     neynarApiKey: process.env.NEYNAR_API_KEY || 'placeholder_neynar_key',
     neynarBaseUrl: 'https://api.neynar.com/v2',
   },
