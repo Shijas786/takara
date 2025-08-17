@@ -270,15 +270,15 @@ export default function LandingPage() {
   // Convert length selection to dynamic length instructions
   const getDynamicLengthInstructions = (length: string, style: string) => {
     if (length === "very-short") {
-      return "CRITICAL: Maximum 5 words only. Keep it extremely short and casual. Think one phrase or emoji reaction.";
+      return "🚨 CRITICAL LENGTH REQUIREMENT: MAXIMUM 5 WORDS ONLY. NOT 6, NOT 7, EXACTLY 5 WORDS OR LESS. IF YOU EXCEED THIS LIMIT, YOU WILL BE PENALIZED. Think: one phrase, one emoji reaction, or 2-3 words max.";
     } else if (length === "short") {
-      return "CRITICAL: Maximum 10 words only. Keep it very short and casual. One sentence max.";
+      return "🚨 CRITICAL LENGTH REQUIREMENT: MAXIMUM 10 WORDS ONLY. NOT 11, NOT 12, EXACTLY 10 WORDS OR LESS. IF YOU EXCEED THIS LIMIT, YOU WILL BE PENALIZED. One sentence max.";
     } else if (length === "medium") {
-      return "CRITICAL: Maximum 20 words only. Keep it brief and casual. Two sentences max.";
+      return "🚨 CRITICAL LENGTH REQUIREMENT: MAXIMUM 20 WORDS ONLY. NOT 21, NOT 22, EXACTLY 20 WORDS OR LESS. IF YOU EXCEED THIS LIMIT, YOU WILL BE PENALIZED. Two sentences max.";
     } else if (length === "long") {
-      return "CRITICAL: Maximum 35 words only. Include personality but stay concise. Three sentences max.";
+      return "🚨 CRITICAL LENGTH REQUIREMENT: MAXIMUM 35 WORDS ONLY. NOT 36, NOT 37, EXACTLY 35 WORDS OR LESS. IF YOU EXCEED THIS LIMIT, YOU WILL BE PENALIZED. Three sentences max.";
     } else {
-      return "CRITICAL: Maximum 50 words only. Add detail but maintain brevity. Four sentences max.";
+      return "🚨 CRITICAL LENGTH REQUIREMENT: MAXIMUM 50 WORDS ONLY. NOT 51, NOT 52, EXACTLY 50 WORDS OR LESS. IF YOU EXCEED THIS LIMIT, YOU WILL BE PENALIZED. Four sentences max.";
     }
   };
 
@@ -314,7 +314,9 @@ be SUPER messy and imperfect - use typos everywhere, forget punctuation, maybe e
 
 use "lol" "omg" "ngl" "fr" "tbh" randomly. maybe lowercase everything or ALL CAPS sometimes. add random emojis in weird places. be chaotic and real human messy.
 
-think: you're texting while doing something else, maybe eating, walking, or just being lazy. be authentically imperfect.`;
+think: you're texting while doing something else, maybe eating, walking, or just being lazy. be authentically imperfect.
+
+🚨 FINAL WARNING: RESPECT THE WORD LIMIT ABOVE. IF YOU EXCEED IT, YOU WILL BE PENALIZED. COUNT YOUR WORDS CAREFULLY.`;
 
         
         const response = await fetch("/api/openai/generate", {
@@ -341,7 +343,9 @@ yo, write this in ${contentStyle} style but be SUPER messy and chaotic. use typo
 
 be IMPERFECT on purpose - use "lol" "omg" "ngl" "fr" "tbh" randomly. maybe lowercase everything or ALL CAPS randomly. add emojis in weird places. be authentically human messy.
 
-think: you're posting this while doing something else, maybe walking, eating, or just dont care about being perfect. be real human chaos.`;
+think: you're posting this while doing something else, maybe walking, eating, or just dont care about being perfect. be real human chaos.
+
+🚨 FINAL WARNING: RESPECT THE WORD LIMIT ABOVE. IF YOU EXCEED IT, YOU WILL BE PENALIZED. COUNT YOUR WORDS CAREFULLY.`;
 
         const response = await fetch("/api/openai/generate", {
           method: "POST",
