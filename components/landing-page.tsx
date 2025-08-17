@@ -30,6 +30,7 @@ export default function LandingPage() {
   const [isGenerating, setIsGenerating] = useState(false)
   const [isPosting, setIsPosting] = useState(false)
   const [contentLength, setContentLength] = useState<"short" | "medium" | "long">("medium")
+  const [lengthSlider, setLengthSlider] = useState(50) // 0-100 scale for precise length control
   const [contentStyle, setContentStyle] = useState("casual")
   
 
@@ -266,6 +267,31 @@ export default function LandingPage() {
     )
   }
 
+  // Convert slider value to dynamic length instructions
+  const getDynamicLengthInstructions = (sliderValue: number, style: string) => {
+    if (style === 'reply') {
+      if (sliderValue <= 25) {
+        return "Keep it extremely brief - just 1 sentence maximum. Sound casual and natural.";
+      } else if (sliderValue <= 50) {
+        return "Keep it brief - 1-2 sentences. Sound casual and natural.";
+      } else if (sliderValue <= 75) {
+        return "Make it 2-3 sentences. Include some personality and engagement.";
+      } else {
+        return "Write 3-4 sentences with more detail and personal touch.";
+      }
+    } else {
+      if (sliderValue <= 25) {
+        return "Keep it extremely brief - just 1 sentence maximum.";
+      } else if (sliderValue <= 50) {
+        return "Keep it brief - 1-2 sentences with minimal detail.";
+      } else if (sliderValue <= 75) {
+        return "Make it 2-3 sentences with some detail.";
+      } else {
+        return "Write 3-4 sentences with comprehensive coverage and detail.";
+      }
+    }
+  };
+
   const generateContent = async () => {
     if (!prompt.trim()) return
 
@@ -277,12 +303,8 @@ export default function LandingPage() {
       
       // Handle reply style differently - treat prompt as text to reply to
       if (contentStyle === 'reply') {
-        // Enhanced humanized prompt for reply generation with strict length control
-        const lengthInstructions = {
-          short: "Keep it very brief - just 1-2 sentences maximum. Sound casual and natural.",
-          medium: "Make it 2-3 sentences. Include some personality and engagement.",
-          long: "Write 3-4 sentences with more detail and personal touch."
-        };
+        // Enhanced humanized prompt for reply generation with dynamic length control
+        const dynamicLengthInstruction = getDynamicLengthInstructions(lengthSlider, 'reply');
         
         const humanizedPrompt = `You are a real human responding to this text: "${prompt}"
 
@@ -290,7 +312,7 @@ Generate a natural, human-like reply that:
 - Sounds exactly like a real person, not AI
 - Uses casual language, emojis, and natural expressions
 - Includes personal reactions and authentic voice
-- ${lengthInstructions[contentLength]}
+- ${dynamicLengthInstruction}
 - Relates directly to what was said
 - Uses varied sentence structures and natural flow
 - Includes typos, abbreviations, or casual punctuation when appropriate
@@ -309,20 +331,16 @@ Your reply:`;
         });
         const data = await response.json();
         content = data.content;
-        setTerminalOutput(prev => [...prev, `$ Reply generated! Replying to: "${prompt.substring(0, 50)}${prompt.length > 50 ? '...' : ''}"`])
+        setTerminalOutput(prev => [...prev, `$ Reply generated! Replying to: "${prompt.substring(0, 50)}${prompt.length > 50 ? '...' : ''}" (Length: ${lengthSlider}%)`])
       } else {
-        // Enhanced prompt for regular content generation with proper length control
-        const lengthInstructions = {
-          short: "Keep it very brief - just 1-2 sentences maximum.",
-          medium: "Make it 2-3 sentences with some detail.",
-          long: "Write 3-4 sentences with comprehensive coverage."
-        };
+        // Enhanced prompt for regular content generation with dynamic length control
+        const dynamicLengthInstruction = getDynamicLengthInstructions(lengthSlider, 'regular');
         
         const enhancedPrompt = `${prompt}
 
 Requirements:
 - Style: ${contentStyle}
-- Length: ${lengthInstructions[contentLength]}
+- Length: ${dynamicLengthInstruction}
 - Make it sound natural and human-like
 - Include relevant emojis and casual language`;
 
@@ -337,7 +355,7 @@ Requirements:
         });
         const data = await response.json();
         content = data.content;
-        setTerminalOutput(prev => [...prev, `$ Content generated! Style: ${contentStyle}, Length: ${contentLength}`])
+        setTerminalOutput(prev => [...prev, `$ Content generated! Style: ${contentStyle}, Length: ${lengthSlider}%`])
       }
       
       if (content) {
@@ -516,24 +534,31 @@ Requirements:
           {/* Content Generation Interface */}
           <div className={`bg-gray-900/30 border ${currentTheme.border} rounded-lg p-4 sm:p-6 space-y-4`}>
             {/* Length Options */}
+            {/* Content Length Slider */}
             <div className="space-y-2">
-              <label className={`${currentTheme.primary} text-xs sm:text-sm font-mono`}>Content Length:</label>
-              <div className="flex gap-1 sm:gap-2">
-                {(["short", "medium", "long"] as const).map((length) => (
-                  <Button
-                    key={length}
-                    variant={contentLength === length ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setContentLength(length)}
-                    className={`font-mono text-xs flex-1 sm:flex-none ${
-                      contentLength === length
-                        ? `${currentTheme.bg} ${currentTheme.border} ${currentTheme.accent}`
-                        : `bg-transparent ${currentTheme.border} ${currentTheme.secondary} hover:${currentTheme.bg.replace("/20", "/10")}`
-                    }`}
-                  >
-                    {length}
-                  </Button>
-                ))}
+              <div className="flex items-center justify-between">
+                <label className={`${currentTheme.primary} text-xs sm:text-sm font-mono`}>Content Length:</label>
+                <span className={`${currentTheme.secondary} text-xs font-mono`}>{lengthSlider}%</span>
+              </div>
+              <div className="relative">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={lengthSlider}
+                  onChange={(e) => setLengthSlider(Number(e.target.value))}
+                  className={`w-full h-2 rounded-lg appearance-none cursor-pointer ${currentTheme.bg} ${currentTheme.border}`}
+                  style={{
+                    background: `linear-gradient(to right, ${currentTheme.border.replace('/50', '/30')} 0%, ${currentTheme.border.replace('/50', '/70')} ${lengthSlider}%, ${currentTheme.border.replace('/50', '/30')} ${lengthSlider}%)`
+                  }}
+                />
+                <div className="flex justify-between text-xs mt-1">
+                  <span className={`${currentTheme.secondary} font-mono`}>Very Short</span>
+                  <span className={`${currentTheme.secondary} font-mono`}>Short</span>
+                  <span className={`${currentTheme.secondary} font-mono`}>Medium</span>
+                  <span className={`${currentTheme.secondary} font-mono`}>Long</span>
+                  <span className={`${currentTheme.secondary} font-mono`}>Very Long</span>
+                </div>
               </div>
             </div>
 
