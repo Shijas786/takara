@@ -269,30 +269,16 @@ export default function LandingPage() {
 
   // Convert slider value to dynamic length instructions
   const getDynamicLengthInstructions = (sliderValue: number, style: string) => {
-    if (style === 'reply') {
-      if (sliderValue <= 15) {
-        return "CRITICAL: Maximum 1 sentence only. Extremely short and casual. No more than 8-10 words maximum.";
-      } else if (sliderValue <= 30) {
-        return "CRITICAL: Maximum 1 sentence only. Keep it very short and casual. No more than 12-15 words maximum.";
-      } else if (sliderValue <= 50) {
-        return "CRITICAL: Maximum 2 sentences only. Keep it brief and casual. No more than 20-25 words total.";
-      } else if (sliderValue <= 75) {
-        return "CRITICAL: Maximum 3 sentences only. Include personality but stay concise. No more than 35-40 words total.";
-      } else {
-        return "CRITICAL: Maximum 4 sentences only. Add detail but maintain brevity. No more than 50-60 words total.";
-      }
+    if (sliderValue <= 15) {
+      return "CRITICAL: Maximum 1 sentence only. Keep it extremely short and casual. No more than 8-10 words maximum.";
+    } else if (sliderValue <= 30) {
+      return "CRITICAL: Maximum 1 sentence only. Keep it very short and casual. No more than 12-15 words maximum.";
+    } else if (sliderValue <= 50) {
+      return "CRITICAL: Maximum 2 sentences only. Keep it brief and casual. No more than 20-25 words total.";
+    } else if (sliderValue <= 75) {
+      return "CRITICAL: Maximum 3 sentences only. Include personality but stay concise. No more than 35-40 words total.";
     } else {
-      if (sliderValue <= 15) {
-        return "CRITICAL: Maximum 1 sentence only. Extremely brief. No more than 8-10 words maximum.";
-      } else if (sliderValue <= 30) {
-        return "CRITICAL: Maximum 1 sentence only. Very brief. No more than 12-15 words maximum.";
-      } else if (sliderValue <= 50) {
-        return "CRITICAL: Maximum 2 sentences only. Brief with minimal detail. No more than 20-25 words total.";
-      } else if (sliderValue <= 75) {
-        return "CRITICAL: Maximum 3 sentences only. Some detail but stay concise. No more than 35-40 words total.";
-      } else {
-        return "CRITICAL: Maximum 4 sentences only. Comprehensive but controlled. No more than 50-60 words total.";
-      }
+      return "CRITICAL: Maximum 4 sentences only. Add detail but maintain brevity. No more than 50-60 words total.";
     }
   };
 
@@ -364,14 +350,23 @@ Your reply:`;
 
 CRITICAL LENGTH REQUIREMENT: ${dynamicLengthInstruction}
 
-Write this in a natural, human way:
+Write this in a natural, human way like a real person would:
 - Style: ${contentStyle}
-- Sound like a real person, not AI
-- Use casual language, emojis, slang naturally
-- Show personality and authentic voice
-- Sometimes use typos, pauses, lowercase when it feels right
+- Sound like a real human, not AI or corporate bot
+- Use casual language, emojis, slang naturally (not forced)
+- Show personality: curiosity, humor, light sarcasm, support
+- Sometimes be playful, flirty, or just drop a meme reaction
+- Use typos, pauses ("uhh", "ngl", "..."), lowercase when it feels right
 - Sound like you're writing *right now*, not pre-written
-- Never sound robotic or formal
+- Never sound robotic, formal, or like an essay
+- Be authentic and in the moment
+
+Examples of human writing:
+- "ngl this is the content i signed up for 👏"
+- "omg yes!! literally me rn"
+- "uhh... i have no words 💀"
+- "this is kinda wild ngl 😅"
+- "ngl i'm obsessed with this energy"
 
 IMPORTANT: If you exceed the word limit, you will be penalized. Stay within the exact limits specified above.`;
 
