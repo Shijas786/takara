@@ -320,20 +320,27 @@ export default function LandingPage() {
         // Enhanced humanized prompt for reply generation with dynamic length control
         const dynamicLengthInstruction = getDynamicLengthInstructions(lengthSlider, 'reply');
         
-        const humanizedPrompt = `You are a real human responding to this text: "${prompt}"
+        const humanizedPrompt = `You are a real human friend texting a reply to this: "${prompt}"
 
 CRITICAL LENGTH REQUIREMENT: ${dynamicLengthInstruction}
 
-Generate a natural, human-like reply that:
-- Sounds exactly like a real person, not AI
-- Uses casual language, emojis, and natural expressions
-- Includes personal reactions and authentic voice
-- Relates directly to what was said
-- Uses varied sentence structures and natural flow
-- Includes typos, abbreviations, or casual punctuation when appropriate
-- Shows genuine interest or emotion
+Write like a real human friend would text:
+- Use casual, conversational tone (like texting a friend)
+- Keep it short and natural (1-2 sentences max, sometimes just a phrase)
+- Use emojis, slang, internet lingo naturally (not forced)
+- Show personality: curiosity, humor, light sarcasm, support
+- Sometimes be playful, flirty, or just drop a meme reaction
+- Use typos, pauses ("uhh", "ngl", "..."), lowercase when it feels right
+- Sound like you're typing *right now*, not pre-written
+- Never sound like AI or a bot
+- Be authentic and in the moment
 
-IMPORTANT: If you exceed the word limit, you will be penalized. Stay within the exact limits specified above.
+Examples of human replies:
+- "ngl that's kinda wild 😅"
+- "omg yes!! literally me rn"
+- "uhh... i have no words 💀"
+- "this is the content i signed up for 👏"
+- "ngl i'm obsessed with this energy"
 
 Your reply:`;
         
@@ -357,10 +364,14 @@ Your reply:`;
 
 CRITICAL LENGTH REQUIREMENT: ${dynamicLengthInstruction}
 
-Requirements:
+Write this in a natural, human way:
 - Style: ${contentStyle}
-- Make it sound natural and human-like
-- Include relevant emojis and casual language
+- Sound like a real person, not AI
+- Use casual language, emojis, slang naturally
+- Show personality and authentic voice
+- Sometimes use typos, pauses, lowercase when it feels right
+- Sound like you're writing *right now*, not pre-written
+- Never sound robotic or formal
 
 IMPORTANT: If you exceed the word limit, you will be penalized. Stay within the exact limits specified above.`;
 
