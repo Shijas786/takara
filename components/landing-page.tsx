@@ -277,12 +277,32 @@ export default function LandingPage() {
       
       // Handle reply style differently - treat prompt as text to reply to
       if (contentStyle === 'reply') {
-        // Use the existing OpenAI API for reply generation
+        // Enhanced humanized prompt for reply generation with strict length control
+        const lengthInstructions = {
+          short: "Keep it very brief - just 1-2 sentences maximum. Sound casual and natural.",
+          medium: "Make it 2-3 sentences. Include some personality and engagement.",
+          long: "Write 3-4 sentences with more detail and personal touch."
+        };
+        
+        const humanizedPrompt = `You are a real human responding to this text: "${prompt}"
+
+Generate a natural, human-like reply that:
+- Sounds exactly like a real person, not AI
+- Uses casual language, emojis, and natural expressions
+- Includes personal reactions and authentic voice
+- ${lengthInstructions[contentLength]}
+- Relates directly to what was said
+- Uses varied sentence structures and natural flow
+- Includes typos, abbreviations, or casual punctuation when appropriate
+- Shows genuine interest or emotion
+
+Your reply:`;
+        
         const response = await fetch("/api/openai/generate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ 
-            prompt: `Generate a human-like reply to this text: "${prompt}". Make it sound like a real person responding naturally.`,
+            prompt: humanizedPrompt,
             length: contentLength, 
             style: 'reply' 
           }),
@@ -291,15 +311,33 @@ export default function LandingPage() {
         content = data.content;
         setTerminalOutput(prev => [...prev, `$ Reply generated! Replying to: "${prompt.substring(0, 50)}${prompt.length > 50 ? '...' : ''}"`])
       } else {
-        // Use the existing OpenAI API for regular content generation
+        // Enhanced prompt for regular content generation with proper length control
+        const lengthInstructions = {
+          short: "Keep it very brief - just 1-2 sentences maximum.",
+          medium: "Make it 2-3 sentences with some detail.",
+          long: "Write 3-4 sentences with comprehensive coverage."
+        };
+        
+        const enhancedPrompt = `${prompt}
+
+Requirements:
+- Style: ${contentStyle}
+- Length: ${lengthInstructions[contentLength]}
+- Make it sound natural and human-like
+- Include relevant emojis and casual language`;
+
         const response = await fetch("/api/openai/generate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt, length: contentLength, style: contentStyle }),
+          body: JSON.stringify({ 
+            prompt: enhancedPrompt, 
+            length: contentLength, 
+            style: contentStyle 
+          }),
         });
         const data = await response.json();
         content = data.content;
-        setTerminalOutput(prev => [...prev, `$ Content generated with AI training! Style: ${contentStyle}, Length: ${contentLength}`])
+        setTerminalOutput(prev => [...prev, `$ Content generated! Style: ${contentStyle}, Length: ${contentLength}`])
       }
       
       if (content) {
