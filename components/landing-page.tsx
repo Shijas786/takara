@@ -71,7 +71,7 @@ export default function LandingPage() {
 
   const currentTheme = themes[terminalTheme as keyof typeof themes]
 
-  const availableCommands = ["/start", "/help", "/clear", "/history", "/status", "/theme", "/export", "/logout"]
+  const availableCommands = ["/start", "/help", "/clear", "/history", "/status", "/theme", "/copy", "/logout"]
 
   const handleTabCompletion = () => {
     const matches = availableCommands.filter((cmd) => cmd.startsWith(terminalInput))
@@ -83,18 +83,26 @@ export default function LandingPage() {
     }
   }
 
-  const exportContent = () => {
+  const copyContent = async () => {
     if (!generatedContent) return
 
-    const blob = new Blob([generatedContent], { type: "text/plain" })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = `takara-content-${Date.now()}.txt`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(generatedContent)
+      } else {
+        const textarea = document.createElement('textarea')
+        textarea.value = generatedContent
+        textarea.setAttribute('readonly', '')
+        textarea.style.position = 'absolute'
+        textarea.style.left = '-9999px'
+        document.body.appendChild(textarea)
+        textarea.select()
+        document.execCommand('copy')
+        document.body.removeChild(textarea)
+      }
+    } catch (err) {
+      console.error('Copy failed:', err)
+    }
   }
 
   const handleTerminalCommand = (e: React.KeyboardEvent) => {
@@ -152,7 +160,7 @@ export default function LandingPage() {
         newOutput.push("  /history  - Show command history")
         newOutput.push("  /status   - Show system status")
         newOutput.push("  /theme    - Change terminal theme")
-        newOutput.push("  /export   - Export generated content")
+        newOutput.push("  /copy     - Copy generated content to clipboard")
         newOutput.push("  /logout   - Exit AI Studio")
         newOutput.push("")
       } else if (command === "/clear") {
@@ -183,12 +191,12 @@ export default function LandingPage() {
         setTerminalTheme(nextTheme)
         newOutput.push(`Theme changed to: ${nextTheme}`)
         newOutput.push("")
-      } else if (command === "/export") {
+      } else if (command === "/copy") {
         if (generatedContent) {
-          exportContent()
-          newOutput.push("Content exported to file")
+          copyContent()
+          newOutput.push("Content copied to clipboard")
         } else {
-          newOutput.push("No content to export")
+          newOutput.push("No content to copy")
         }
         newOutput.push("")
       } else if (command === "/logout") {
@@ -522,10 +530,10 @@ export default function LandingPage() {
                   </Button>
                   <div className="flex gap-2">
                     <Button
-                      onClick={exportContent}
+                      onClick={copyContent}
                       className="flex-1 sm:flex-none border-purple-500/50 text-purple-400 hover:bg-purple-500/10 font-mono text-xs sm:text-sm"
                     >
-                      [EXPORT]
+                      [COPY]
                     </Button>
                     <Button
                       onClick={() => setGeneratedContent("")}
