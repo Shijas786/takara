@@ -270,15 +270,15 @@ export default function LandingPage() {
   // Convert slider value to dynamic length instructions
   const getDynamicLengthInstructions = (sliderValue: number, style: string) => {
     if (sliderValue <= 15) {
-      return "CRITICAL: Maximum 1 sentence only. Keep it extremely short and casual. No more than 8-10 words maximum.";
+      return "keep it super short - like 1 sentence max, maybe 8-10 words. think tweet length.";
     } else if (sliderValue <= 30) {
-      return "CRITICAL: Maximum 1 sentence only. Keep it very short and casual. No more than 12-15 words maximum.";
+      return "keep it short - 1 sentence max, around 12-15 words. like a quick text.";
     } else if (sliderValue <= 50) {
-      return "CRITICAL: Maximum 2 sentences only. Keep it brief and casual. No more than 20-25 words total.";
+      return "keep it brief - 2 sentences max, around 20-25 words total. like a short post.";
     } else if (sliderValue <= 75) {
-      return "CRITICAL: Maximum 3 sentences only. Include personality but stay concise. No more than 35-40 words total.";
+      return "keep it concise - 3 sentences max, around 35-40 words. add some personality but don't ramble.";
     } else {
-      return "CRITICAL: Maximum 4 sentences only. Add detail but maintain brevity. No more than 50-60 words total.";
+      return "keep it reasonable - 4 sentences max, around 50-60 words. you can add detail but don't write a novel.";
     }
   };
 
@@ -306,29 +306,14 @@ export default function LandingPage() {
         // Enhanced humanized prompt for reply generation with dynamic length control
         const dynamicLengthInstruction = getDynamicLengthInstructions(lengthSlider, 'reply');
         
-        const humanizedPrompt = `You are a real human friend texting a reply to this: "${prompt}"
+        const humanizedPrompt = `yo, you're texting your best friend about this: "${prompt}"
 
-CRITICAL LENGTH REQUIREMENT: ${dynamicLengthInstruction}
+${dynamicLengthInstruction}
 
-Write like a real human friend would text:
-- Use casual, conversational tone (like texting a friend)
-- Keep it short and natural (1-2 sentences max, sometimes just a phrase)
-- Use emojis, slang, internet lingo naturally (not forced)
-- Show personality: curiosity, humor, light sarcasm, support
-- Sometimes be playful, flirty, or just drop a meme reaction
-- Use typos, pauses ("uhh", "ngl", "..."), lowercase when it feels right
-- Sound like you're typing *right now*, not pre-written
-- Never sound like AI or a bot
-- Be authentic and in the moment
+just reply like you normally would to a friend - super casual, maybe throw in an emoji or two, use some slang if it fits. keep it real short tho, like 1-2 sentences max. sound like you're actually texting rn, not writing an essay.
 
-Examples of human replies:
-- "ngl that's kinda wild 😅"
-- "omg yes!! literally me rn"
-- "uhh... i have no words 💀"
-- "this is the content i signed up for 👏"
-- "ngl i'm obsessed with this energy"
+think: how would you actually respond to this if your friend just sent it?`;
 
-Your reply:`;
         
         const response = await fetch("/api/openai/generate", {
           method: "POST",
@@ -348,27 +333,13 @@ Your reply:`;
         
         const enhancedPrompt = `${prompt}
 
-CRITICAL LENGTH REQUIREMENT: ${dynamicLengthInstruction}
+${dynamicLengthInstruction}
 
-Write this in a natural, human way like a real person would:
-- Style: ${contentStyle}
-- Sound like a real human, not AI or corporate bot
-- Use casual language, emojis, slang naturally (not forced)
-- Show personality: curiosity, humor, light sarcasm, support
-- Sometimes be playful, flirty, or just drop a meme reaction
-- Use typos, pauses ("uhh", "ngl", "..."), lowercase when it feels right
-- Sound like you're writing *right now*, not pre-written
-- Never sound robotic, formal, or like an essay
-- Be authentic and in the moment
+yo, write this in ${contentStyle} style but make it sound like a real person actually wrote it. not some corporate bot or ai thing.
 
-Examples of human writing:
-- "ngl this is the content i signed up for 👏"
-- "omg yes!! literally me rn"
-- "uhh... i have no words 💀"
-- "this is kinda wild ngl 😅"
-- "ngl i'm obsessed with this energy"
+think: how would you actually post this on social media? use some emojis, maybe some slang, keep it casual and real. sound like you're actually typing this rn, not writing a formal essay.
 
-IMPORTANT: If you exceed the word limit, you will be penalized. Stay within the exact limits specified above.`;
+make it feel authentic and human - like something you'd actually say to your friends.`;
 
         const response = await fetch("/api/openai/generate", {
           method: "POST",
