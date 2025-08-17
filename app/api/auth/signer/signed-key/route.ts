@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getNeynarClient } from '../../../../../lib/neynar';
 import { sanitizeResponse } from '../../../../../lib/sanitizeResponse';
 
+export const dynamic = 'force-dynamic';
+
 // POST: Register signed key (Step 8)
 export async function POST(request: NextRequest) {
   try {

@@ -42,15 +42,25 @@ const nextConfig = {
         ],
       },
       {
-        source: '/farcaster-manifest.json',
+        source: '/.well-known/farcaster.json',
         headers: [
-          {
-            key: 'Content-Type',
-            value: 'application/json',
-          },
+          { key: 'Content-Type', value: 'application/json' },
         ],
       },
     ];
+  },
+  async redirects() {
+    const hostedId = process.env.NEXT_PUBLIC_HOSTED_MANIFEST_ID;
+    if (hostedId) {
+      return [
+        {
+          source: '/.well-known/farcaster.json',
+          destination: `https://api.farcaster.xyz/miniapps/hosted-manifest/${hostedId}`,
+          permanent: false,
+        },
+      ];
+    }
+    return [];
   },
 };
 

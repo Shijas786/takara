@@ -10,25 +10,39 @@ import { FeedSection } from "@/components/feed-section"
 import { ExploreSection } from "@/components/explore-section"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { useMiniKit, useAddFrame, useOpenUrl } from "@coinbase/onchainkit/minikit"
+// Removed Base MiniKit; using Farcaster Mini App SDK only
+
+// Prefer Mini App SDK when running inside Farcaster Mini App hosts
+// Dynamically import to avoid SSR issues
+async function callMiniAppReadyIfAvailable() {
+  try {
+    const mod = await import("@farcaster/miniapp-sdk");
+    const { sdk } = mod as { sdk: { actions: { ready: (opts?: { disableNativeGestures?: boolean }) => Promise<void> }, isInMiniApp: (timeoutMs?: number) => Promise<boolean> } };
+    const inMini = await sdk.isInMiniApp();
+    if (inMini) {
+      await sdk.actions.ready();
+    }
+  } catch {
+    // SDK not available; ignore in regular web
+  }
+}
 
 export default function Home() {
   const [isSignedIn, setIsSignedIn] = useState(false)
 
-  const { setFrameReady, isFrameReady } = useMiniKit()
-  const addFrame = useAddFrame()
-  const openUrl = useOpenUrl()
+  // onchainkit removed
 
   useEffect(() => {
-    if (!isFrameReady) {
-      setFrameReady()
-    }
-  }, [setFrameReady, isFrameReady])
+    // Call Mini App ready when applicable
+    callMiniAppReadyIfAvailable()
+  }, [])
 
   const handleAddFrame = async () => {
-    const result = await addFrame()
-    if (result) {
-      console.log('Frame added:', result.url, result.token)
+    try {
+      const { sdk } = await import('@farcaster/miniapp-sdk')
+      await sdk.actions.addMiniApp()
+    } catch (e) {
+      console.log('addMiniApp failed or unsupported in this environment')
     }
   }
 
@@ -41,14 +55,7 @@ export default function Home() {
             className="cursor-pointer bg-transparent font-semibold text-sm px-2 py-1 border rounded"
             onClick={handleAddFrame}
           >
-            Save Frame
-          </button>
-          <button
-            type="button"
-            className="cursor-pointer bg-transparent font-semibold text-sm px-2 py-1 border rounded"
-            onClick={() => openUrl('https://base.org/builders/minikit')}
-          >
-            BUILT WITH MINIKIT
+            Add Mini App
           </button>
         </div>
 

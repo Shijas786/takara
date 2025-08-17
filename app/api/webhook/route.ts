@@ -4,7 +4,7 @@ import { sanitizeResponse } from '../../../lib/sanitizeResponse';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => null);
-    console.log('MiniKit webhook received:', body);
+    console.log('Mini App webhook received:', body);
     return NextResponse.json(sanitizeResponse({ ok: true }));
   } catch (error) {
     console.error('Webhook error:', error);

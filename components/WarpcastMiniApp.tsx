@@ -5,7 +5,7 @@ import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { User, Send, Sparkles, MessageCircle, Loader2, Zap, TrendingUp, Copy, Check, Sparkles as Butterfly } from 'lucide-react';
-import { useMiniKit } from '@coinbase/onchainkit/minikit';
+// OnchainKit removed
 
 interface MiniAppUser {
   fid: number;
@@ -15,15 +15,7 @@ interface MiniAppUser {
 }
 
 export default function WarpcastMiniApp() {
-  const { context } = useMiniKit();
-  const user: MiniAppUser | null = context?.user
-    ? {
-        fid: context.user.fid,
-        username: context.user.username || '',
-        displayName: context.user.displayName || context.user.username || '',
-        pfpUrl: context.user.pfpUrl || '',
-      }
-    : null;
+  const user: MiniAppUser | null = null as MiniAppUser | null;
   
   const [isPosting, setIsPosting] = useState(false);
   const [postText, setPostText] = useState('');
@@ -68,7 +60,7 @@ export default function WarpcastMiniApp() {
   };
 
   const postToFarcaster = async (text: string) => {
-    if (!text.trim() || !context?.client) return;
+    if (!text.trim()) return;
     setIsPosting(true);
     try {
       // In-frame posting should be handled by parent using useMiniKit hooks/buttons
@@ -223,10 +215,10 @@ export default function WarpcastMiniApp() {
               <CardContent>
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
-                    {user.pfpUrl ? (
+                    {(user as MiniAppUser | null)?.pfpUrl ? (
                       <img 
-                        src={user.pfpUrl} 
-                        alt={user.displayName} 
+                        src={(user as MiniAppUser).pfpUrl} 
+                        alt={(user as MiniAppUser).displayName || 'User'} 
                         className="w-12 h-12 rounded-full"
                       />
                     ) : (

@@ -6,7 +6,7 @@
 
 **Warning:**
 ```
-@farcaster/frame-sdk is deprecated. Please use @farcaster/miniapp-sdk instead.
+Ensure you are using `@farcaster/miniapp-sdk`. Remove legacy `@farcaster/frame-sdk` and OnchainKit references.
 ```
 
 **Cause:** This warning comes from dependencies (like `@coinbase/onchainkit`) that still use the deprecated Farcaster Frame SDK.
@@ -14,7 +14,7 @@
 **Solution:** 
 - This warning is automatically suppressed by the error suppression script
 - The warning doesn't affect functionality
-- The app already uses the newer `@farcaster/miniapp-sdk`
+- The app uses the newer `@farcaster/miniapp-sdk` exclusively
 
 ### 2. Coinbase Analytics Error
 

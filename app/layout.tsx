@@ -16,6 +16,22 @@ const inter = Inter({ subsets: ["latin"] });
 
 const appUrl = process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_APP_URL || "";
 
+// Mini App Embed metadata for sharing
+const miniAppEmbed = {
+  version: "1",
+  imageUrl: `${publicUrl || ""}/takara-logo.png`,
+  button: {
+    title: "Open Takara",
+    action: {
+      type: "launch_miniapp" as const,
+      name: "Takara",
+      url: publicUrl || "https://takara-content-app.vercel.app",
+      splashImageUrl: `${publicUrl || ""}/takara-logo.png`,
+      splashBackgroundColor: "#6200EA",
+    },
+  },
+};
+
 export const metadata: Metadata = {
   title: "Takara - AI-Powered Content Creation",
   description: "Generate & share AI content seamlessly on Farcaster.",
@@ -47,11 +63,19 @@ export const metadata: Metadata = {
     images: [`${publicUrl || ""}/takara-logo.png`],
   },
   other: {
-    "fc:frame": "vNext",
-    // Provide required frame tags so root can validate as a frame if shared
-    "fc:frame:image": process.env.NEXT_PUBLIC_FRAME_IMAGE_URL || `${publicUrl || ''}/api/og?prompt=Takara`,
-    "fc:frame:post_url": publicUrl ? `${publicUrl}/frame` : '/frame',
-    "fc:frame:button:1": "Open Takara",
+    // Mini App embed (primary)
+    "fc:miniapp": JSON.stringify(miniAppEmbed),
+    // Backward compatibility: some hosts still read fc:frame with the same serialized JSON
+    "fc:frame": JSON.stringify({
+      ...miniAppEmbed,
+      button: {
+        ...miniAppEmbed.button,
+        action: {
+          ...miniAppEmbed.button.action,
+          type: "launch_frame",
+        },
+      },
+    }),
   },
 };
 

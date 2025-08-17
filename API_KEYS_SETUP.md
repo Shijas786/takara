@@ -95,8 +95,7 @@ NEXT_PUBLIC_SBT_CONTRACT_ADDRESS=your_deployed_contract_address_here
 ### Add to Environment:
 ```env
 NEXT_PUBLIC_APP_URL=http://localhost:3000
-NEXT_PUBLIC_ONCHAINKIT_API_KEY=your_onchainkit_api_key_here
-NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=Takara Content Evolution
+# Removed OnchainKit keys (migrated to Farcaster Mini App SDK)
 NEXT_PUBLIC_ICON_URL=https://your-icon-url.com/icon.png
 ```
 

@@ -110,7 +110,7 @@ export default function ThreeScene() {
             Add to Mini Apps
           </button>
           <div className="text-xs text-slate-500">
-            BUILT WITH MINIKIT
+            Powered by Farcaster Mini Apps
           </div>
         </div>
       </main>

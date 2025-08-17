@@ -129,3 +129,8 @@ scripts/influencer_data/*.json
 .local/
 .env*.local
 .env.local.backup.*
+
+# Env backups
+.env.bak.*
+.env.local.bak.*
+

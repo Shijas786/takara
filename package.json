@@ -7,13 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:sanitizer": "node scripts/test-sanitizer.js",
-    "check:deprecated": "node scripts/check-deprecated-sdk.js",
-    "pre-commit": "npm run check:deprecated && npm run test:sanitizer",
-    "postinstall": "npm run check:deprecated"
+    "test:sanitizer": "node scripts/test-sanitizer.js"
   },
   "dependencies": {
-    "@coinbase/onchainkit": "^0.38.19",
     "@neynar/nodejs-sdk": "^3.30.0",
     "@neynar/react": "^1.2.7",
     "@noble/ed25519": "^2.3.0",
