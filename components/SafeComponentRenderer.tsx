@@ -61,7 +61,7 @@ export default function SafeComponentRenderer({
         <div>
           <h3 className="font-medium mb-2">Safely Rendered Children:</h3>
           <div className="p-4 bg-gray-50 rounded-lg">
-            {children || <span className="text-gray-500">No children provided</span>}
+            {safeRender(children, <span className="text-gray-500">No children provided</span>)}
           </div>
         </div>
 
