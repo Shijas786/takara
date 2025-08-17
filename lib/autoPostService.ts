@@ -1,4 +1,4 @@
-import { supabaseService } from './supabase';
+import { neonService } from './neon';
 
 export interface AutoPostJob {
   id: string;
@@ -45,7 +45,7 @@ class AutoPostService {
     };
 
     // Save to database
-    await supabaseService.saveAutoPostJob(job);
+    await neonService.saveAutoPostJob(job);
 
     // Schedule the post
     this.scheduleJob(job, settings);
@@ -94,7 +94,7 @@ class AutoPostService {
         // Success
         job.status = 'posted';
         job.postedAt = new Date();
-        await supabaseService.updateAutoPostJob(job);
+        await neonService.updateAutoPostJob(job);
         
         console.log(`Auto-post successful: ${job.id}`);
       } else {
@@ -108,11 +108,11 @@ class AutoPostService {
 
       if (job.retryCount >= job.maxRetries) {
         job.status = 'failed';
-        await supabaseService.updateAutoPostJob(job);
+        await neonService.updateAutoPostJob(job);
       } else {
         // Retry after delay
         job.status = 'retrying';
-        await supabaseService.updateAutoPostJob(job);
+        await neonService.updateAutoPostJob(job);
         
         const retryDelay = (settings.retryDelay || 5) * 60 * 1000; // Convert to milliseconds
         setTimeout(() => {
@@ -144,7 +144,7 @@ class AutoPostService {
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    const todayPosts = await supabaseService.getAutoPostJobsByDateRange(
+    const todayPosts = await neonService.getAutoPostJobsByDateRange(
       userId,
       today,
       tomorrow
@@ -186,11 +186,11 @@ class AutoPostService {
     }
 
     // Update database
-    await supabaseService.cancelAutoPostJob(jobId);
+    await neonService.cancelAutoPostJob(jobId);
   }
 
   async getUserJobs(userId: string): Promise<AutoPostJob[]> {
-    return await supabaseService.getAutoPostJobsByUser(userId);
+    return await neonService.getAutoPostJobsByUser(userId);
   }
 
   start() {

@@ -3,8 +3,8 @@ import { config } from './config';
 import { GeneratedPost, User, AutoPostSchedule } from '../types';
 
 // Only create Supabase client if we have valid credentials
-const supabase = config.supabase.url && config.supabase.url.trim() !== '' 
-  ? createClient(config.supabase.url, config.supabase.anonKey)
+const supabase = config.database.url && config.database.url.trim() !== '' 
+  ? createClient(config.database.url, 'placeholder_key') // Using database URL for compatibility
   : null;
 
 export class SupabaseService {

@@ -6,9 +6,8 @@ export const config: AppConfig = {
     network: 'base',
     chainId: 8453, // Base mainnet
   },
-  supabase: {
-    url: process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
-    anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder_key',
+  database: {
+    url: process.env.DATABASE_URL || 'postgresql://placeholder:placeholder@localhost/placeholder',
   },
   openai: {
     apiKey: process.env.OPENAI_API_KEY || 'placeholder_openai_key',

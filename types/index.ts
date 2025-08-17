@@ -97,9 +97,8 @@ export interface ContractConfig {
   chainId: number;
 }
 
-export interface SupabaseConfig {
+export interface DatabaseConfig {
   url: string;
-  anonKey: string;
 }
 
 export interface OpenAIConfig {
@@ -116,7 +115,7 @@ export interface FarcasterConfig {
 
 export interface AppConfig {
   contracts: ContractConfig;
-  supabase: SupabaseConfig;
+  database: DatabaseConfig;
   openai: OpenAIConfig;
   farcaster: FarcasterConfig;
 } 
