@@ -29,8 +29,8 @@ export default function LandingPage() {
   const [generatedContent, setGeneratedContent] = useState("")
   const [isGenerating, setIsGenerating] = useState(false)
   const [isPosting, setIsPosting] = useState(false)
-  const [contentLength, setContentLength] = useState<"short" | "medium" | "long">("medium")
-  const [lengthSlider, setLengthSlider] = useState(50) // 0-100 scale for precise length control
+  const [contentLength, setContentLength] = useState<"very-short" | "short" | "medium" | "long">("medium")
+
   const [contentStyle, setContentStyle] = useState("casual")
   
 
@@ -267,29 +267,29 @@ export default function LandingPage() {
     )
   }
 
-  // Convert slider value to dynamic length instructions
-  const getDynamicLengthInstructions = (sliderValue: number, style: string) => {
-    if (sliderValue <= 15) {
-      return "keep it super short - like 1 sentence max, maybe 8-10 words. think tweet length.";
-    } else if (sliderValue <= 30) {
-      return "keep it short - 1 sentence max, around 12-15 words. like a quick text.";
-    } else if (sliderValue <= 50) {
-      return "keep it brief - 2 sentences max, around 20-25 words total. like a short post.";
-    } else if (sliderValue <= 75) {
-      return "keep it concise - 3 sentences max, around 35-40 words. add some personality but don't ramble.";
+  // Convert length selection to dynamic length instructions
+  const getDynamicLengthInstructions = (length: string, style: string) => {
+    if (length === "very-short") {
+      return "CRITICAL: Maximum 5 words only. Keep it extremely short and casual. Think one phrase or emoji reaction.";
+    } else if (length === "short") {
+      return "CRITICAL: Maximum 10 words only. Keep it very short and casual. One sentence max.";
+    } else if (length === "medium") {
+      return "CRITICAL: Maximum 20 words only. Keep it brief and casual. Two sentences max.";
+    } else if (length === "long") {
+      return "CRITICAL: Maximum 35 words only. Include personality but stay concise. Three sentences max.";
     } else {
-      return "keep it reasonable - 4 sentences max, around 50-60 words. you can add detail but don't write a novel.";
+      return "CRITICAL: Maximum 50 words only. Add detail but maintain brevity. Four sentences max.";
     }
   };
 
   // Word count validation function
-  const validateWordCount = (content: string, sliderValue: number): boolean => {
+  const validateWordCount = (content: string, length: string): boolean => {
     const wordCount = content.trim().split(/\s+/).length;
-    if (sliderValue <= 15) return wordCount <= 10;
-    if (sliderValue <= 30) return wordCount <= 15;
-    if (sliderValue <= 50) return wordCount <= 25;
-    if (sliderValue <= 75) return wordCount <= 40;
-    return wordCount <= 60;
+    if (length === "very-short") return wordCount <= 5;
+    if (length === "short") return wordCount <= 10;
+    if (length === "medium") return wordCount <= 20;
+    if (length === "long") return wordCount <= 35;
+    return wordCount <= 50;
   };
 
   const generateContent = async () => {
@@ -304,7 +304,7 @@ export default function LandingPage() {
       // Handle reply style differently - treat prompt as text to reply to
       if (contentStyle === 'reply') {
         // Enhanced humanized prompt for reply generation with dynamic length control
-        const dynamicLengthInstruction = getDynamicLengthInstructions(lengthSlider, 'reply');
+        const dynamicLengthInstruction = getDynamicLengthInstructions(contentLength, 'reply');
         
         const humanizedPrompt = `yo, you're texting your best friend about this: "${prompt}"
 
@@ -328,10 +328,10 @@ think: you're texting while doing something else, maybe eating, walking, or just
         });
         const data = await response.json();
         content = data.content;
-        setTerminalOutput(prev => [...prev, `$ Reply generated! Replying to: "${prompt.substring(0, 50)}${prompt.length > 50 ? '...' : ''}" (Length: ${lengthSlider}%)`])
+        setTerminalOutput(prev => [...prev, `$ Reply generated! Replying to: "${prompt.substring(0, 50)}${prompt.length > 50 ? '...' : ''}" (Length: ${contentLength})`])
       } else {
         // Enhanced prompt for regular content generation with dynamic length control
-        const dynamicLengthInstruction = getDynamicLengthInstructions(lengthSlider, 'regular');
+        const dynamicLengthInstruction = getDynamicLengthInstructions(contentLength, 'regular');
         
         const enhancedPrompt = `${prompt}
 
@@ -354,14 +354,14 @@ think: you're posting this while doing something else, maybe walking, eating, or
         });
         const data = await response.json();
         content = data.content;
-        setTerminalOutput(prev => [...prev, `$ Content generated! Style: ${contentStyle}, Length: ${lengthSlider}%`])
+        setTerminalOutput(prev => [...prev, `$ Content generated! Style: ${contentStyle}, Length: ${contentLength}`])
       }
       
       if (content) {
         setGeneratedContent(content)
         // Show word count for validation
         const wordCount = content.trim().split(/\s+/).length;
-        const isValid = validateWordCount(content, lengthSlider);
+        const isValid = validateWordCount(content, contentLength);
         setTerminalOutput(prev => [...prev, `$ Word count: ${wordCount} words (${isValid ? '✅ Within limit' : '❌ Exceeds limit'})`])
       }
     } catch (error) {
@@ -537,39 +537,31 @@ think: you're posting this while doing something else, maybe walking, eating, or
           {/* Content Generation Interface */}
           <div className={`bg-gray-900/30 border ${currentTheme.border} rounded-lg p-4 sm:p-6 space-y-4`}>
             {/* Length Options */}
-            {/* Content Length Slider */}
             <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <label className={`${currentTheme.primary} text-xs sm:text-sm font-mono`}>Content Length:</label>
-                <span className={`${currentTheme.secondary} text-xs font-mono`}>{lengthSlider}%</span>
-              </div>
-              <div className="relative">
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={lengthSlider}
-                  onChange={(e) => setLengthSlider(Number(e.target.value))}
-                  className={`w-full h-2 rounded-lg appearance-none cursor-pointer ${currentTheme.bg} ${currentTheme.border}`}
-                  style={{
-                    background: `linear-gradient(to right, ${currentTheme.border.replace('/50', '/30')} 0%, ${currentTheme.border.replace('/50', '/70')} ${lengthSlider}%, ${currentTheme.border.replace('/50', '/30')} ${lengthSlider}%)`
-                  }}
-                />
-                <div className="flex justify-between text-xs mt-1">
-                  <span className={`${currentTheme.secondary} font-mono`}>Very Short</span>
-                  <span className={`${currentTheme.secondary} font-mono`}>Short</span>
-                  <span className={`${currentTheme.secondary} font-mono`}>Medium</span>
-                  <span className={`${currentTheme.secondary} font-mono`}>Long</span>
-                  <span className={`${currentTheme.secondary} font-mono`}>Very Long</span>
-                </div>
+              <label className={`${currentTheme.primary} text-xs sm:text-sm font-mono`}>Content Length:</label>
+              <div className="grid grid-cols-4 gap-1 sm:gap-2">
+                {(["very-short", "short", "medium", "long"] as const).map((length) => (
+                  <Button
+                    key={length}
+                    variant={contentLength === length ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setContentLength(length)}
+                    className={`font-mono text-xs ${
+                      contentLength === length
+                        ? `${currentTheme.bg} ${currentTheme.border} ${currentTheme.accent}`
+                        : `bg-transparent ${currentTheme.border} ${currentTheme.secondary} hover:${currentTheme.bg.replace("/20", "/10")}`
+                    }`}
+                  >
+                    {length === "very-short" ? "Very Short" : length}
+                  </Button>
+                ))}
               </div>
               {/* Word Limit Display */}
               <div className={`text-xs ${currentTheme.secondary} font-mono text-center`}>
-                {lengthSlider <= 15 && "Max: 10 words"}
-                {lengthSlider > 15 && lengthSlider <= 30 && "Max: 15 words"}
-                {lengthSlider > 30 && lengthSlider <= 50 && "Max: 25 words"}
-                {lengthSlider > 50 && lengthSlider <= 75 && "Max: 40 words"}
-                {lengthSlider > 75 && "Max: 60 words"}
+                {contentLength === "very-short" && "Max: 5 words"}
+                {contentLength === "short" && "Max: 10 words"}
+                {contentLength === "medium" && "Max: 20 words"}
+                {contentLength === "long" && "Max: 35 words"}
               </div>
             </div>
 
