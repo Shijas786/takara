@@ -310,9 +310,9 @@ export default function LandingPage() {
 
 ${dynamicLengthInstruction}
 
-just reply like you normally would to a friend - super casual, maybe throw in an emoji or two, use some slang if it fits. keep it real short tho, like 1-2 sentences max. sound like you're actually texting rn, not writing an essay.
+act like you're actually texting rn - be messy, use typos sometimes, maybe forget punctuation, sound like you're typing fast. don't be perfect. maybe use "lol" or "omg" or "ngl" naturally. 
 
-think: how would you actually respond to this if your friend just sent it?`;
+think: you're in a hurry, typing on your phone, maybe walking somewhere. be real human messy.`;
 
         
         const response = await fetch("/api/openai/generate", {
@@ -335,11 +335,11 @@ think: how would you actually respond to this if your friend just sent it?`;
 
 ${dynamicLengthInstruction}
 
-yo, write this in ${contentStyle} style but make it sound like a real person actually wrote it. not some corporate bot or ai thing.
+yo, write this in ${contentStyle} style but act like you're actually posting on social media rn. be messy, use typos sometimes, forget punctuation, sound like you're typing fast on your phone.
 
-think: how would you actually post this on social media? use some emojis, maybe some slang, keep it casual and real. sound like you're actually typing this rn, not writing a formal essay.
+don't be perfect. use "lol" "omg" "ngl" naturally. maybe lowercase everything sometimes. think: you're posting this while walking, in a hurry, not trying to be perfect.
 
-make it feel authentic and human - like something you'd actually say to your friends.`;
+be real human messy - like how you actually type when you're excited about something.`;
 
         const response = await fetch("/api/openai/generate", {
           method: "POST",
