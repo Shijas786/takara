@@ -271,25 +271,34 @@ export default function LandingPage() {
   const getDynamicLengthInstructions = (sliderValue: number, style: string) => {
     if (style === 'reply') {
       if (sliderValue <= 25) {
-        return "Keep it extremely brief - just 1 sentence maximum. Sound casual and natural.";
+        return "CRITICAL: Maximum 1 sentence only. Keep it extremely short and casual. No more than 15-20 words.";
       } else if (sliderValue <= 50) {
-        return "Keep it brief - 1-2 sentences. Sound casual and natural.";
+        return "CRITICAL: Maximum 2 sentences only. Keep it very brief and casual. No more than 25-30 words total.";
       } else if (sliderValue <= 75) {
-        return "Make it 2-3 sentences. Include some personality and engagement.";
+        return "CRITICAL: Maximum 3 sentences only. Include personality but stay concise. No more than 40-50 words total.";
       } else {
-        return "Write 3-4 sentences with more detail and personal touch.";
+        return "CRITICAL: Maximum 4 sentences only. Add detail but maintain brevity. No more than 60-70 words total.";
       }
     } else {
       if (sliderValue <= 25) {
-        return "Keep it extremely brief - just 1 sentence maximum.";
+        return "CRITICAL: Maximum 1 sentence only. Extremely brief. No more than 15-20 words.";
       } else if (sliderValue <= 50) {
-        return "Keep it brief - 1-2 sentences with minimal detail.";
+        return "CRITICAL: Maximum 2 sentences only. Very brief with minimal detail. No more than 25-30 words total.";
       } else if (sliderValue <= 75) {
-        return "Make it 2-3 sentences with some detail.";
+        return "CRITICAL: Maximum 3 sentences only. Some detail but stay concise. No more than 40-50 words total.";
       } else {
-        return "Write 3-4 sentences with comprehensive coverage and detail.";
+        return "CRITICAL: Maximum 4 sentences only. Comprehensive but controlled. No more than 60-70 words total.";
       }
     }
+  };
+
+  // Word count validation function
+  const validateWordCount = (content: string, sliderValue: number): boolean => {
+    const wordCount = content.trim().split(/\s+/).length;
+    if (sliderValue <= 25) return wordCount <= 20;
+    if (sliderValue <= 50) return wordCount <= 30;
+    if (sliderValue <= 75) return wordCount <= 50;
+    return wordCount <= 70;
   };
 
   const generateContent = async () => {
@@ -308,15 +317,18 @@ export default function LandingPage() {
         
         const humanizedPrompt = `You are a real human responding to this text: "${prompt}"
 
+CRITICAL LENGTH REQUIREMENT: ${dynamicLengthInstruction}
+
 Generate a natural, human-like reply that:
 - Sounds exactly like a real person, not AI
 - Uses casual language, emojis, and natural expressions
 - Includes personal reactions and authentic voice
-- ${dynamicLengthInstruction}
 - Relates directly to what was said
 - Uses varied sentence structures and natural flow
 - Includes typos, abbreviations, or casual punctuation when appropriate
 - Shows genuine interest or emotion
+
+IMPORTANT: If you exceed the word limit, you will be penalized. Stay within the exact limits specified above.
 
 Your reply:`;
         
@@ -338,11 +350,14 @@ Your reply:`;
         
         const enhancedPrompt = `${prompt}
 
+CRITICAL LENGTH REQUIREMENT: ${dynamicLengthInstruction}
+
 Requirements:
 - Style: ${contentStyle}
-- Length: ${dynamicLengthInstruction}
 - Make it sound natural and human-like
-- Include relevant emojis and casual language`;
+- Include relevant emojis and casual language
+
+IMPORTANT: If you exceed the word limit, you will be penalized. Stay within the exact limits specified above.`;
 
         const response = await fetch("/api/openai/generate", {
           method: "POST",
@@ -360,6 +375,10 @@ Requirements:
       
       if (content) {
         setGeneratedContent(content)
+        // Show word count for validation
+        const wordCount = content.trim().split(/\s+/).length;
+        const isValid = validateWordCount(content, lengthSlider);
+        setTerminalOutput(prev => [...prev, `$ Word count: ${wordCount} words (${isValid ? '✅ Within limit' : '❌ Exceeds limit'})`])
       }
     } catch (error) {
       console.error("Error generating content:", error)
@@ -559,6 +578,13 @@ Requirements:
                   <span className={`${currentTheme.secondary} font-mono`}>Long</span>
                   <span className={`${currentTheme.secondary} font-mono`}>Very Long</span>
                 </div>
+              </div>
+              {/* Word Limit Display */}
+              <div className={`text-xs ${currentTheme.secondary} font-mono text-center`}>
+                {lengthSlider <= 25 && "Max: 20 words"}
+                {lengthSlider > 25 && lengthSlider <= 50 && "Max: 30 words"}
+                {lengthSlider > 50 && lengthSlider <= 75 && "Max: 50 words"}
+                {lengthSlider > 75 && "Max: 70 words"}
               </div>
             </div>
 
