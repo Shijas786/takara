@@ -273,34 +273,37 @@ export default function LandingPage() {
     simulateCodeExecution()
 
     try {
-      // Import the AI training service dynamically
-      const { aiTrainingService } = await import('../lib/aiTrainingService');
-      
       let content: string;
       
       // Handle reply style differently - treat prompt as text to reply to
       if (contentStyle === 'reply') {
-        content = await aiTrainingService.generateReplyGuyContent(prompt, 'casual');
+        // Use the existing OpenAI API for reply generation
+        const response = await fetch("/api/openai/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            prompt: `Generate a human-like reply to this text: "${prompt}". Make it sound like a real person responding naturally.`,
+            length: contentLength, 
+            style: 'reply' 
+          }),
+        });
+        const data = await response.json();
+        content = data.content;
         setTerminalOutput(prev => [...prev, `$ Reply generated! Replying to: "${prompt.substring(0, 50)}${prompt.length > 50 ? '...' : ''}"`])
       } else {
-        // Generate enhanced content using learned patterns
-        content = await aiTrainingService.generateEnhancedContent(
-          prompt,
-          contentStyle,
-          contentLength
-        );
+        // Use the existing OpenAI API for regular content generation
+        const response = await fetch("/api/openai/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt, length: contentLength, style: contentStyle }),
+        });
+        const data = await response.json();
+        content = data.content;
         setTerminalOutput(prev => [...prev, `$ Content generated with AI training! Style: ${contentStyle}, Length: ${contentLength}`])
       }
       
       if (content) {
         setGeneratedContent(content)
-        
-        // Store this as a training example
-        await aiTrainingService.storeTrainingExample(
-          content,
-          contentStyle,
-          'user_generated'
-        );
       }
     } catch (error) {
       console.error("Error generating content:", error)
