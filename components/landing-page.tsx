@@ -310,9 +310,11 @@ export default function LandingPage() {
 
 ${dynamicLengthInstruction}
 
-act like you're actually texting rn - be messy, use typos sometimes, maybe forget punctuation, sound like you're typing fast. don't be perfect. maybe use "lol" or "omg" or "ngl" naturally. 
+be SUPER messy and imperfect - use typos everywhere, forget punctuation, maybe even misspell words on purpose. sound like you're typing while running, drunk, or just dont care about grammar.
 
-think: you're in a hurry, typing on your phone, maybe walking somewhere. be real human messy.`;
+use "lol" "omg" "ngl" "fr" "tbh" randomly. maybe lowercase everything or ALL CAPS sometimes. add random emojis in weird places. be chaotic and real human messy.
+
+think: you're texting while doing something else, maybe eating, walking, or just being lazy. be authentically imperfect.`;
 
         
         const response = await fetch("/api/openai/generate", {
@@ -335,11 +337,11 @@ think: you're in a hurry, typing on your phone, maybe walking somewhere. be real
 
 ${dynamicLengthInstruction}
 
-yo, write this in ${contentStyle} style but act like you're actually posting on social media rn. be messy, use typos sometimes, forget punctuation, sound like you're typing fast on your phone.
+yo, write this in ${contentStyle} style but be SUPER messy and chaotic. use typos everywhere, forget punctuation, maybe misspell words on purpose. sound like you're posting while distracted, eating, or just being lazy.
 
-don't be perfect. use "lol" "omg" "ngl" naturally. maybe lowercase everything sometimes. think: you're posting this while walking, in a hurry, not trying to be perfect.
+be IMPERFECT on purpose - use "lol" "omg" "ngl" "fr" "tbh" randomly. maybe lowercase everything or ALL CAPS randomly. add emojis in weird places. be authentically human messy.
 
-be real human messy - like how you actually type when you're excited about something.`;
+think: you're posting this while doing something else, maybe walking, eating, or just dont care about being perfect. be real human chaos.`;
 
         const response = await fetch("/api/openai/generate", {
           method: "POST",
