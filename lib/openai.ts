@@ -100,6 +100,14 @@ CRITICAL: Make the content sound 100% human and natural. Avoid any AI-like patte
 - Include typos, abbreviations, and casual punctuation when appropriate
 - Make it sound like a real person typing naturally
 
+IMPORTANT: Think like a real human in real situations:
+- Consider real-life scenarios and experiences
+- Use varied language patterns, not repetitive phrases
+- Avoid generic responses like "af", "lol", "fr", "this", "ngl"
+- Include personal thoughts and genuine reactions
+- Make it conversational and relatable
+- Think about what you would actually say in this context
+
 Generate authentic, viral posts that match the influencer's style. Use emojis, slang, and hooks liberally. Be authentic to crypto Twitter culture.
 
 LENGTH REQUIREMENT: ${request.length === 'short' ? 'Keep it very short (under 100 characters).' : request.length === 'medium' ? 'Keep it medium length (under 280 characters).' : 'Can be longer (under 500 characters).'}
@@ -116,6 +124,7 @@ Key style elements to include:
 - Hooks: "Breaking:", "Hot take:", "You're not ready for..."
 - Authentic voice: Natural, conversational tone without forced engagement
 - Human patterns: Casual language, natural flow, personal touches
+- Real-life context: Think about actual situations and experiences
 - ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT`
           },
           {
@@ -154,7 +163,14 @@ Key style elements to include:
 
     const prompt = `Generate a witty, engaging reply to this post:
 
-Original Post: ${originalPost}
+Original Post: "${originalPost}"
+
+CRITICAL: Think like a real human responding to this post in real life:
+- What would you genuinely think about this?
+- How would you naturally respond to someone saying this?
+- Consider the context and emotion of the original post
+- Share your real thoughts, experiences, or reactions
+- Use natural language patterns, not forced engagement
 
 Make it sound like a crypto Twitter reply - engaging, witty, and authentic.`;
 
@@ -180,6 +196,15 @@ CRITICAL: Make the reply sound 100% human and natural:
 - Include casual punctuation and informal expressions
 - Make it sound like a real person responding naturally
 
+IMPORTANT: Think like a real human in a real conversation:
+- Put yourself in the shoes of someone actually reading this post
+- Think about what you would genuinely say in response
+- Consider the context and emotion of the original post
+- Share your real thoughts, experiences, or reactions
+- Use natural language patterns, not forced engagement
+- Avoid generic responses like "af", "lol", "fr", "this", "ngl"
+- Think about real-life scenarios and how you'd respond
+
 LENGTH REQUIREMENT: ${lengthInstruction}
 
 ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT.
@@ -194,6 +219,7 @@ Key reply elements to include:
 - Emojis: 😂 🚀 💯 🔥 👀
 - Natural flow and authenticity
 - Human-like patterns and expressions
+- Real-life context and genuine reactions
 - ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT`
           },
           {

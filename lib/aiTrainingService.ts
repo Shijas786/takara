@@ -92,6 +92,47 @@ export class AITrainingService {
   }
 
   /**
+   * Generate human-like, context-aware content that thinks like a real person
+   */
+  async generateHumanLikeContent(
+    prompt: string,
+    style: string,
+    length: 'short' | 'medium' | 'long',
+    context?: string
+  ): Promise<string> {
+    try {
+      // Build context-aware prompt that encourages human-like thinking
+      const humanPrompt = this.buildHumanLikePrompt(prompt, style, length, context);
+      
+      // Generate content using OpenAI with enhanced human-like instructions
+      const content = await this.openaiService.generateShitpost({
+        influencerId: 'human_like',
+        prompt: humanPrompt,
+        length,
+        style: style as 'based' | 'influencer' | 'shitpost' | 'thread' | 'reply',
+      }, {
+        id: 'human_like',
+        name: 'Human Like',
+        handle: '@humanlike',
+        avatar: '',
+        description: 'Human-like content generator',
+        style,
+        followers: 0,
+        category: 'crypto',
+        sampleTweets: []
+      });
+
+      // Store this as a new training example
+      await this.storeTrainingExample(content, style, 'human_like', 0);
+
+      return content;
+    } catch (error) {
+      console.error('Error generating human-like content:', error);
+      throw error;
+    }
+  }
+
+  /**
    * Get training examples for a specific style
    */
   async getTrainingExamples(style: string, limit: number = 10): Promise<TrainingExample[]> {
@@ -305,12 +346,20 @@ export class AITrainingService {
 Use these high-performing examples as reference:
 ${exampleText}
 
-Key requirements:
+CRITICAL REQUIREMENTS:
 - Match the ${style} style exactly
-- Use natural, human-like language
-- Include relevant emojis and crypto slang
+- Use natural, human-like language that sounds authentic
+- Include relevant emojis and crypto slang naturally
 - Make it engaging and shareable
 - Target length: ${length === 'short' ? '1-2 sentences' : length === 'medium' ? '2-3 sentences' : '3-4 sentences'}
+
+IMPORTANT: Make this sound like a real human, not AI:
+- Think about real-life scenarios and experiences
+- Use varied sentence structures and natural flow
+- Avoid repetitive phrases like "af", "lol", "fr", "this", "ngl"
+- Include personal touches and authentic voice
+- Make it conversational and relatable
+- Consider the context and emotion of the topic
 
 Generate the post:`;
   }
@@ -389,13 +438,22 @@ Generate the post:`;
 
 ${styleInstructions[style]}
 
+IMPORTANT: Think like a real person in a real conversation. Don't just give generic responses like "af", "lol", "fr". Instead:
+
+- Put yourself in the shoes of someone actually reading this tweet
+- Think about what you would genuinely say in response
+- Consider the context and emotion of the original post
+- Share your real thoughts, experiences, or reactions
+- Use natural language patterns, not forced engagement
+
 Generate a natural, human-like reply that:
 - Sounds like a real person, not AI
-- Relates to the original tweet content
+- Relates to the original tweet content with genuine insight
 - Uses appropriate tone for the ${style} style
-- Includes relevant emojis and crypto slang
+- Includes relevant emojis and crypto slang naturally
 - Is engaging and conversational
 - Maximum 2-3 sentences
+- Avoids repetitive phrases like "af", "lol", "fr", "this", "ngl"
 
 Your reply:`;
   }
@@ -404,6 +462,46 @@ Your reply:`;
     // Store fine-tuning data for future model updates
     // This could be used for actual OpenAI fine-tuning in the future
     console.log(`📊 Storing fine-tuning data for ${style} style:`, data.length, 'examples');
+  }
+
+  /**
+   * Build prompts that encourage human-like, context-aware thinking
+   */
+  private buildHumanLikePrompt(
+    prompt: string,
+    style: string,
+    length: string,
+    context?: string
+  ): string {
+    const contextInfo = context ? `\n\nContext: ${context}` : '';
+    
+    return `Generate a ${length} ${style}-style post about: "${prompt}"
+
+${contextInfo}
+
+CRITICAL: Think like a real human in a real situation:
+
+1. REAL-LIFE SCENARIO: Imagine you're actually experiencing this or talking to someone about it
+2. PERSONAL PERSPECTIVE: What would you genuinely think or say about this topic?
+3. NATURAL LANGUAGE: Use varied sentence structures, not repetitive phrases
+4. AUTHENTIC VOICE: Include personal touches, emotions, and genuine reactions
+5. CONTEXT AWARENESS: Consider the real-world implications and situations
+
+AVOID these generic, repetitive responses:
+- "af", "lol", "fr", "this", "ngl", "ngl this", "fr tho"
+- Overused phrases that sound like AI
+- Forced engagement or fake enthusiasm
+
+INSTEAD, think about:
+- What would you actually say to a friend about this?
+- How would you react in real life to this situation?
+- What personal experiences or thoughts does this bring up?
+- How would you naturally express your opinion?
+
+Style: ${style}
+Length: ${length === 'short' ? '1-2 sentences' : length === 'medium' ? '2-3 sentences' : '3-4 sentences'}
+
+Generate authentic, human-like content:`;
   }
 }
 
