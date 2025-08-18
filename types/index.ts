@@ -50,7 +50,7 @@ export interface PostGenerationRequest {
   influencerId: string;
   mixedInfluencerId?: string;
   prompt?: string;
-    style: 'shitpost' | 'based' | 'influencer' | 'thread' | 'reply';
+    style: 'shitpost' | 'based' | 'influencer' | 'thread' | 'reply' | 'indian';
   length: 'short' | 'medium' | 'long';
 }
 

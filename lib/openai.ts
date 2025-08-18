@@ -76,6 +76,12 @@ Return only the cleaned tweet.`
       return this.generateInfluencerStyle(text, request.length);
     }
 
+    // Handle INDIAN style separately
+    if (request.style === 'indian') {
+      const text = request.prompt || 'Generate content in Indian English style';
+      return this.generateIndianStyle(text, request.length);
+    }
+
     const prompt = this.buildPrompt(request, influencer, mixedInfluencer);
     
     // Get enhanced training data based on style and influencer
@@ -597,8 +603,86 @@ Key style elements:
         return getTweetsByStyle('community');
       case 'thread':
         return getTweetsByStyle('educational');
+      case 'indian':
+        return getTweetsByStyle('community'); // Use community style for Indian
       default:
         return getTrainingData().tweets;
+    }
+  }
+
+  async generateIndianStyle(text: string, length: 'short' | 'medium' | 'long' = 'medium'): Promise<string> {
+    // Get Indian-style training examples
+    const indianTweets = getTweetsByStyle('community'); // Using community style as base
+    const trainingExamples = indianTweets.slice(0, 5).join('\n\n');
+
+    const prompt = `Generate an Indian English style post about: ${text}
+
+Make it sound like an Indian crypto enthusiast - authentic, culturally relevant, and engaging.`;
+
+    const lengthInstruction = length === 'short' ? 'Keep it very brief and punchy (1-2 sentences max).' : 
+                             length === 'medium' ? 'Make it a medium-length post (2-3 sentences).' : 
+                             'Make it a longer, more detailed post (3-4 sentences).';
+
+    try {
+      const completion = await getOpenAIClient().chat.completions.create({
+        model: config.openai.model,
+        messages: [
+          {
+            role: 'system',
+            content: `CRITICAL INSTRUCTION: NEVER USE HASHTAGS (#), @ MENTIONS, OR ANY TAGS IN YOUR RESPONSES. GENERATE ONLY CLEAN TEXT WITHOUT ANY SYMBOLS.
+
+You are an Indian crypto Twitter content generator. Generate authentic content that reflects Indian English culture and crypto community.
+
+CRITICAL: Make the content sound 100% authentic Indian English:
+- Use Indian English expressions naturally: "yaar", "bro", "dude", "man"
+- Include Indian cultural references when relevant
+- Use Indian crypto terminology: "UPI", "RBI", "SEBI", "GST"
+- Reference Indian cities, states, or cultural elements
+- Use Indian English sentence structure and flow
+- Include Indian crypto community slang and expressions
+- Make it sound like a real Indian person typing naturally
+
+LENGTH REQUIREMENT: ${lengthInstruction}
+
+ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT.
+
+Here are real community examples:
+${trainingExamples}
+
+Key Indian English elements to include:
+- Indian expressions: "yaar", "bro", "dude", "man", "bhai"
+- Indian crypto terms: UPI, RBI, SEBI, GST, KYC
+- Cultural references: Indian cities, festivals, food, etc.
+- Emojis: 🇮🇳 🚀 💎 📈 🔥
+- Authentic Indian voice and cultural touch
+- Natural Indian English flow and engagement
+- ABSOLUTELY NO HASHTAGS, NO @ MENTIONS, NO TAGS - ONLY CLEAN TEXT`
+          },
+          {
+            role: 'user',
+            content: prompt
+          }
+        ],
+        max_tokens: length === 'short' ? 50 : length === 'medium' ? 150 : 250,
+        temperature: 0.9,
+        presence_penalty: 0.2,
+        frequency_penalty: 0.3,
+      });
+
+      const generatedContent = completion.choices[0]?.message?.content || 'Failed to generate Indian style post';
+      const cleanedContent = await this.cleanContent(generatedContent);
+      
+      // Enforce length limits
+      const maxChars = length === 'short' ? 100 : length === 'medium' ? 280 : 500;
+      if (cleanedContent.length > maxChars) {
+        const truncated = cleanedContent.substring(0, maxChars - 3) + '...';
+        return truncated;
+      }
+      
+      return cleanedContent;
+    } catch (error) {
+      console.error('OpenAI API error:', error);
+      throw new Error('Failed to generate Indian style post');
     }
   }
 }

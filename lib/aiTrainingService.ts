@@ -26,20 +26,38 @@ export class AITrainingService {
   private viralScoreCalculator = new ViralScoreCalculator();
   private openaiService = new OpenAIService();
 
+  constructor() {
+    // Initialize Indian English training examples
+    this.initializeIndianEnglishTraining();
+  }
+
+  private async initializeIndianEnglishTraining(): Promise<void> {
+    try {
+      // Check if we already have Indian English examples
+      const existingExamples = await this.getTrainingExamples('indian', 1);
+      if (existingExamples.length === 0) {
+        console.log('🚀 Initializing Indian English training examples...');
+        await this.addIndianEnglishTrainingExamples();
+      }
+    } catch (error) {
+      console.log('ℹ️ Indian English training already initialized or failed:', error);
+    }
+  }
+
   /**
    * Generate reply guy content - AI responds to other tweets like a real human
    */
-  async generateReplyGuyContent(originalTweet: string, style: 'casual' | 'based' | 'influencer' = 'casual'): Promise<string> {
+  async generateReplyGuyContent(originalTweet: string, style: 'casual' | 'based' | 'influencer' | 'indian' = 'casual'): Promise<string> {
     try {
       // Build context-aware prompt for reply generation
       const replyPrompt = this.buildReplyGuyPrompt(originalTweet, style);
       
-      // Generate reply using OpenAI
+      // Generate reply using OpenAI with Indian English support
       const reply = await this.openaiService.generateShitpost({
         influencerId: 'reply_guy',
         prompt: replyPrompt,
         length: 'short',
-        style: 'reply',
+        style: style === 'indian' ? 'indian' : 'reply',
       }, {
         id: 'reply_guy',
         name: 'Reply Guy',
@@ -88,6 +106,53 @@ export class AITrainingService {
       console.log(`✅ Training example stored: ${style} style, score: ${viralScore.totalScore}, performance: ${performance}`);
     } catch (error) {
       console.error('Error storing training example:', error);
+    }
+  }
+
+  /**
+   * Add Indian English training examples to improve reply quality
+   */
+  async addIndianEnglishTrainingExamples(): Promise<void> {
+    const indianExamples = [
+      {
+        content: "Yaar, this is exactly what I was thinking yesterday when I was setting up my UPI for crypto! The Indian crypto scene is really evolving, bro. 🇮🇳🚀",
+        style: 'indian',
+        influencer: 'indian_crypto_expert'
+      },
+      {
+        content: "Dude, I've been through this exact situation with SEBI regulations. It's like they want to protect us but also hold us back, ya know? Still bullish on Indian crypto though! 💎",
+        style: 'indian',
+        influencer: 'indian_crypto_expert'
+      },
+      {
+        content: "Man, this reminds me of when I first got into crypto and had to deal with all the KYC stuff. Indian exchanges are getting better, but we still have a long way to go, bhai! 📈",
+        style: 'indian',
+        influencer: 'indian_crypto_expert'
+      },
+      {
+        content: "Bro, I was just talking about this with my friends in Mumbai! The crypto adoption in India is crazy right now. Everyone from my college to my uncle is asking about it! 🔥",
+        style: 'indian',
+        influencer: 'indian_crypto_expert'
+      },
+      {
+        content: "Yaar, this is the kind of content we need more of in the Indian crypto community. Real talk, not just hype. Keep it up, dude! 💯",
+        style: 'indian',
+        influencer: 'indian_crypto_expert'
+      }
+    ];
+
+    try {
+      for (const example of indianExamples) {
+        await this.storeTrainingExample(
+          example.content,
+          example.style,
+          example.influencer,
+          85 // High engagement score
+        );
+      }
+      console.log('✅ Added Indian English training examples');
+    } catch (error) {
+      console.error('Error adding Indian English training examples:', error);
     }
   }
 
@@ -412,6 +477,12 @@ Generate the post:`;
         'Post memes and fun content',
         'Engage with the community casually',
       ],
+      'indian': [
+        'Share your crypto journey with Indian cultural context',
+        'Discuss crypto adoption in India',
+        'Post about Indian crypto projects and developments',
+        'Share experiences with Indian crypto exchanges and regulations',
+      ],
       'reply guy': [
         'Respond to trending discussions',
         'Add your perspective to hot topics',
@@ -425,11 +496,12 @@ Generate the post:`;
   /**
    * Build context-aware prompt for reply generation
    */
-  private buildReplyGuyPrompt(originalTweet: string, style: 'casual' | 'based' | 'influencer'): string {
+  private buildReplyGuyPrompt(originalTweet: string, style: 'casual' | 'based' | 'influencer' | 'indian'): string {
     const styleInstructions = {
       casual: 'Respond like a casual crypto enthusiast - use emojis, casual language, and show genuine interest',
       based: 'Respond like a Base chain supporter - mention Base ecosystem, show enthusiasm for L2 scaling',
-      influencer: 'Respond like a crypto influencer - add value, share insights, and engage thoughtfully'
+      influencer: 'Respond like a crypto influencer - add value, share insights, and engage thoughtfully',
+      indian: 'Respond like an Indian crypto enthusiast - use natural Indian English expressions like "yaar", "bro", "dude", "man", "bhai" naturally. Include Indian cultural references, crypto terms like UPI/RBI/SEBI, and sound like a real Indian person having a genuine conversation. Think about real-life scenarios and respond naturally.'
     };
 
     return `You are a real human responding to this tweet:
@@ -445,6 +517,15 @@ IMPORTANT: Think like a real person in a real conversation. Don't just give gene
 - Consider the context and emotion of the original post
 - Share your real thoughts, experiences, or reactions
 - Use natural language patterns, not forced engagement
+
+${style === 'indian' ? `
+SPECIAL INDIAN ENGLISH INSTRUCTIONS:
+- Use Indian English expressions naturally: "yaar", "bro", "dude", "man", "bhai"
+- Think about real Indian crypto community conversations
+- Include Indian cultural context when relevant
+- Use Indian crypto terms naturally: UPI, RBI, SEBI, GST
+- Sound like a real Indian person typing naturally
+- Make it conversational and relatable to Indian audience` : ''}
 
 Generate a natural, human-like reply that:
 - Sounds like a real person, not AI
@@ -475,6 +556,17 @@ Your reply:`;
   ): string {
     const contextInfo = context ? `\n\nContext: ${context}` : '';
     
+    // Add Indian English specific instructions
+    const indianInstructions = style === 'indian' ? `
+
+INDIAN ENGLISH STYLE REQUIREMENTS:
+- Use Indian English expressions naturally: "yaar", "bro", "dude", "man"
+- Include Indian cultural references when relevant
+- Use Indian crypto terminology: "UPI", "RBI", "SEBI", "GST"
+- Reference Indian cities, states, or cultural elements
+- Use Indian English sentence structure and flow
+- Include Indian crypto community slang and expressions` : '';
+    
     return `Generate a ${length} ${style}-style post about: "${prompt}"
 
 ${contextInfo}
@@ -496,7 +588,7 @@ INSTEAD, think about:
 - What would you actually say to a friend about this?
 - How would you react in real life to this situation?
 - What personal experiences or thoughts does this bring up?
-- How would you naturally express your opinion?
+- How would you naturally express your opinion?${indianInstructions}
 
 Style: ${style}
 Length: ${length === 'short' ? '1-2 sentences' : length === 'medium' ? '2-3 sentences' : '3-4 sentences'}
