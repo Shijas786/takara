@@ -1,8 +1,8 @@
 'use client';
 
 import { SafeImage } from './ui/image';
-import AppLogo from './logo/ChatGPT Image Jul 31, 2025, 01_08_33 PM.png';
-const logoSrc = `${(AppLogo as { src: string }).src}?v=${process.env.NEXT_PUBLIC_ASSET_VERSION || '2'}`;
+// Using clean logo from public folder instead of suspicious logo file
+const logoSrc = '/takara-logo.png';
 
 export default function ThreeScene() {
   return (

@@ -411,7 +411,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
   if (!isAppStarted) {
     return (
       <div className="h-screen bg-black font-mono flex flex-col relative">
-        {/* Matrix Rain Background - ALSO SHOW ON LOADING PAGE */}
+        {/* Matrix Rain Background - SHOW ON TERMINAL INTERFACE */}
         <TakaraMatrixRain />
         
         {/* Terminal Window Header */}
@@ -539,7 +539,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
               <span className="text-green-400">$</span> content_style --select
             </div>
             <div className={`text-white text-sm ml-4`}>
-              Style presets: [based|reply|influencer|casual]
+              Style presets: [based|reply guy|influencer|casual]
             </div>
             <div className="grid grid-cols-4 gap-1 ml-4">
               {["based", "reply", "influencer", "casual"].map((style) => (
@@ -552,12 +552,12 @@ think: you're posting this while doing something else, maybe walking, eating, or
                       : `bg-black border-green-500/50 text-white hover:bg-green-500/20 hover:text-black`
                   }`}
                 >
-                  {style}
+                  {style === "reply" ? "reply guy" : style}
                 </button>
               ))}
             </div>
             <div className={`text-white text-sm ml-4`}>
-              <span className="text-green-400">{">"}</span> Active style: <span className="text-cyan-400">{contentStyle}</span>
+              <span className="text-green-400">{">"}</span> Active style: <span className="text-cyan-400">{contentStyle === "reply" ? "reply guy" : contentStyle}</span>
             </div>
           </div>
 
@@ -567,11 +567,11 @@ think: you're posting this while doing something else, maybe walking, eating, or
               <span className="text-green-400">$</span> prompt --input
             </div>
             <div className={`text-white text-sm ml-4`}>
-              Enter your content idea below:
+              {contentStyle === "reply" ? "Paste the post you want to reply to:" : "Enter your content idea below:"}
             </div>
             <div className="ml-4 relative">
               <Textarea
-                placeholder="Enter your content idea..."
+                placeholder={contentStyle === "reply" ? "Paste the post you're replying to..." : "Enter your content idea..."}
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 className={`bg-black/30 border-green-500/50 text-white placeholder:text-gray-500 focus:border-green-400 focus:outline-none text-sm rounded-none resize-none`}

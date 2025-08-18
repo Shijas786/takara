@@ -420,6 +420,7 @@ const TakaraMatrixRain: React.FC = () => {
             symbols: []
           })
         }
+        console.log('MatrixRain: Created', columns.length, 'fallback columns')
       }
 
       // Animation variables
@@ -509,24 +510,18 @@ const TakaraMatrixRain: React.FC = () => {
               ctx.fillText(fallChar, column.x + config.FONT_SIZE/2, column.y + config.FONT_SIZE)
             }
             
-            // Add extra rain characters
-            if (Math.random() > 0.7) {
-              const extraChar = matrixChars[Math.floor(Math.random() * matrixChars.length)]
-              const extraGreen = Math.random() > 0.5 ? 200 : 100
-              ctx.fillStyle = `rgba(0, ${extraGreen}, 0, 0.4)`
-              ctx.font = `${config.FONT_SIZE}px monospace`
-              ctx.textAlign = 'center'
-              ctx.fillText(extraChar, column.x + config.FONT_SIZE/2, column.y + config.FONT_SIZE * 2)
-            }
+
           })
 
-          // Add new falling characters
+          // Add new falling characters across the ENTIRE screen width
           if (Math.random() < 0.08) {
             const randomColumn = columns[Math.floor(Math.random() * columns.length)]
             if (randomColumn) {
               randomColumn.y = -100
             }
           }
+          
+
 
           animationId = requestAnimationFrame(animate)
         } catch (err) {
@@ -593,64 +588,7 @@ const TakaraMatrixRain: React.FC = () => {
         }}
       />
       
-      {/* Simple test button */}
-      <button 
-        onClick={() => {
-          setTestClick(prev => prev + 1)
-          alert(`Button works! Clicked ${testClick + 1} times`)
-        }}
-        className="fixed top-4 left-4 bg-blue-500 text-white p-2 rounded z-50"
-        style={{
-          zIndex: 9999,
-          position: 'fixed',
-          top: '16px',
-          left: '16px',
-          backgroundColor: 'blue',
-          color: 'white',
-          padding: '8px',
-          borderRadius: '4px',
-          border: 'none',
-          cursor: 'pointer',
-          fontSize: '14px',
-          fontWeight: 'bold'
-        }}
-      >
-        TEST ({testClick})
-      </button>
-      
-      {/* Debug overlay */}
-      <div className="fixed top-4 right-4 bg-black/80 text-green-400 p-2 rounded text-xs font-mono z-20 pointer-events-none">
-        Matrix Rain Debug:<br/>
-        Images: {projectImages.length}<br/>
-        Current: {currentImage ? '✓' : '✗'}<br/>
-        Current Image: {currentImage ? currentImage.split('/').pop() : 'None'}<br/>
-        Positions: {columnPositions.size}<br/>
-        Dimensions: {dimensions.width}x{dimensions.height}
-      </div>
-      
-      {/* Manual image change button */}
-      <button 
-        onClick={() => {
-          console.log('MatrixRain: Button clicked!')
-          changeImageManually()
-        }}
-        className="fixed top-20 left-4 bg-black/80 text-green-400 p-2 rounded text-xs font-mono z-20 border border-green-400 hover:bg-green-400 hover:text-black transition-colors pointer-events-auto"
-        style={{zIndex: 9999}}
-      >
-        🔄 Next Image
-      </button>
-      
-      {/* Test button to see if buttons work at all */}
-      <button 
-        onClick={() => {
-          console.log('MatrixRain: Test button clicked!')
-          alert('Test button works! Current image: ' + (currentImage || 'None'))
-        }}
-        className="fixed top-36 left-4 bg-red-500 text-white p-2 rounded text-xs font-mono z-20 border border-white hover:bg-red-600 transition-colors pointer-events-auto"
-        style={{zIndex: 9999}}
-      >
-        🧪 Test Button
-      </button>
+
     </>
   )
 }
