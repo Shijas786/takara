@@ -173,7 +173,7 @@ const TakaraMatrixRain: React.FC = () => {
         console.log('MatrixRain: Rotating to next image:', nextImage, '(index:', nextIndex, ')')
         setCurrentImage(nextImage)
       }
-    }, 10000) // 10 seconds like Python
+    }, 15000) // 15 seconds like Python
     
     return () => clearInterval(imageRotationInterval)
   }, [projectImages, currentImage]) // Depend on both to track changes properly
