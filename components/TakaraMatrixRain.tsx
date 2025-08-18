@@ -34,7 +34,7 @@ const TakaraMatrixRain: React.FC = () => {
   const config = {
     FONT_SIZE: 10, // Same as Python
     THRESHOLD: 30, // Same as Python (30%)
-    ISOLATE_COLOR: [255, 255, 255], // White - same as Python
+    ISOLATE_COLOR: [255, 255, 255], // White - same as Python (for image formation)
     IMG_SCALE: 0.8, // Same as Python
     FADE_RATE: 15, // Same as Python
     FADE_ADJUSTMENT: 6, // Same as Python
@@ -327,12 +327,15 @@ const TakaraMatrixRain: React.FC = () => {
               
               if (pixelX < width && pixelY < height) {
                 const idx = (pixelY * width + pixelX) * 4
-                // EXACTLY like Python: check for white pixels (255, 255, 255)
+                // EXACTLY like Python: check for white pixels using ISOLATE_COLOR
                 const r = data[idx]
                 const g = data[idx + 1]
                 const b = data[idx + 2]
-                // Check if pixel is close to white (with tolerance like Python)
-                if (r >= 200 && g >= 200 && b >= 200) {
+                // Check if pixel matches ISOLATE_COLOR (white) with tolerance - same as Python
+                const tolerance = 30 // Same tolerance as Python
+                if (Math.abs(r - config.ISOLATE_COLOR[0]) < tolerance &&
+                    Math.abs(g - config.ISOLATE_COLOR[1]) < tolerance &&
+                    Math.abs(b - config.ISOLATE_COLOR[2]) < tolerance) {
                   whitePixels++
                 }
                 totalPixels++
@@ -480,7 +483,7 @@ const TakaraMatrixRain: React.FC = () => {
                 x: column.x,
                 y: column.positions[0],
                 alpha: 255,
-                color: 'green'
+                color: 'white' // Use white color to match Python repository image formation
               }
               column.symbols.push(symbol)
               column.positions.shift()
@@ -490,9 +493,9 @@ const TakaraMatrixRain: React.FC = () => {
             column.symbols.forEach((symbol) => {
               ctx.font = `${config.FONT_SIZE}px monospace`
               
-              // Matrix green with variation
-              const greenVariation = Math.random() > 0.7 ? 255 : Math.random() > 0.4 ? 180 : 100
-              ctx.fillStyle = `rgba(0, ${greenVariation}, 0, ${(symbol.alpha / 255) * 0.8})`
+              // Use white color for image-formed symbols to match Python repository
+              const whiteIntensity = Math.random() > 0.7 ? 255 : Math.random() > 0.4 ? 200 : 150
+              ctx.fillStyle = `rgba(${whiteIntensity}, ${whiteIntensity}, ${whiteIntensity}, ${(symbol.alpha / 255) * 0.9})`
               ctx.textAlign = 'center'
               
               // Use matrix characters
