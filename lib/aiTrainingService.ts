@@ -27,20 +27,27 @@ export class AITrainingService {
   private openaiService = new OpenAIService();
 
   constructor() {
-    // Initialize Indian English training examples
-    this.initializeIndianEnglishTraining();
+    // Initialize training examples
+    this.initializeTrainingExamples();
   }
 
-  private async initializeIndianEnglishTraining(): Promise<void> {
+  private async initializeTrainingExamples(): Promise<void> {
     try {
-      // Check if we already have Indian English examples
-      const existingExamples = await this.getTrainingExamples('indian', 1);
-      if (existingExamples.length === 0) {
+      // Initialize Indian English training examples
+      const indianExamples = await this.getTrainingExamples('indian', 1);
+      if (indianExamples.length === 0) {
         console.log('🚀 Initializing Indian English training examples...');
         await this.addIndianEnglishTrainingExamples();
       }
+
+      // Initialize casual style training examples
+      const casualExamples = await this.getTrainingExamples('casual', 1);
+      if (casualExamples.length === 0) {
+        console.log('🚀 Initializing casual style training examples...');
+        await this.addCasualStyleTrainingExamples();
+      }
     } catch (error) {
-      console.log('ℹ️ Indian English training already initialized or failed:', error);
+      console.log('ℹ️ Training examples already initialized or failed:', error);
     }
   }
 
@@ -157,6 +164,53 @@ export class AITrainingService {
   }
 
   /**
+   * Add casual style training examples that show English improvement and meaningful thoughts
+   */
+  async addCasualStyleTrainingExamples(): Promise<void> {
+    const casualExamples = [
+      {
+        content: "I was thinking about crypto yesterday and how it's changing everything. Like, I remember when I first heard about Bitcoin and thought it was just some internet money. Now I see how it's actually giving people financial freedom and control over their money. It's crazy how things evolve! 🚀💭",
+        style: 'casual',
+        influencer: 'casual_thoughts'
+      },
+      {
+        content: "Sometimes I wonder if we're all just chasing the next big thing in crypto, you know? But then I think about the people who actually need this technology - the ones who can't access traditional banking or who want to send money to family abroad. That's when I realize it's not just about making money, it's about making a difference. 💡❤️",
+        style: 'casual',
+        influencer: 'casual_thoughts'
+      },
+      {
+        content: "I had this realization today while scrolling through crypto Twitter. Everyone's talking about prices and gains, but what really matters is the community and the ideas behind these projects. Like, I've met some amazing people through crypto who are genuinely trying to build something better. That's what keeps me excited, not just the numbers. 🌟",
+        style: 'casual',
+        influencer: 'casual_thoughts'
+      },
+      {
+        content: "You know what's funny? I used to think crypto was just for tech geeks and finance people. But now I see my mom asking about it, my friends from college getting interested, and even my grandma wondering if she should invest. It's like this whole world opened up and suddenly everyone wants to be part of it. The adoption is real! 📱✨",
+        style: 'casual',
+        influencer: 'casual_thoughts'
+      },
+      {
+        content: "I was reflecting on my crypto journey today and realized something important. It's not about getting rich quick or finding the next moon shot. It's about learning, growing, and being part of something that could actually change the world. Every dip, every pump, every new project teaches me something new. That's the real value of being in this space. 📚🌱",
+        style: 'casual',
+        influencer: 'casual_thoughts'
+      }
+    ];
+
+    try {
+      for (const example of casualExamples) {
+        await this.storeTrainingExample(
+          example.content,
+          example.style,
+          example.influencer,
+          90 // High engagement score for meaningful content
+        );
+      }
+      console.log('✅ Added casual style training examples for English improvement');
+    } catch (error) {
+      console.error('Error adding casual style training examples:', error);
+    }
+  }
+
+  /**
    * Generate human-like, context-aware content that thinks like a real person
    */
   async generateHumanLikeContent(
@@ -265,6 +319,45 @@ export class AITrainingService {
       return content;
     } catch (error) {
       console.error('Error generating enhanced content:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Generate casual style content that improves English and makes thoughts meaningful
+   */
+  async generateCasualStyleEnhanced(
+    prompt: string,
+    length: 'short' | 'medium' | 'long'
+  ): Promise<string> {
+    try {
+      // Build special casual prompt for English improvement
+      const casualPrompt = this.buildCasualStylePrompt(prompt, length);
+      
+      // Generate content using OpenAI
+      const content = await this.openaiService.generateShitpost({
+        influencerId: 'casual_enhanced',
+        prompt: casualPrompt,
+        length,
+        style: 'casual',
+      }, {
+        id: 'casual_enhanced',
+        name: 'Casual Enhanced',
+        handle: '@casualenhanced',
+        avatar: '',
+        description: 'Casual style with English improvement',
+        style: 'casual',
+        followers: 0,
+        category: 'crypto',
+        sampleTweets: []
+      });
+
+      // Store this as a new training example
+      await this.storeTrainingExample(content, 'casual', 'casual_enhanced', 0);
+
+      return content;
+    } catch (error) {
+      console.error('Error generating casual style enhanced content:', error);
       throw error;
     }
   }
@@ -406,6 +499,17 @@ export class AITrainingService {
       .map(ex => `Example (Score: ${ex.viralScore}): "${ex.content}"`)
       .join('\n');
 
+    // Special handling for casual style with English improvement
+    const casualInstructions = style === 'casual' ? `
+
+SPECIAL CASUAL STYLE INSTRUCTIONS:
+- This person may be weak in English - help improve their thoughts naturally
+- Make the content meaningful and continuous, not just random words
+- Connect ideas smoothly between sentences
+- Fix grammar and sentence structure while keeping the original meaning
+- Make it sound like a real person who improved their English
+- Preserve the original emotion and thought process` : '';
+
     return `Generate a ${length} ${style}-style post about: "${prompt}"
 
 Use these high-performing examples as reference:
@@ -424,7 +528,7 @@ IMPORTANT: Make this sound like a real human, not AI:
 - Avoid repetitive phrases like "af", "lol", "fr", "this", "ngl"
 - Include personal touches and authentic voice
 - Make it conversational and relatable
-- Consider the context and emotion of the topic
+- Consider the context and emotion of the topic${casualInstructions}
 
 Generate the post:`;
   }
@@ -594,6 +698,60 @@ Style: ${style}
 Length: ${length === 'short' ? '1-2 sentences' : length === 'medium' ? '2-3 sentences' : '3-4 sentences'}
 
 Generate authentic, human-like content:`;
+  }
+
+  /**
+   * Build casual style prompt that improves English and makes thoughts meaningful
+   */
+  private buildCasualStylePrompt(
+    prompt: string,
+    length: string
+  ): string {
+    return `You are helping someone improve their English and make their thoughts more meaningful and continuous.
+
+Original thoughts: "${prompt}"
+
+CRITICAL MISSION: Transform these thoughts into meaningful, continuous, and humanized content:
+
+1. ENGLISH IMPROVEMENT:
+   - Fix grammar and sentence structure naturally
+   - Make sentences flow smoothly and connect logically
+   - Use proper punctuation and word order
+   - Keep the original meaning and emotion
+
+2. THOUGHT CONTINUITY:
+   - Connect ideas smoothly between sentences
+   - Add logical transitions and flow
+   - Make the content feel like one complete thought
+   - Build on the original idea naturally
+
+3. HUMANIZATION:
+   - Make it sound like a real person speaking
+   - Add natural expressions and casual language
+   - Include personal touches and emotions
+   - Make it conversational and relatable
+
+4. CASUAL STYLE:
+   - Use casual, friendly language
+   - Include relevant emojis naturally
+   - Add crypto slang when appropriate
+   - Keep it authentic and not forced
+
+AVOID:
+- Overly formal or academic language
+- Robotic or AI-like patterns
+- Losing the original emotion and meaning
+- Making it sound too perfect
+
+INSTEAD, focus on:
+- Natural flow and connection between ideas
+- Authentic casual expression
+- Preserving the original thought and feeling
+- Making it sound like a real person improved their English
+
+Length: ${length === 'short' ? '1-2 sentences' : length === 'medium' ? '2-3 sentences' : '3-4 sentences'}
+
+Transform these thoughts into meaningful, continuous, and humanized content:`;
   }
 }
 
