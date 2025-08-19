@@ -508,7 +508,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
       {/* Main Content */}
       <div className="relative z-20 p-3 sm:p-4">
         {/* Large Terminal Interface */}
-        <div className="max-w-5xl mx-auto bg-gray-800/50 border border-gray-600 rounded-lg p-4 sm:p-6 space-y-4 sm:space-y-3 font-mono">
+        <div className="max-w-5xl mx-auto bg-gray-800/20 border border-gray-600/50 rounded-lg p-4 sm:p-6 space-y-4 sm:space-y-3 font-mono">
           {/* Page Heading */}
           <div className="text-center space-y-3 mb-8">
             <h1 className="text-2xl sm:text-3xl font-bold text-white">Your AI Content in Seconds</h1>
@@ -531,7 +531,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
                   className={`px-3 py-2 rounded font-mono text-sm border transition-colors ${
                     contentLength === length
                       ? `bg-white border-white text-black font-bold`
-                      : `bg-gray-700 border-gray-500 text-white hover:bg-white/20 hover:text-black`
+                      : `bg-gray-700/30 border-gray-500/50 text-white hover:bg-white/20 hover:text-black`
                   }`}
                 >
                   {length}
@@ -559,7 +559,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
                   className={`px-3 py-2 rounded font-mono text-sm border transition-colors ${
                     contentStyle === style
                       ? `bg-white border-white text-black font-bold`
-                      : `bg-gray-700 border-gray-500 text-white hover:bg-white/20 hover:text-black`
+                      : `bg-gray-700/30 border-gray-500/50 text-white hover:bg-white/20 hover:text-black`
                   }`}
                 >
                   {style === "reply" ? "reply guy" : style}
@@ -584,7 +584,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
                 placeholder={contentStyle === "reply" ? "Paste the post you're replying to..." : "Enter your content idea..."}
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                className={`w-full bg-gray-700 border-gray-500 text-white placeholder:text-gray-400 focus:border-white focus:outline-none text-sm rounded resize-none transition-colors`}
+                className={`w-full bg-gray-700/30 border-gray-500/50 text-white placeholder:text-gray-400 focus:border-white focus:outline-none text-sm rounded resize-none transition-colors`}
                 rows={3}
                 style={{ resize: "none" }}
               />
@@ -602,7 +602,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
               disabled={isGenerating || !prompt.trim()}
               className={`ml-4 px-6 py-3 rounded font-mono text-sm border transition-colors ${
                 isGenerating || !prompt.trim()
-                  ? "bg-gray-700 border-gray-500 text-gray-500 cursor-not-allowed"
+                  ? "bg-gray-700/30 border-gray-500/50 text-gray-500 cursor-not-allowed"
                   : `bg-white border-white text-black font-bold hover:bg-gray-200`
               }`}
             >
@@ -621,7 +621,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
               </div>
               <div className="ml-4">
                 <div
-                  className={`bg-gray-700 border border-gray-500 rounded p-3 max-h-32 overflow-y-auto`}
+                  className={`bg-gray-700/30 border border-gray-500/50 rounded p-3 max-h-32 overflow-y-auto`}
                 >
                   <pre
                     className={`text-white font-mono text-sm whitespace-pre-wrap break-words`}
