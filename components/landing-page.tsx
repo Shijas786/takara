@@ -7,10 +7,10 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import TakaraMatrixRain from "./TakaraMatrixRain"
-import { useMiniKit } from '@coinbase/onchainkit/minikit'
+import MiniKitStatus from "./MiniKitStatus"
 
 export default function LandingPage() {
-  // MiniKit integration for Base Mini App - Client-side only
+  // MiniKit integration will be handled by a separate client component
   const [miniKitState, setMiniKitState] = useState<{
     context: any;
     isFrameReady: boolean;
@@ -21,18 +21,9 @@ export default function LandingPage() {
     setFrameReady: () => {}
   });
 
-  useEffect(() => {
-    // Only initialize MiniKit on the client side
-    try {
-      const { useMiniKit } = require('@coinbase/onchainkit/minikit');
-      const { context, isFrameReady, setFrameReady } = useMiniKit();
-      setMiniKitState({ context, isFrameReady, setFrameReady });
-    } catch (error) {
-      console.log('MiniKit not available during SSR');
-    }
-  }, []);
-
   const { context, isFrameReady, setFrameReady } = miniKitState;
+
+
   
   const [isAppStarted, setIsAppStarted] = useState(false)
   const [terminalInput, setTerminalInput] = useState("")
@@ -560,12 +551,14 @@ think: you're posting this while doing something else, maybe walking, eating, or
   }
 
   return (
-    <div className="min-h-screen bg-black text-white relative font-mono">
-      {/* Matrix Rain Background - ALWAYS SHOW */}
-      <TakaraMatrixRain />
-      
-      {/* Main Content */}
-      <div className="relative z-20 p-3 sm:p-4">
+    <>
+      <MiniKitStatus onStateChange={setMiniKitState} />
+      <div className="min-h-screen bg-black text-white relative font-mono">
+        {/* Matrix Rain Background - ALWAYS SHOW */}
+        <TakaraMatrixRain />
+        
+        {/* Main Content */}
+        <div className="relative z-20 p-3 sm:p-4">
         {/* Large Terminal Interface */}
         <div className="max-w-5xl mx-auto bg-gray-800/20 border border-gray-600/50 rounded-lg overflow-hidden font-mono">
           {/* Terminal Header with Window Controls */}
@@ -728,5 +721,6 @@ think: you're posting this while doing something else, maybe walking, eating, or
         </div>
       </div>
     </div>
+    </>
   )
 }
