@@ -536,9 +536,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
                 </span>
               ))}
             </div>
-            <div className={`text-white text-sm ml-4`}>
-              <span className="text-white">{">"}</span> Current: <span className="text-white">{contentLength}</span> (Max: {contentLength === "very-short" ? "5" : contentLength === "short" ? "10" : contentLength === "medium" ? "20" : "35"} words)
-            </div>
+
           </div>
 
           {/* Content Style Section */}
@@ -564,9 +562,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
                 </span>
               ))}
             </div>
-            <div className={`text-white text-sm ml-4`}>
-              <span className="text-white">{">"}</span> Active style: <span className="text-white">{contentStyle === "reply" ? "reply guy" : contentStyle}</span>
-            </div>
+
           </div>
 
           {/* Prompt Input Section */}
@@ -609,7 +605,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
 
           {/* Generated Content */}
           {generatedContent && (
-            <div className={`space-y-4 pt-4 border-t border-gray-500`}>
+            <div className={`space-y-4 pt-4`}>
               <div className={`text-white text-sm`}>
                 <span className="text-white">$</span> output --display
               </div>
