@@ -424,25 +424,25 @@ think: you're posting this while doing something else, maybe walking, eating, or
           >
             {/* Welcome Message */}
             <div className="text-white font-mono text-xs sm:text-sm leading-relaxed mb-4">
-              <div className="text-green-400 mb-2">$ Welcome to Takara CLI v1.0.0</div>
-              <div className="text-green-400 ml-4">$ Type /help for available commands</div>
-              <div className="text-green-400 ml-4">$ Type /based to launch the application</div>
-              <div className="text-green-400 ml-4">$ Type /theme to change terminal appearance</div>
+              <div className="text-white mb-2">$ Welcome to Takara CLI v1.0.0</div>
+              <div className="text-white ml-4">$ Type /help for available commands</div>
+              <div className="text-blue-400 ml-4">$ Type /based to launch the application</div>
+              <div className="text-white ml-4">$ Type /theme to change terminal appearance</div>
             </div>
             
             {terminalOutput.map((line, index) => (
-              <div key={index} className="text-green-400 font-mono text-xs sm:text-sm leading-relaxed">
+              <div key={index} className="text-white font-mono text-xs sm:text-sm leading-relaxed">
                 $ {line}
               </div>
             ))}
-            <div className="flex items-center text-green-400 font-mono text-xs sm:text-sm mt-2">
-              <span className="mr-2 text-green-400">$</span>
+            <div className="flex items-center text-white font-mono text-xs sm:text-sm mt-2">
+              <span className="mr-2 text-white">$</span>
               <input
                 type="text"
                 value={terminalInput}
                 onChange={(e) => setTerminalInput(e.target.value)}
                 onKeyDown={handleTerminalCommand}
-                className="bg-transparent border-none outline-none flex-1 text-green-400 text-xs sm:text-sm"
+                className="bg-transparent border-none outline-none flex-1 text-white text-xs sm:text-sm"
                 placeholder="Type command..."
                 autoFocus
                 autoComplete="off"
@@ -467,7 +467,11 @@ think: you're posting this while doing something else, maybe walking, eating, or
                       handleTerminalCommand(event as any)
                     }, 100)
                   }}
-                  className={`px-2 py-1 text-xs border-gray-600 border rounded text-green-400 hover:bg-green-400/20`}
+                  className={`px-2 py-1 text-xs border-gray-600 border rounded ${
+                    cmd === "/based" 
+                      ? "text-blue-400 hover:bg-blue-400/20" 
+                      : "text-white hover:bg-white/20"
+                  }`}
                 >
                   {cmd}
                 </button>
