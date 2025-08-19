@@ -12,10 +12,10 @@ export default function LandingPage() {
   const [isAppStarted, setIsAppStarted] = useState(false)
   const [terminalInput, setTerminalInput] = useState("")
   const [terminalOutput, setTerminalOutput] = useState<string[]>([
-    "Welcome to TAKARA AI Terminal",
-    "Type '/start' to initialize AI Studio...",
-    "Type '/help' for available commands",
-    "",
+    "Initializing Takara Terminal...",
+    "Loading system modules...",
+    "Preparing AI engine...",
+    "Ready to execute commands!"
   ])
   const [commandHistory, setCommandHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
@@ -169,10 +169,10 @@ export default function LandingPage() {
         newOutput.push("")
       } else if (command === "/clear") {
         setTerminalOutput([
-          "Welcome to TAKARA AI Terminal",
-          "Type '/start' to initialize AI Studio...",
-          "Type '/help' for available commands",
-          "",
+          "Initializing Takara Terminal...",
+          "Loading system modules...",
+          "Preparing AI engine...",
+          "Ready to execute commands!"
         ])
         setTerminalInput("")
         return
@@ -189,7 +189,7 @@ export default function LandingPage() {
         newOutput.push(`  AI Studio: ${isAppStarted ? "ACTIVE" : "INACTIVE"}`)
         newOutput.push("")
       } else if (command === "/theme") {
-        const themes = ["green", "amber", "blue"]
+        const themes = ["monochrome", "amber", "blue"]
         const currentIndex = themes.indexOf(terminalTheme)
         const nextTheme = themes[(currentIndex + 1) % themes.length]
         setTerminalTheme(nextTheme)
@@ -209,10 +209,10 @@ export default function LandingPage() {
         setTimeout(() => {
           setIsAppStarted(false)
           setTerminalOutput([
-            "Welcome to TAKARA AI Terminal",
-            "Type '/start' to initialize AI Studio...",
-            "Type '/help' for available commands",
-            "",
+            "Initializing Takara Terminal...",
+            "Loading system modules...",
+            "Preparing AI engine...",
+            "Ready to execute commands!"
           ])
         }, 1000)
         setTerminalInput("")
@@ -416,34 +416,42 @@ think: you're posting this while doing something else, maybe walking, eating, or
         
         {/* Terminal Window Header */}
         <div
-          className={`bg-gray-900 border-b ${currentTheme.border} px-2 sm:px-4 py-2 flex items-center gap-2 flex-shrink-0 relative z-20`}
+          className="bg-gray-900 border-b border-white/30 px-2 sm:px-4 py-2 flex items-center gap-2 flex-shrink-0 relative z-20"
         >
           <div className="flex gap-1 sm:gap-2">
             <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500"></div>
             <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-500"></div>
             <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500"></div>
           </div>
-          <span className={`${currentTheme.primary} text-xs sm:text-sm ml-2 sm:ml-4 truncate`}>takara@terminal:~$</span>
+          <span className="text-white text-xs sm:text-sm ml-2 sm:ml-4 truncate">takara-terminal</span>
         </div>
 
         <div className="flex-1 p-3 sm:p-6 flex flex-col relative z-20">
           <div
-            className={`flex-1 bg-gray-900/30 border ${currentTheme.border} rounded-lg p-3 sm:p-4 overflow-y-auto`}
+            className="flex-1 bg-gray-900/30 border border-white/30 rounded-lg p-3 sm:p-4 overflow-y-auto"
             ref={terminalRef}
           >
+            {/* Welcome Message */}
+            <div className="text-white font-mono text-xs sm:text-sm leading-relaxed mb-4">
+              <div className="text-green-400 mb-2">$ Welcome to Takara Terminal v1.0.0</div>
+              <div className="text-gray-300 ml-4">Type /help for available commands</div>
+              <div className="text-gray-300 ml-4">Type /start to launch the application</div>
+              <div className="text-gray-300 ml-4">Type /theme to change terminal appearance</div>
+            </div>
+            
             {terminalOutput.map((line, index) => (
-              <div key={index} className={`${currentTheme.primary} font-mono text-xs sm:text-sm leading-relaxed`}>
+              <div key={index} className="text-white font-mono text-xs sm:text-sm leading-relaxed">
                 {line}
               </div>
             ))}
-            <div className={`flex items-center ${currentTheme.primary} font-mono text-xs sm:text-sm mt-2`}>
-              <span className="mr-2">$</span>
+            <div className="flex items-center text-white font-mono text-xs sm:text-sm mt-2">
+              <span className="mr-2 text-green-400">$</span>
               <input
                 type="text"
                 value={terminalInput}
                 onChange={(e) => setTerminalInput(e.target.value)}
                 onKeyDown={handleTerminalCommand}
-                className={`bg-transparent border-none outline-none flex-1 ${currentTheme.primary} text-xs sm:text-sm`}
+                className="bg-transparent border-none outline-none flex-1 text-white text-xs sm:text-sm"
                 placeholder="Type command..."
                 autoFocus
                 autoComplete="off"
@@ -490,21 +498,21 @@ think: you're posting this while doing something else, maybe walking, eating, or
         {/* Centered Header */}
         <div className="text-center space-y-2 mb-6">
           <div className="flex items-center justify-center gap-3">
-            <div className={`w-10 h-10 ${currentTheme.bg} border ${currentTheme.border} rounded flex items-center justify-center`}>
-              <span className={`text-xl font-bold ${currentTheme.primary}`}>T</span>
+            <div className="w-10 h-10 bg-white/10 border border-white/30 rounded flex items-center justify-center">
+              <span className="text-xl font-bold text-white">T</span>
             </div>
             <div>
-              <h1 className={`text-3xl font-bold ${currentTheme.primary}`}>TAKARA AI STUDIO</h1>
-              <p className={`${currentTheme.secondary} text-sm`}>Content Generation Terminal</p>
+              <h1 className="text-3xl font-bold text-white">TAKARA AI STUDIO</h1>
+              <p className="text-gray-300 text-sm">Content Generation Terminal</p>
             </div>
           </div>
-          <Badge className={`${currentTheme.bg} ${currentTheme.primary} ${currentTheme.border} font-mono text-xs`}>
+          <Badge className="bg-white/10 text-white border-white/30 font-mono text-xs">
             [SYSTEM ONLINE] AI Engine Active
           </Badge>
         </div>
 
         {/* Large Terminal Interface */}
-        <div className={`max-w-5xl mx-auto bg-black/40 border ${currentTheme.border} rounded-none p-4 space-y-3 font-mono`}>
+        <div className="max-w-5xl mx-auto bg-black/40 border border-white/30 rounded-none p-4 space-y-3 font-mono">
           {/* Content Length Section */}
           <div className="space-y-1">
             <div className={`text-white text-sm`}>
