@@ -19,7 +19,7 @@ export default function LandingPage() {
   ])
   const [commandHistory, setCommandHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
-  const [terminalTheme, setTerminalTheme] = useState("green")
+  const [terminalTheme, setTerminalTheme] = useState("monochrome")
   const [showCursor, setShowCursor] = useState(true)
 
   const [showCodeOutput, setShowCodeOutput] = useState(false)
@@ -50,12 +50,12 @@ export default function LandingPage() {
   }, [terminalOutput, codeLines])
 
   const themes = {
-    green: {
-      primary: "text-green-400",
-      secondary: "text-green-500",
-      accent: "text-green-300",
-      border: "border-green-500/50",
-      bg: "bg-green-500/20",
+    monochrome: {
+      primary: "text-white",
+      secondary: "text-gray-300",
+      accent: "text-gray-400",
+      border: "border-white/30",
+      bg: "bg-white/10",
     },
     amber: {
       primary: "text-amber-400",
@@ -468,7 +468,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
                       handleTerminalCommand(event as any)
                     }, 100)
                   }}
-                  className={`px-2 py-1 text-xs ${currentTheme.border} border rounded ${currentTheme.secondary} hover:${currentTheme.bg}`}
+                  className={`px-2 py-1 text-xs border-white/30 border rounded text-white hover:bg-white/20`}
                 >
                   {cmd}
                 </button>
@@ -507,8 +507,8 @@ think: you're posting this while doing something else, maybe walking, eating, or
         <div className={`max-w-5xl mx-auto bg-black/40 border ${currentTheme.border} rounded-none p-4 space-y-3 font-mono`}>
           {/* Content Length Section */}
           <div className="space-y-1">
-            <div className={`text-green-400 text-sm`}>
-              <span className="text-green-400">$</span> content_length --help
+            <div className={`text-white text-sm`}>
+              <span className="text-white">$</span> content_length --help
             </div>
             <div className={`text-white text-sm ml-4`}>
               Available options: [very-short|short|medium|long]
@@ -520,8 +520,8 @@ think: you're posting this while doing something else, maybe walking, eating, or
                   onClick={() => setContentLength(length as any)}
                   className={`px-2 py-1 rounded-none font-mono text-sm border ${
                     contentLength === length
-                      ? `bg-green-600 border-green-400 text-black font-bold`
-                      : `bg-black border-green-500/50 text-white hover:bg-green-500/20 hover:text-black`
+                      ? `bg-white border-white text-black font-bold`
+                      : `bg-black border-white/30 text-white hover:bg-white/20 hover:text-black`
                   }`}
                 >
                   {length}
@@ -529,14 +529,14 @@ think: you're posting this while doing something else, maybe walking, eating, or
               ))}
             </div>
             <div className={`text-white text-sm ml-4`}>
-              <span className="text-green-400">{">"}</span> Current: <span className="text-cyan-400">{contentLength}</span> (Max: {contentLength === "very-short" ? "5" : contentLength === "short" ? "10" : contentLength === "medium" ? "20" : "35"} words)
+              <span className="text-white">{">"}</span> Current: <span className="text-white">{contentLength}</span> (Max: {contentLength === "very-short" ? "5" : contentLength === "short" ? "10" : contentLength === "medium" ? "20" : "35"} words)
             </div>
           </div>
 
           {/* Content Style Section */}
           <div className="space-y-1">
-            <div className={`text-green-400 text-sm`}>
-              <span className="text-green-400">$</span> content_style --select
+            <div className={`text-white text-sm`}>
+              <span className="text-white">$</span> content_style --select
             </div>
             <div className={`text-white text-sm ml-4`}>
               Style presets: [based|reply guy|influencer|casual]
@@ -548,8 +548,8 @@ think: you're posting this while doing something else, maybe walking, eating, or
                   onClick={() => setContentStyle(style)}
                   className={`px-2 py-1 rounded-none font-mono text-sm border ${
                     contentStyle === style
-                      ? `bg-green-600 border-green-400 text-black font-bold`
-                      : `bg-black border-green-500/50 text-white hover:bg-green-500/20 hover:text-black`
+                      ? `bg-white border-white text-black font-bold`
+                      : `bg-black border-white/30 text-white hover:bg-white/20 hover:text-black`
                   }`}
                 >
                   {style === "reply" ? "reply guy" : style}
@@ -557,14 +557,14 @@ think: you're posting this while doing something else, maybe walking, eating, or
               ))}
             </div>
             <div className={`text-white text-sm ml-4`}>
-              <span className="text-green-400">{">"}</span> Active style: <span className="text-cyan-400">{contentStyle === "reply" ? "reply guy" : contentStyle}</span>
+              <span className="text-white">{">"}</span> Active style: <span className="text-white">{contentStyle === "reply" ? "reply guy" : contentStyle}</span>
             </div>
           </div>
 
           {/* Prompt Input Section */}
           <div className="space-y-1">
-            <div className={`text-green-400 text-sm`}>
-              <span className="text-green-400">$</span> prompt --input
+            <div className={`text-white text-sm`}>
+              <span className="text-white">$</span> prompt --input
             </div>
             <div className={`text-white text-sm ml-4`}>
               {contentStyle === "reply" ? "Paste the post you want to reply to:" : "Enter your content idea below:"}
@@ -574,18 +574,18 @@ think: you're posting this while doing something else, maybe walking, eating, or
                 placeholder={contentStyle === "reply" ? "Paste the post you're replying to..." : "Enter your content idea..."}
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                className={`bg-black/30 border-green-500/50 text-white placeholder:text-gray-500 focus:border-green-400 focus:outline-none text-sm rounded-none resize-none`}
+                className={`bg-black/30 border-white/30 text-white placeholder:text-gray-500 focus:border-white focus:outline-none text-sm rounded-none resize-none`}
                 rows={2}
                 style={{ resize: "none" }}
               />
-              <div className="absolute right-2 top-2 text-green-400 text-xs animate-pulse">█</div>
+              <div className="absolute right-2 top-2 text-white text-xs animate-pulse">█</div>
             </div>
           </div>
 
           {/* Generate Command */}
           <div className="space-y-1">
-            <div className={`text-green-400 text-sm`}>
-              <span className="text-green-400">$</span> generate --execute
+            <div className={`text-white text-sm`}>
+              <span className="text-white">$</span> generate --execute
             </div>
             <button
               onClick={generateContent}
@@ -593,7 +593,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
               className={`ml-4 px-4 py-2 rounded-none font-mono text-sm border ${
                 isGenerating || !prompt.trim()
                   ? "bg-gray-800 border-gray-600 text-gray-500 cursor-not-allowed"
-                  : `bg-green-600 border-green-400 text-black font-bold hover:bg-green-500`
+                  : `bg-white border-white text-black font-bold hover:bg-gray-200`
               }`}
             >
               {isGenerating ? "[GENERATING...]" : "[GENERATE CONTENT]"}
@@ -602,19 +602,19 @@ think: you're posting this while doing something else, maybe walking, eating, or
 
           {/* Generated Content */}
           {generatedContent && (
-            <div className={`space-y-2 pt-3 border-t border-green-500/50`}>
-              <div className={`text-green-400 text-sm`}>
-                <span className="text-green-400">$</span> output --display
+            <div className={`space-y-2 pt-3 border-t border-white/30`}>
+              <div className={`text-white text-sm`}>
+                <span className="text-white">$</span> output --display
               </div>
               <div className={`text-white text-sm ml-4`}>
                 Generated Output:
               </div>
               <div className="ml-4">
                 <div
-                  className={`bg-black/30 border border-green-500/50 rounded-none p-3 max-h-32 overflow-y-auto`}
+                  className={`bg-black/30 border border-white/30 rounded-none p-3 max-h-32 overflow-y-auto`}
                 >
                   <pre
-                    className={`text-cyan-300 font-mono text-sm whitespace-pre-wrap break-words`}
+                    className={`text-white font-mono text-sm whitespace-pre-wrap break-words`}
                   >
                     {generatedContent}
                   </pre>
