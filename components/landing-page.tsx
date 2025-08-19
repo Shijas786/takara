@@ -523,19 +523,19 @@ think: you're posting this while doing something else, maybe walking, eating, or
             <div className={`text-white text-sm ml-4`}>
               Available options: [very-short|short|medium|long]
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 ml-4">
+            <div className="flex flex-wrap gap-4 ml-4">
               {["very-short", "short", "medium", "long"].map((length) => (
-                <button
+                <span
                   key={length}
                   onClick={() => setContentLength(length as any)}
-                  className={`px-3 py-2 rounded font-mono text-sm border transition-colors ${
+                  className={`cursor-pointer font-mono text-sm transition-colors ${
                     contentLength === length
-                      ? `bg-white/20 border-white/50 text-white font-bold`
-                      : `bg-gray-700/30 border-gray-500/50 text-white hover:bg-white/20 hover:text-black`
+                      ? `text-white font-bold text-lg`
+                      : `text-gray-400 hover:text-white`
                   }`}
                 >
                   {length}
-                </button>
+                </span>
               ))}
             </div>
             <div className={`text-white text-sm ml-4`}>
@@ -551,21 +551,21 @@ think: you're posting this while doing something else, maybe walking, eating, or
             <div className={`text-white text-sm ml-4`}>
               Style presets: [based|reply guy|influencer|casual]
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 ml-4">
+            <div className="flex flex-wrap gap-4 ml-4">
               {["based", "reply", "influencer", "casual"].map((style) => (
-                <button
+                <span
                   key={style}
                   onClick={() => setContentStyle(style)}
-                  className={`px-3 py-2 rounded font-mono text-sm border transition-colors ${
+                  className={`cursor-pointer font-mono text-sm transition-colors ${
                     contentStyle === style
                       ? style === "based" 
-                        ? `bg-gray-700/30 border-gray-500/50 text-[#0000FF] font-bold`
-                        : `bg-white/20 border-white/50 text-white font-bold`
-                      : `bg-gray-700/30 border-gray-500/50 text-white hover:bg-white/20 hover:text-black`
+                        ? `text-[#0000FF] font-bold text-lg`
+                        : `text-white font-bold text-lg`
+                      : `text-gray-400 hover:text-white`
                   }`}
                 >
                   {style === "reply" ? "reply guy" : style}
-                </button>
+                </span>
               ))}
             </div>
             <div className={`text-white text-sm ml-4`}>
@@ -599,17 +599,16 @@ think: you're posting this while doing something else, maybe walking, eating, or
             <div className={`text-white text-sm`}>
               <span className="text-white">$</span> generate --execute
             </div>
-            <button
+            <span
               onClick={generateContent}
-              disabled={isGenerating || !prompt.trim()}
-              className={`ml-4 px-6 py-3 rounded font-mono text-sm border transition-colors ${
+              className={`ml-4 cursor-pointer font-mono text-sm transition-colors ${
                 isGenerating || !prompt.trim()
-                  ? "bg-gray-700/30 border-gray-500/50 text-gray-500 cursor-not-allowed"
-                  : `bg-white/20 border-white/50 text-white font-bold hover:bg-white/40`
+                  ? "text-gray-500 cursor-not-allowed"
+                  : `text-white font-bold text-lg hover:text-gray-300`
               }`}
             >
               {isGenerating ? "[GENERATING...]" : "[GENERATE CONTENT]"}
-            </button>
+            </span>
           </div>
 
           {/* Generated Content */}
@@ -632,28 +631,29 @@ think: you're posting this while doing something else, maybe walking, eating, or
                   </pre>
                 </div>
               </div>
-              <div className="flex flex-col sm:flex-row gap-3 ml-4">
-                <button
+              <div className="flex flex-wrap gap-6 ml-4">
+                <span
                   onClick={postToFarcaster}
-                  disabled={isPosting}
-                  className="flex-1 px-4 py-3 rounded font-mono text-sm border border-white text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className={`cursor-pointer font-mono text-sm transition-colors ${
+                    isPosting
+                      ? "text-gray-500 cursor-not-allowed"
+                      : "text-white font-bold text-lg hover:text-gray-300"
+                  }`}
                 >
                   {isPosting ? "[POSTING...]" : "[POST TO FARCASTER]"}
-                </button>
-                <div className="flex gap-2">
-                  <button
-                    onClick={copyContent}
-                    className="flex-1 sm:flex-none px-4 py-3 rounded font-mono text-sm border border-white/50 text-white hover:bg-white/20 transition-colors"
-                  >
-                    [COPY]
-                  </button>
-                  <button
-                    onClick={() => setGeneratedContent("")}
-                    className="flex-1 sm:flex-none px-4 py-3 rounded font-mono text-sm border border-white/50 text-white hover:bg-white/20 transition-colors"
-                  >
-                    [CLEAR]
-                  </button>
-                </div>
+                </span>
+                <span
+                  onClick={copyContent}
+                  className="cursor-pointer font-mono text-sm text-white font-bold text-lg hover:text-gray-300 transition-colors"
+                >
+                  [COPY]
+                </span>
+                <span
+                  onClick={() => setGeneratedContent("")}
+                  className="cursor-pointer font-mono text-sm text-white font-bold text-lg hover:text-gray-300 transition-colors"
+                >
+                  [CLEAR]
+                </span>
               </div>
             </div>
           )}
