@@ -530,7 +530,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
                   onClick={() => setContentLength(length as any)}
                   className={`px-3 py-2 rounded font-mono text-sm border transition-colors ${
                     contentLength === length
-                      ? `bg-white border-white text-black font-bold`
+                      ? `bg-white/20 border-white/50 text-white font-bold`
                       : `bg-gray-700/30 border-gray-500/50 text-white hover:bg-white/20 hover:text-black`
                   }`}
                 >
@@ -558,7 +558,9 @@ think: you're posting this while doing something else, maybe walking, eating, or
                   onClick={() => setContentStyle(style)}
                   className={`px-3 py-2 rounded font-mono text-sm border transition-colors ${
                     contentStyle === style
-                      ? `bg-white border-white text-black font-bold`
+                      ? style === "based" 
+                        ? `bg-blue-500/20 border-blue-500/50 text-blue-400 font-bold`
+                        : `bg-white/20 border-white/50 text-white font-bold`
                       : `bg-gray-700/30 border-gray-500/50 text-white hover:bg-white/20 hover:text-black`
                   }`}
                 >
@@ -603,7 +605,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
               className={`ml-4 px-6 py-3 rounded font-mono text-sm border transition-colors ${
                 isGenerating || !prompt.trim()
                   ? "bg-gray-700/30 border-gray-500/50 text-gray-500 cursor-not-allowed"
-                  : `bg-white border-white text-black font-bold hover:bg-gray-200`
+                  : `bg-white/20 border-white/50 text-white font-bold hover:bg-white/40`
               }`}
             >
               {isGenerating ? "[GENERATING...]" : "[GENERATE CONTENT]"}
