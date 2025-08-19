@@ -120,16 +120,16 @@ const TakaraMatrixRain: React.FC = () => {
           if (data.images.length > projectImages.length) {
             console.log('MatrixRain: New images detected! Updating...')
             setProjectImages(data.images)
-            // Trigger immediate rotation to show new images
-            if (data.images.length > 1) {
-              setTimeout(() => {
-                setCurrentImage(prevImage => {
-                  const currentIndex = data.images.indexOf(prevImage || '')
-                  const nextIndex = (currentIndex + 1) % data.images.length
-                  return data.images[nextIndex]
-                })
-              }, 2000) // Rotate after 2 seconds to show new images
-            }
+                          // Trigger rotation to show new images after they have time to form
+              if (data.images.length > 1) {
+                setTimeout(() => {
+                  setCurrentImage(prevImage => {
+                    const currentIndex = data.images.indexOf(prevImage || '')
+                    const nextIndex = (currentIndex + 1) % data.images.length
+                    return data.images[nextIndex]
+                  })
+                }, 10000) // Rotate after 10 seconds to allow image formation
+              }
           }
         }
       } catch (error) {
@@ -209,7 +209,7 @@ const TakaraMatrixRain: React.FC = () => {
       setCurrentImage(projectImages[0])
     }
     
-    // Set up image rotation interval - EXACTLY like Python version
+    // Set up image rotation interval - Give enough time for full image formation
     const imageRotationInterval = setInterval(() => {
       if (projectImages.length > 1) {
         setCurrentImage(prevImage => {
@@ -220,7 +220,7 @@ const TakaraMatrixRain: React.FC = () => {
           return nextImage
         })
       }
-    }, 15000) // 15 seconds like Python
+    }, 30000) // 30 seconds to allow full image formation
     
     return () => clearInterval(imageRotationInterval)
   }, [projectImages]) // Only depend on projectImages to avoid recreation
