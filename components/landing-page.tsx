@@ -520,8 +520,8 @@ think: you're posting this while doing something else, maybe walking, eating, or
             <div className={`text-white text-sm`}>
               <span className="text-white">$</span> content_length --help
             </div>
-            <div className={`text-white text-sm ml-4`}>
-              Available options: [very-short|short|medium|long]
+            <div className={`text-white text-base font-semibold ml-4`}>
+              [very-short|short|medium|long]
             </div>
             <div className="flex flex-wrap gap-4 ml-4">
               {["very-short", "short", "medium", "long"].map((length) => (
@@ -548,8 +548,8 @@ think: you're posting this while doing something else, maybe walking, eating, or
             <div className={`text-white text-sm`}>
               <span className="text-white">$</span> content_style --select
             </div>
-            <div className={`text-white text-sm ml-4`}>
-              Style presets: [based|reply guy|influencer|casual]
+            <div className={`text-white text-base font-semibold ml-4`}>
+              [based|reply guy|influencer|casual]
             </div>
             <div className="flex flex-wrap gap-4 ml-4">
               {["based", "reply", "influencer", "casual"].map((style) => (
