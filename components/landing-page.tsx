@@ -12,9 +12,6 @@ export default function LandingPage() {
   const [isAppStarted, setIsAppStarted] = useState(false)
   const [terminalInput, setTerminalInput] = useState("")
   const [terminalOutput, setTerminalOutput] = useState<string[]>([
-    "Initializing Takara Terminal...",
-    "Loading system modules...",
-    "Preparing AI engine...",
     "Ready to execute commands!"
   ])
   const [commandHistory, setCommandHistory] = useState<string[]>([])
@@ -75,7 +72,7 @@ export default function LandingPage() {
 
   const currentTheme = themes[terminalTheme as keyof typeof themes]
 
-  const availableCommands = ["/start", "/help", "/clear", "/history", "/status", "/theme", "/copy", "/logout"]
+  const availableCommands = ["/based", "/help", "/clear", "/history", "/status", "/theme", "/copy", "/logout"]
 
   const handleTabCompletion = () => {
     const matches = availableCommands.filter((cmd) => cmd.startsWith(terminalInput))
@@ -148,7 +145,7 @@ export default function LandingPage() {
 
       const newOutput = [...terminalOutput, `$ ${command}`]
 
-      if (command === "/start") {
+      if (command === "/based") {
         newOutput.push("Initializing AI Studio...")
         newOutput.push("Loading modules...")
         newOutput.push("AI Engine: ONLINE")
@@ -158,7 +155,7 @@ export default function LandingPage() {
         setTimeout(() => setIsAppStarted(true), 1500)
       } else if (command === "/help") {
         newOutput.push("Available commands:")
-        newOutput.push("  /start    - Initialize AI Studio")
+        newOutput.push("  /based    - Initialize AI Studio")
         newOutput.push("  /help     - Show this help message")
         newOutput.push("  /clear    - Clear terminal output")
         newOutput.push("  /history  - Show command history")
@@ -169,9 +166,6 @@ export default function LandingPage() {
         newOutput.push("")
       } else if (command === "/clear") {
         setTerminalOutput([
-          "Initializing Takara Terminal...",
-          "Loading system modules...",
-          "Preparing AI engine...",
           "Ready to execute commands!"
         ])
         setTerminalInput("")
@@ -209,9 +203,6 @@ export default function LandingPage() {
         setTimeout(() => {
           setIsAppStarted(false)
           setTerminalOutput([
-            "Initializing Takara Terminal...",
-            "Loading system modules...",
-            "Preparing AI engine...",
             "Ready to execute commands!"
           ])
         }, 1000)
@@ -435,7 +426,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
             <div className="text-white font-mono text-xs sm:text-sm leading-relaxed mb-4">
               <div className="text-green-400 mb-2">$ Welcome to Takara Terminal v1.0.0</div>
               <div className="text-gray-300 ml-4">Type /help for available commands</div>
-              <div className="text-gray-300 ml-4">Type /start to launch the application</div>
+              <div className="text-gray-300 ml-4">Type /based to launch the application</div>
               <div className="text-gray-300 ml-4">Type /theme to change terminal appearance</div>
             </div>
             
@@ -465,7 +456,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
 
           <div className="mt-3 sm:hidden">
             <div className="flex flex-wrap gap-1">
-              {["/start", "/help", "/clear", "/theme"].map((cmd) => (
+              {["/based", "/help", "/clear", "/theme"].map((cmd) => (
                 <button
                   key={cmd}
                   onClick={() => {
