@@ -518,7 +518,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
           {/* Content Length Section */}
           <div className="space-y-3">
             <div className={`text-white text-sm`}>
-              <span className="text-white">$</span> content_length --help
+              <span className="text-white">$</span> content_length
             </div>
             <div className={`text-white text-base font-semibold ml-4`}>
               [very-short|short|medium|long]
@@ -546,7 +546,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
           {/* Content Style Section */}
           <div className="space-y-3">
             <div className={`text-white text-sm`}>
-              <span className="text-white">$</span> content_style --select
+              <span className="text-white">$</span> content_style
             </div>
             <div className={`text-white text-base font-semibold ml-4`}>
               [based|reply guy|influencer|casual]
@@ -576,7 +576,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
           {/* Prompt Input Section */}
           <div className="space-y-3">
             <div className={`text-white text-sm`}>
-              <span className="text-white">$</span> prompt --input
+              <span className="text-white">$</span> prompt
             </div>
             <div className={`text-white text-sm ml-4`}>
               {contentStyle === "reply" ? "Paste the post you want to reply to:" : "Enter your content idea below:"}
@@ -597,7 +597,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
           {/* Generate Command */}
           <div className="space-y-3">
             <div className={`text-white text-sm`}>
-              <span className="text-white">$</span> generate --execute
+              <span className="text-white">$</span> generate
             </div>
             <span
               onClick={generateContent}
