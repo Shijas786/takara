@@ -530,8 +530,8 @@ think: you're posting this while doing something else, maybe walking, eating, or
                   onClick={() => setContentLength(length as any)}
                   className={`px-3 py-2 rounded font-mono text-sm border transition-colors ${
                     contentLength === length
-                      ? `bg-white/20 border-white/50 text-white font-bold`
-                      : `bg-gray-700/30 border-gray-500/50 text-white hover:bg-white/20 hover:text-black`
+                      ? `bg-blue-500/20 border-blue-500/50 text-blue-400 font-bold`
+                      : `bg-gray-700/30 border-gray-500/50 text-blue-400 hover:bg-blue-500/20 hover:text-blue-300`
                   }`}
                 >
                   {length}
@@ -558,10 +558,8 @@ think: you're posting this while doing something else, maybe walking, eating, or
                   onClick={() => setContentStyle(style)}
                   className={`px-3 py-2 rounded font-mono text-sm border transition-colors ${
                     contentStyle === style
-                      ? style === "based" 
-                        ? `bg-blue-500/20 border-blue-500/50 text-blue-400 font-bold`
-                        : `bg-white/20 border-white/50 text-white font-bold`
-                      : `bg-gray-700/30 border-gray-500/50 text-white hover:bg-white/20 hover:text-black`
+                      ? `bg-blue-500/20 border-blue-500/50 text-blue-400 font-bold`
+                      : `bg-gray-700/30 border-gray-500/50 text-blue-400 hover:bg-blue-500/20 hover:text-blue-300`
                   }`}
                 >
                   {style === "reply" ? "reply guy" : style}
@@ -605,7 +603,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
               className={`ml-4 px-6 py-3 rounded font-mono text-sm border transition-colors ${
                 isGenerating || !prompt.trim()
                   ? "bg-gray-700/30 border-gray-500/50 text-gray-500 cursor-not-allowed"
-                  : `bg-white/20 border-white/50 text-white font-bold hover:bg-white/40`
+                  : `bg-blue-500/20 border-blue-500/50 text-blue-400 font-bold hover:bg-blue-500/40`
               }`}
             >
               {isGenerating ? "[GENERATING...]" : "[GENERATE CONTENT]"}
@@ -636,20 +634,20 @@ think: you're posting this while doing something else, maybe walking, eating, or
                 <button
                   onClick={postToFarcaster}
                   disabled={isPosting}
-                  className="flex-1 px-4 py-3 rounded font-mono text-sm border border-white text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="flex-1 px-4 py-3 rounded font-mono text-sm border border-blue-500/50 text-blue-400 hover:bg-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   {isPosting ? "[POSTING...]" : "[POST TO FARCASTER]"}
                 </button>
                 <div className="flex gap-2">
                   <button
                     onClick={copyContent}
-                    className="flex-1 sm:flex-none px-4 py-3 rounded font-mono text-sm border border-white/50 text-white hover:bg-white/20 transition-colors"
+                    className="flex-1 sm:flex-none px-4 py-3 rounded font-mono text-sm border border-blue-500/50 text-blue-400 hover:bg-blue-500/20 transition-colors"
                   >
                     [COPY]
                   </button>
                   <button
                     onClick={() => setGeneratedContent("")}
-                    className="flex-1 sm:flex-none px-4 py-3 rounded font-mono text-sm border border-white/50 text-white hover:bg-white/20 transition-colors"
+                    className="flex-1 sm:flex-none px-4 py-3 rounded font-mono text-sm border border-blue-500/50 text-blue-400 hover:bg-blue-500/20 transition-colors"
                   >
                     [CLEAR]
                   </button>
