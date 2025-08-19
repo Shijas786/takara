@@ -44,6 +44,14 @@ export default function LandingPage() {
     return () => clearInterval(cursorInterval)
   }, [])
 
+  // Initialize MiniKit frame when ready
+  useEffect(() => {
+    if (isFrameReady) {
+      // Frame is ready, you can perform any frame-specific initialization here
+      console.log('MiniKit frame is ready');
+    }
+  }, [isFrameReady]);
+
   useEffect(() => {
     if (terminalRef.current) {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight
