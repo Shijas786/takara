@@ -30,7 +30,7 @@ const TakaraMatrixRain: React.FC = () => {
   // Matrix characters for rain effect
   const matrixChars = 'abcdefghijklmnopqrstuvwxyz0123456789@#$%&*+=<>?'
 
-  // Configuration for Matrix rain - EXACTLY like Python version
+  // Configuration for Matrix rain - EXACTLY like Python version (Black & White theme)
   const config = {
     FONT_SIZE: 10, // Same as Python
     THRESHOLD: 30, // Same as Python (30%)
@@ -449,7 +449,7 @@ const TakaraMatrixRain: React.FC = () => {
           ctx.fillRect(0, 0, dimensions.width, dimensions.height)
 
           // Test: Draw a simple background to verify canvas is working
-          ctx.fillStyle = 'rgba(0, 20, 0, 0.1)'
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'
           ctx.fillRect(0, 0, dimensions.width, dimensions.height)
 
           // Always draw some basic matrix rain to verify it's working
@@ -457,7 +457,7 @@ const TakaraMatrixRain: React.FC = () => {
             const x = (i * 40) % dimensions.width
             const y = (currentTime / 20 + i * 50) % (dimensions.height + 50)
             const char = matrixChars[Math.floor(Math.random() * matrixChars.length)]
-            ctx.fillStyle = `rgba(0, 255, 0, 0.6)`
+            ctx.fillStyle = `rgba(255, 255, 255, 0.6)`
             ctx.font = `${config.FONT_SIZE}px monospace`
             ctx.textAlign = 'center'
             ctx.fillText(char, x, y)
@@ -506,8 +506,8 @@ const TakaraMatrixRain: React.FC = () => {
             // Draw falling Matrix rain characters
             if (Math.random() > 0.6) {
               const fallChar = matrixChars[Math.floor(Math.random() * matrixChars.length)]
-              const greenIntensity = Math.random() > 0.6 ? 255 : 150
-              ctx.fillStyle = `rgba(0, ${greenIntensity}, 0, 0.6)`
+              const whiteIntensity = Math.random() > 0.6 ? 255 : 150
+              ctx.fillStyle = `rgba(${whiteIntensity}, ${whiteIntensity}, ${whiteIntensity}, 0.6)`
               ctx.font = `${config.FONT_SIZE}px monospace`
               ctx.textAlign = 'center'
               ctx.fillText(fallChar, column.x + config.FONT_SIZE/2, column.y + config.FONT_SIZE)
