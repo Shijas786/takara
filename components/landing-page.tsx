@@ -559,7 +559,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
                   className={`px-3 py-2 rounded font-mono text-sm border transition-colors ${
                     contentStyle === style
                       ? style === "based" 
-                        ? `bg-blue-500/20 border-blue-500/50 text-blue-400 font-bold`
+                        ? `bg-gray-700/30 border-gray-500/50 text-[#0000FF] font-bold`
                         : `bg-white/20 border-white/50 text-white font-bold`
                       : `bg-gray-700/30 border-gray-500/50 text-white hover:bg-white/20 hover:text-black`
                   }`}
