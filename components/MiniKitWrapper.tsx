@@ -8,11 +8,6 @@ interface MiniKitWrapperProps {
 }
 
 export default function MiniKitWrapper({ children }: MiniKitWrapperProps) {
-  try {
-    const { context, isFrameReady } = useMiniKit();
-    return <>{children(context, isFrameReady)}</>;
-  } catch (error) {
-    // Fallback when MiniKit is not available (during SSR)
-    return <>{children(null, false)}</>;
-  }
+  const { context, isFrameReady } = useMiniKit();
+  return <>{children(context, isFrameReady)}</>;
 } 
