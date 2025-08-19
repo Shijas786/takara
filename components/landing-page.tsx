@@ -12,10 +12,7 @@ export default function LandingPage() {
   const [isAppStarted, setIsAppStarted] = useState(false)
   const [terminalInput, setTerminalInput] = useState("")
   const [terminalOutput, setTerminalOutput] = useState<string[]>([
-    "Initializing Takara CLI...",
-    "Loading deployment modules...",
-    "Preparing AI environment...",
-    "Ready to deploy!"
+    "Ready to execute commands!"
   ])
   const [commandHistory, setCommandHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
@@ -169,10 +166,7 @@ export default function LandingPage() {
         newOutput.push("")
       } else if (command === "/clear") {
         setTerminalOutput([
-          "Initializing Takara CLI...",
-          "Loading deployment modules...",
-          "Preparing AI environment...",
-          "Ready to deploy!"
+          "Ready to execute commands!"
         ])
         setTerminalInput("")
         return
@@ -209,10 +203,7 @@ export default function LandingPage() {
         setTimeout(() => {
           setIsAppStarted(false)
           setTerminalOutput([
-            "Initializing Takara CLI...",
-            "Loading deployment modules...",
-            "Preparing AI environment...",
-            "Ready to deploy!"
+            "Ready to execute commands!"
           ])
         }, 1000)
         setTerminalInput("")
@@ -416,7 +407,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
         
         {/* Terminal Window Header */}
         <div
-          className="bg-gray-800 border-b border-gray-600 px-2 sm:px-4 py-2 flex items-center gap-2 flex-shrink-0 relative z-20 rounded-t-lg"
+          className="bg-gray-800/50 border-b border-gray-600 px-2 sm:px-4 py-2 flex items-center gap-2 flex-shrink-0 relative z-20 rounded-t-lg"
         >
           <div className="flex gap-1 sm:gap-2">
             <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500"></div>
@@ -428,7 +419,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
 
         <div className="flex-1 p-3 sm:p-6 flex flex-col relative z-20">
           <div
-            className="flex-1 bg-gray-800 border border-gray-600 rounded-b-lg p-3 sm:p-4 overflow-y-auto"
+            className="flex-1 bg-gray-800/30 border border-gray-600 rounded-b-lg p-3 sm:p-4 overflow-y-auto"
             ref={terminalRef}
           >
             {/* Welcome Message */}
