@@ -7,9 +7,12 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import TakaraMatrixRain from "./TakaraMatrixRain"
-import MiniKitWrapper from "./MiniKitWrapper"
+import { useMiniKit } from '@coinbase/onchainkit/minikit'
 
 export default function LandingPage() {
+  // MiniKit integration for Base Mini App
+  const { context, isFrameReady, setFrameReady } = useMiniKit();
+  
   const [isAppStarted, setIsAppStarted] = useState(false)
   const [terminalInput, setTerminalInput] = useState("")
   const [terminalOutput, setTerminalOutput] = useState<string[]>([
@@ -43,9 +46,10 @@ export default function LandingPage() {
 
   // Initialize MiniKit frame when ready (following Base docs)
   useEffect(() => {
-    // This will be handled by the MiniKitWrapper component
-    // which is properly wrapped by the MiniKitProvider
-  }, []);
+    if (!isFrameReady) {
+      setFrameReady();
+    }
+  }, [setFrameReady, isFrameReady]);
 
 
 
@@ -439,30 +443,29 @@ think: you're posting this while doing something else, maybe walking, eating, or
               <div className="text-white ml-4">$ Type /theme to change terminal appearance</div>
               
               {/* MiniKit Status Display */}
-              <MiniKitWrapper>
-                {(context, isFrameReady) => (
-                  <>
-                    <div className="text-white ml-4 mt-2 text-xs">
-                      $ MiniKit Status: {isFrameReady ? '✅ Frame Ready' : '⏳ Initializing...'}
-                    </div>
-                    {context?.user?.fid && (
-                      <div className="text-white ml-4 text-xs">
-                        $ User FID: {context.user.fid}
-                      </div>
-                    )}
-                    {context?.client?.added && (
-                      <div className="text-white ml-4 text-xs">
-                        $ App Saved: ✅ Yes
-                      </div>
-                    )}
-                    {context?.location && (
-                      <div className="text-white ml-4 text-xs">
-                        $ Launch Location: {String(context.location)}
-                      </div>
-                    )}
-                  </>
-                )}
-              </MiniKitWrapper>
+              <div className="text-white ml-4 mt-2 text-xs">
+                $ MiniKit Status: {isFrameReady ? '✅ Frame Ready' : '⏳ Initializing...'}
+              </div>
+              {context?.user?.fid && (
+                <div className="text-white ml-4 text-xs">
+                  $ User FID: {context.user.fid}
+                </div>
+              )}
+              {context?.client?.added && (
+                <div className="text-white ml-4 text-xs">
+                  $ App Saved: ✅ Yes
+                </div>
+              )}
+              {context?.location && (
+                <div className="text-white ml-4 text-xs">
+                  $ Launch Location: {String(context.location)}
+                </div>
+              )}
+              {context?.client?.clientFid && (
+                <div className="text-white ml-4 text-xs">
+                  $ Client: {String(context.client.clientFid) === '309857' ? 'Base App' : 'Farcaster'}
+                </div>
+              )}
             </div>
             
             {terminalOutput.map((line, index) => (
