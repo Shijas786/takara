@@ -3,12 +3,16 @@
 import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
+import { useMiniKit } from '@coinbase/onchainkit/minikit'
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import TakaraMatrixRain from "./TakaraMatrixRain"
 
 export default function LandingPage() {
+  // MiniKit context for frame and user data
+  const { context, isFrameReady } = useMiniKit();
+  
   const [isAppStarted, setIsAppStarted] = useState(false)
   const [terminalInput, setTerminalInput] = useState("")
   const [terminalOutput, setTerminalOutput] = useState<string[]>([
@@ -428,6 +432,26 @@ think: you're posting this while doing something else, maybe walking, eating, or
               <div className="text-white ml-4">$ Type /help for available commands</div>
               <div className="text-white ml-4">$ Type <span className="text-[#0000FF]">/based</span> to launch the application</div>
               <div className="text-white ml-4">$ Type /theme to change terminal appearance</div>
+              
+              {/* MiniKit Status Display */}
+              <div className="text-white ml-4 mt-2 text-xs">
+                $ MiniKit Status: {isFrameReady ? '✅ Frame Ready' : '⏳ Initializing...'}
+              </div>
+              {context?.user?.fid && (
+                <div className="text-white ml-4 text-xs">
+                  $ User FID: {context.user.fid}
+                </div>
+              )}
+              {context?.client?.added && (
+                <div className="text-white ml-4 text-xs">
+                  $ App Saved: ✅ Yes
+                </div>
+              )}
+              {context?.location && (
+                <div className="text-white ml-4 text-xs">
+                  $ Launch Location: {String(context.location)}
+                </div>
+              )}
             </div>
             
             {terminalOutput.map((line, index) => (
