@@ -10,7 +10,7 @@ interface MiniKitWrapperProps {
 // Type for MiniKit context based on Base docs
 interface MiniKitContext {
   user?: {
-    fid?: string;
+    fid?: number | string; // FID can be number or string
   };
   client?: {
     added?: boolean;
@@ -20,5 +20,5 @@ interface MiniKitContext {
 
 export default function MiniKitWrapper({ children }: MiniKitWrapperProps) {
   const { context, isFrameReady } = useMiniKit();
-  return <>{children(context as MiniKitContext, isFrameReady)}</>;
+  return <>{children(context as any, isFrameReady)}</>;
 } 
