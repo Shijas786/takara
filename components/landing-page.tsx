@@ -12,7 +12,10 @@ export default function LandingPage() {
   const [isAppStarted, setIsAppStarted] = useState(false)
   const [terminalInput, setTerminalInput] = useState("")
   const [terminalOutput, setTerminalOutput] = useState<string[]>([
-    "Ready to execute commands!"
+    "Initializing Takara CLI...",
+    "Loading deployment modules...",
+    "Preparing AI environment...",
+    "Ready to deploy!"
   ])
   const [commandHistory, setCommandHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
@@ -166,7 +169,10 @@ export default function LandingPage() {
         newOutput.push("")
       } else if (command === "/clear") {
         setTerminalOutput([
-          "Ready to execute commands!"
+          "Initializing Takara CLI...",
+          "Loading deployment modules...",
+          "Preparing AI environment...",
+          "Ready to deploy!"
         ])
         setTerminalInput("")
         return
@@ -203,7 +209,10 @@ export default function LandingPage() {
         setTimeout(() => {
           setIsAppStarted(false)
           setTerminalOutput([
-            "Ready to execute commands!"
+            "Initializing Takara CLI...",
+            "Loading deployment modules...",
+            "Preparing AI environment...",
+            "Ready to deploy!"
           ])
         }, 1000)
         setTerminalInput("")
@@ -407,42 +416,42 @@ think: you're posting this while doing something else, maybe walking, eating, or
         
         {/* Terminal Window Header */}
         <div
-          className="bg-gray-900 border-b border-white/30 px-2 sm:px-4 py-2 flex items-center gap-2 flex-shrink-0 relative z-20"
+          className="bg-gray-800 border-b border-gray-600 px-2 sm:px-4 py-2 flex items-center gap-2 flex-shrink-0 relative z-20 rounded-t-lg"
         >
           <div className="flex gap-1 sm:gap-2">
             <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500"></div>
             <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-500"></div>
             <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500"></div>
           </div>
-          <span className="text-white text-xs sm:text-sm ml-2 sm:ml-4 truncate">takara-terminal</span>
+          <span className="text-white text-xs sm:text-sm ml-2 sm:ml-4 truncate">takara-cli</span>
         </div>
 
         <div className="flex-1 p-3 sm:p-6 flex flex-col relative z-20">
           <div
-            className="flex-1 bg-gray-900/30 border border-white/30 rounded-lg p-3 sm:p-4 overflow-y-auto"
+            className="flex-1 bg-gray-800 border border-gray-600 rounded-b-lg p-3 sm:p-4 overflow-y-auto"
             ref={terminalRef}
           >
             {/* Welcome Message */}
             <div className="text-white font-mono text-xs sm:text-sm leading-relaxed mb-4">
-              <div className="text-green-400 mb-2">$ Welcome to Takara Terminal v1.0.0</div>
-              <div className="text-gray-300 ml-4">Type /help for available commands</div>
-              <div className="text-gray-300 ml-4">Type /based to launch the application</div>
-              <div className="text-gray-300 ml-4">Type /theme to change terminal appearance</div>
+              <div className="text-green-400 mb-2">$ Welcome to Takara CLI v1.0.0</div>
+              <div className="text-green-400 ml-4">$ Type /help for available commands</div>
+              <div className="text-green-400 ml-4">$ Type /based to launch the application</div>
+              <div className="text-green-400 ml-4">$ Type /theme to change terminal appearance</div>
             </div>
             
             {terminalOutput.map((line, index) => (
-              <div key={index} className="text-white font-mono text-xs sm:text-sm leading-relaxed">
-                {line}
+              <div key={index} className="text-green-400 font-mono text-xs sm:text-sm leading-relaxed">
+                $ {line}
               </div>
             ))}
-            <div className="flex items-center text-white font-mono text-xs sm:text-sm mt-2">
+            <div className="flex items-center text-green-400 font-mono text-xs sm:text-sm mt-2">
               <span className="mr-2 text-green-400">$</span>
               <input
                 type="text"
                 value={terminalInput}
                 onChange={(e) => setTerminalInput(e.target.value)}
                 onKeyDown={handleTerminalCommand}
-                className="bg-transparent border-none outline-none flex-1 text-white text-xs sm:text-sm"
+                className="bg-transparent border-none outline-none flex-1 text-green-400 text-xs sm:text-sm"
                 placeholder="Type command..."
                 autoFocus
                 autoComplete="off"
@@ -467,7 +476,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
                       handleTerminalCommand(event as any)
                     }, 100)
                   }}
-                  className={`px-2 py-1 text-xs border-white/30 border rounded text-white hover:bg-white/20`}
+                  className={`px-2 py-1 text-xs border-gray-600 border rounded text-green-400 hover:bg-green-400/20`}
                 >
                   {cmd}
                 </button>
