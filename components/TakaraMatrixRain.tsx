@@ -107,9 +107,42 @@ const TakaraMatrixRain: React.FC = () => {
     }
     
     document.addEventListener('visibilitychange', handleVisibilityChange)
+    
+    // Function to check for new images and rotate if needed
+    const checkForNewImages = async () => {
+      try {
+        const response = await fetch('/api/images?t=' + Date.now(), {
+          cache: 'no-cache',
+          headers: { 'Cache-Control': 'no-cache' }
+        })
+        if (response.ok) {
+          const data = await response.json()
+          if (data.images.length > projectImages.length) {
+            console.log('MatrixRain: New images detected! Updating...')
+            setProjectImages(data.images)
+            // Trigger immediate rotation to show new images
+            if (data.images.length > 1) {
+              setTimeout(() => {
+                setCurrentImage(prevImage => {
+                  const currentIndex = data.images.indexOf(prevImage || '')
+                  const nextIndex = (currentIndex + 1) % data.images.length
+                  return data.images[nextIndex]
+                })
+              }, 2000) // Rotate after 2 seconds to show new images
+            }
+          }
+        }
+      } catch (error) {
+        console.error('MatrixRain: Error checking for new images:', error)
+      }
+    }
+    
+    // Check for new images every 5 seconds
+    const newImageCheckInterval = setInterval(checkForNewImages, 5000)
 
     return () => {
       clearInterval(refreshInterval)
+      clearInterval(newImageCheckInterval)
       document.removeEventListener('visibilitychange', handleVisibilityChange)
     }
   }, [isMounted])
@@ -160,7 +193,6 @@ const TakaraMatrixRain: React.FC = () => {
   useEffect(() => {
     console.log('MatrixRain: Image rotation useEffect triggered!', {
       projectImagesLength: projectImages.length,
-      currentImage,
       isMounted
     })
     
@@ -180,16 +212,18 @@ const TakaraMatrixRain: React.FC = () => {
     // Set up image rotation interval - EXACTLY like Python version
     const imageRotationInterval = setInterval(() => {
       if (projectImages.length > 1) {
-        const currentIndex = projectImages.indexOf(currentImage || '')
-        const nextIndex = (currentIndex + 1) % projectImages.length
-        const nextImage = projectImages[nextIndex]
-        console.log('MatrixRain: Rotating to next image:', nextImage, '(index:', nextIndex, ')')
-        setCurrentImage(nextImage)
+        setCurrentImage(prevImage => {
+          const currentIndex = projectImages.indexOf(prevImage || '')
+          const nextIndex = (currentIndex + 1) % projectImages.length
+          const nextImage = projectImages[nextIndex]
+          console.log('MatrixRain: Rotating to next image:', nextImage, '(index:', nextIndex, ')')
+          return nextImage
+        })
       }
     }, 15000) // 15 seconds like Python
     
     return () => clearInterval(imageRotationInterval)
-  }, [projectImages, currentImage]) // Depend on both to track changes properly
+  }, [projectImages]) // Only depend on projectImages to avoid recreation
 
   // Load and process image
   useEffect(() => {
