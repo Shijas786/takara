@@ -41,6 +41,12 @@ export default function LandingPage() {
     return () => clearInterval(cursorInterval)
   }, [])
 
+  // Initialize MiniKit frame when ready (following Base docs)
+  useEffect(() => {
+    // This will be handled by the MiniKitWrapper component
+    // which is properly wrapped by the MiniKitProvider
+  }, []);
+
 
 
   useEffect(() => {
