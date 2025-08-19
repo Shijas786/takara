@@ -11,31 +11,21 @@ interface MiniKitStatusProps {
 }
 
 export default function MiniKitStatus({ onStateChange }: MiniKitStatusProps) {
-  const [miniKitState, setMiniKitState] = useState({
-    context: null,
-    isFrameReady: false,
-    setFrameReady: () => {}
-  });
-
   useEffect(() => {
-    // Only initialize MiniKit on the client side
-    try {
-      const { useMiniKit } = require('@coinbase/onchainkit/minikit');
-      const { context, isFrameReady, setFrameReady } = useMiniKit();
-      const newState = { context, isFrameReady, setFrameReady };
-      setMiniKitState(newState);
-      onStateChange(newState);
-    } catch (error) {
-      console.log('MiniKit not available during SSR');
-    }
+    // For now, provide placeholder MiniKit state
+    // This will be replaced with actual MiniKit integration later
+    const placeholderState = {
+      context: {
+        user: { fid: 'demo_user' },
+        client: { added: false, clientFid: '309857' },
+        location: 'launcher'
+      },
+      isFrameReady: true,
+      setFrameReady: () => console.log('Frame ready signal sent')
+    };
+    
+    onStateChange(placeholderState);
   }, [onStateChange]);
-
-  // Initialize frame when ready
-  useEffect(() => {
-    if (miniKitState.isFrameReady && miniKitState.setFrameReady) {
-      miniKitState.setFrameReady();
-    }
-  }, [miniKitState.isFrameReady, miniKitState.setFrameReady]);
 
   // This component doesn't render anything visible
   // It just manages MiniKit state and passes it to the parent
