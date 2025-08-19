@@ -38,6 +38,8 @@ export default function ContentGenerator() {
   const [isPosting, setIsPosting] = useState(false);
   const [drafts, setDrafts] = useState<Draft[]>([]);
   const [scheduledPosts, setScheduledPosts] = useState<ScheduledPost[]>([]);
+  const [isFarcasterConnected, setIsFarcasterConnected] = useState(false);
+  const [farcasterUser, setFarcasterUser] = useState<any>(null);
 
   const miniApp = useMiniApp();
   const { toast } = useToast();
@@ -57,6 +59,17 @@ export default function ContentGenerator() {
       setScheduledPosts(JSON.parse(savedScheduled));
     }
   }, []);
+
+  // Check Farcaster connection status
+  useEffect(() => {
+    if (miniApp?.context?.user) {
+      setIsFarcasterConnected(true);
+      setFarcasterUser(miniApp.context.user);
+    } else {
+      setIsFarcasterConnected(false);
+      setFarcasterUser(null);
+    }
+  }, [miniApp?.context?.user]);
 
   const generateContent = async () => {
     if (!prompt.trim()) {
@@ -353,6 +366,43 @@ export default function ContentGenerator() {
           </div>
         </div>
 
+        {/* Farcaster Connection Status */}
+        <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700 mb-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <MessageCircle className="w-5 h-5 text-purple-400" />
+              <div>
+                <h3 className="text-lg font-semibold text-white">Farcaster Connection</h3>
+                <p className="text-sm text-slate-400">
+                  {isFarcasterConnected 
+                    ? `Connected as @${farcasterUser?.username || 'User'}`
+                    : 'Not connected to Farcaster'
+                  }
+                </p>
+              </div>
+            </div>
+            <Badge 
+              variant={isFarcasterConnected ? "default" : "secondary"}
+              className={isFarcasterConnected 
+                ? "bg-green-100 text-green-800" 
+                : "bg-slate-100 text-slate-800"
+              }
+            >
+              {isFarcasterConnected ? 'Connected' : 'Disconnected'}
+            </Badge>
+          </div>
+          {!isFarcasterConnected && (
+            <div className="mt-4 p-3 bg-slate-700 rounded-lg">
+              <p className="text-sm text-slate-300 mb-2">
+                To post content to Farcaster, you need to connect your wallet or use the Farcaster app.
+              </p>
+              <p className="text-xs text-slate-400">
+                Open this app in Farcaster or connect your wallet to enable posting.
+              </p>
+            </div>
+          )}
+        </div>
+
         {/* Generated Content */}
         {generatedContent && (
           <div className="rounded-xl border text-card-foreground shadow p-6 bg-slate-800 border-slate-700">
@@ -404,12 +454,18 @@ export default function ContentGenerator() {
               </Button>
               <Button
                 onClick={postToFarcaster}
-                disabled={isPosting || !isMiniAppAvailable}
+                disabled={isPosting || !isFarcasterConnected || !generatedContent.trim()}
                 variant="outline"
-                className="border-purple-600 text-purple-300 hover:bg-purple-700"
+                className={`${
+                  isFarcasterConnected 
+                    ? 'border-purple-600 text-purple-300 hover:bg-purple-700' 
+                    : 'border-slate-500 text-slate-500 cursor-not-allowed'
+                }`}
               >
                 <Send className="w-4 h-4 mr-2" />
-                {isPosting ? 'Posting...' : 'Post to Farcaster'}
+                {isPosting ? 'Posting...' : 
+                 !isFarcasterConnected ? 'Connect to Post' : 
+                 'Post to Farcaster'}
               </Button>
             </div>
           </div>
