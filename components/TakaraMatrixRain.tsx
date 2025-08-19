@@ -457,7 +457,7 @@ const TakaraMatrixRain: React.FC = () => {
             const x = (i * 40) % dimensions.width
             const y = (currentTime / 20 + i * 50) % (dimensions.height + 50)
             const char = matrixChars[Math.floor(Math.random() * matrixChars.length)]
-            ctx.fillStyle = `rgba(59, 130, 246, 0.6)`
+            ctx.fillStyle = `rgba(0, 0, 255, 0.6)`
             ctx.font = `${config.FONT_SIZE}px monospace`
             ctx.textAlign = 'center'
             ctx.fillText(char, x, y)
@@ -494,8 +494,8 @@ const TakaraMatrixRain: React.FC = () => {
               ctx.font = `${config.FONT_SIZE}px monospace`
               
               // Use blue color for image-formed symbols
-              const blueIntensity = Math.random() > 0.7 ? 246 : Math.random() > 0.4 ? 200 : 150
-              ctx.fillStyle = `rgba(59, 130, ${blueIntensity}, ${(symbol.alpha / 255) * 0.9})`
+              const blueIntensity = Math.random() > 0.7 ? 255 : Math.random() > 0.4 ? 200 : 150
+              ctx.fillStyle = `rgba(0, 0, ${blueIntensity}, ${(symbol.alpha / 255) * 0.9})`
               ctx.textAlign = 'center'
               
               // Use matrix characters
@@ -506,8 +506,8 @@ const TakaraMatrixRain: React.FC = () => {
             // Draw falling Matrix rain characters
             if (Math.random() > 0.6) {
               const fallChar = matrixChars[Math.floor(Math.random() * matrixChars.length)]
-              const blueIntensity = Math.random() > 0.6 ? 246 : 200
-              ctx.fillStyle = `rgba(59, 130, ${blueIntensity}, 0.6)`
+              const blueIntensity = Math.random() > 0.6 ? 255 : 200
+              ctx.fillStyle = `rgba(0, 0, ${blueIntensity}, 0.6)`
               ctx.font = `${config.FONT_SIZE}px monospace`
               ctx.textAlign = 'center'
               ctx.fillText(fallChar, column.x + config.FONT_SIZE/2, column.y + config.FONT_SIZE)
