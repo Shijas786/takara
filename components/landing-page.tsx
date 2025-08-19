@@ -485,45 +485,29 @@ think: you're posting this while doing something else, maybe walking, eating, or
       <TakaraMatrixRain />
       
       {/* Main Content */}
-      <div className="relative z-20 p-4">
-        {/* Centered Header */}
-        <div className="text-center space-y-2 mb-6">
-          <div className="flex items-center justify-center gap-3">
-            <div className="w-10 h-10 bg-white/10 border border-white/30 rounded flex items-center justify-center">
-              <span className="text-xl font-bold text-white">T</span>
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold text-white">TAKARA AI STUDIO</h1>
-              <p className="text-gray-300 text-sm">Content Generation Terminal</p>
-            </div>
-          </div>
-          <Badge className="bg-white/10 text-white border-white/30 font-mono text-xs">
-            [SYSTEM ONLINE] AI Engine Active
-          </Badge>
-        </div>
-
+      <div className="relative z-20 p-3 sm:p-4">
         {/* Large Terminal Interface */}
-        <div className="max-w-5xl mx-auto bg-gray-800 border border-gray-600 rounded-lg p-4 space-y-3 font-mono">
+        <div className="max-w-5xl mx-auto bg-gray-800/50 border border-gray-600 rounded-lg p-4 sm:p-6 space-y-4 sm:space-y-3 font-mono">
           {/* Page Heading */}
-          <div className="text-center space-y-2 mb-6">
-            <h1 className="text-3xl font-bold text-white">Your AI Content in Seconds</h1>
-            <p className="text-white text-lg">One-click generation for social media content</p>
+          <div className="text-center space-y-3 mb-8">
+            <h1 className="text-2xl sm:text-3xl font-bold text-white">Your AI Content in Seconds</h1>
+            <p className="text-base sm:text-lg text-white">One-click generation for social media content</p>
           </div>
           
           {/* Content Length Section */}
-          <div className="space-y-1">
+          <div className="space-y-3">
             <div className={`text-white text-sm`}>
               <span className="text-white">$</span> content_length --help
             </div>
             <div className={`text-white text-sm ml-4`}>
               Available options: [very-short|short|medium|long]
             </div>
-            <div className="grid grid-cols-4 gap-1 ml-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 ml-4">
               {["very-short", "short", "medium", "long"].map((length) => (
                 <button
                   key={length}
                   onClick={() => setContentLength(length as any)}
-                  className={`px-2 py-1 rounded font-mono text-sm border ${
+                  className={`px-3 py-2 rounded font-mono text-sm border transition-colors ${
                     contentLength === length
                       ? `bg-white border-white text-black font-bold`
                       : `bg-gray-700 border-gray-500 text-white hover:bg-white/20 hover:text-black`
@@ -539,19 +523,19 @@ think: you're posting this while doing something else, maybe walking, eating, or
           </div>
 
           {/* Content Style Section */}
-          <div className="space-y-1">
+          <div className="space-y-3">
             <div className={`text-white text-sm`}>
               <span className="text-white">$</span> content_style --select
             </div>
             <div className={`text-white text-sm ml-4`}>
               Style presets: [based|reply guy|influencer|casual]
             </div>
-            <div className="grid grid-cols-4 gap-1 ml-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 ml-4">
               {["based", "reply", "influencer", "casual"].map((style) => (
                 <button
                   key={style}
                   onClick={() => setContentStyle(style)}
-                  className={`px-2 py-1 rounded font-mono text-sm border ${
+                  className={`px-3 py-2 rounded font-mono text-sm border transition-colors ${
                     contentStyle === style
                       ? `bg-white border-white text-black font-bold`
                       : `bg-gray-700 border-gray-500 text-white hover:bg-white/20 hover:text-black`
@@ -567,7 +551,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
           </div>
 
           {/* Prompt Input Section */}
-          <div className="space-y-1">
+          <div className="space-y-3">
             <div className={`text-white text-sm`}>
               <span className="text-white">$</span> prompt --input
             </div>
@@ -579,8 +563,8 @@ think: you're posting this while doing something else, maybe walking, eating, or
                 placeholder={contentStyle === "reply" ? "Paste the post you're replying to..." : "Enter your content idea..."}
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                className={`bg-gray-700 border-gray-500 text-white placeholder:text-gray-400 focus:border-white focus:outline-none text-sm rounded resize-none`}
-                rows={2}
+                className={`w-full bg-gray-700 border-gray-500 text-white placeholder:text-gray-400 focus:border-white focus:outline-none text-sm rounded resize-none transition-colors`}
+                rows={3}
                 style={{ resize: "none" }}
               />
               <div className="absolute right-2 top-2 text-white text-xs animate-pulse">█</div>
@@ -588,14 +572,14 @@ think: you're posting this while doing something else, maybe walking, eating, or
           </div>
 
           {/* Generate Command */}
-          <div className="space-y-1">
+          <div className="space-y-3">
             <div className={`text-white text-sm`}>
               <span className="text-white">$</span> generate --execute
             </div>
             <button
               onClick={generateContent}
               disabled={isGenerating || !prompt.trim()}
-              className={`ml-4 px-4 py-2 rounded font-mono text-sm border ${
+              className={`ml-4 px-6 py-3 rounded font-mono text-sm border transition-colors ${
                 isGenerating || !prompt.trim()
                   ? "bg-gray-700 border-gray-500 text-gray-500 cursor-not-allowed"
                   : `bg-white border-white text-black font-bold hover:bg-gray-200`
@@ -607,7 +591,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
 
           {/* Generated Content */}
           {generatedContent && (
-            <div className={`space-y-2 pt-3 border-t border-gray-500`}>
+            <div className={`space-y-4 pt-4 border-t border-gray-500`}>
               <div className={`text-white text-sm`}>
                 <span className="text-white">$</span> output --display
               </div>
@@ -625,24 +609,24 @@ think: you're posting this while doing something else, maybe walking, eating, or
                   </pre>
                 </div>
               </div>
-              <div className="flex flex-col sm:flex-row gap-2 ml-4">
+              <div className="flex flex-col sm:flex-row gap-3 ml-4">
                 <button
                   onClick={postToFarcaster}
                   disabled={isPosting}
-                  className="flex-1 px-3 py-2 rounded font-mono text-sm border border-white text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-4 py-3 rounded font-mono text-sm border border-white text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   {isPosting ? "[POSTING...]" : "[POST TO FARCASTER]"}
                 </button>
-                <div className="flex gap-1">
+                <div className="flex gap-2">
                   <button
                     onClick={copyContent}
-                    className="flex-1 sm:flex-none px-3 py-2 rounded font-mono text-sm border border-white/50 text-white hover:bg-white/20"
+                    className="flex-1 sm:flex-none px-4 py-3 rounded font-mono text-sm border border-white/50 text-white hover:bg-white/20 transition-colors"
                   >
                     [COPY]
                   </button>
                   <button
                     onClick={() => setGeneratedContent("")}
-                    className="flex-1 sm:flex-none px-3 py-2 rounded font-mono text-sm border border-white/50 text-white hover:bg-white/20"
+                    className="flex-1 sm:flex-none px-4 py-3 rounded font-mono text-sm border border-white/50 text-white hover:bg-white/20 transition-colors"
                   >
                     [CLEAR]
                   </button>
