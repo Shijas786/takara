@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import TakaraMatrixRain from "./TakaraMatrixRain"
-import MiniKitWrapper from "./MiniKitWrapper"
 
 export default function LandingPage() {
   const [isAppStarted, setIsAppStarted] = useState(false)
@@ -432,31 +431,10 @@ think: you're posting this while doing something else, maybe walking, eating, or
               <div className="text-white ml-4">$ Type <span className="text-[#0000FF]">/based</span> to launch the application</div>
               <div className="text-white ml-4">$ Type /theme to change terminal appearance</div>
               
-              {/* MiniKit Status Display */}
-              <MiniKitWrapper>
-                {(context, isFrameReady) => (
-                  <>
-                    <div className="text-white ml-4 mt-2 text-xs">
-                      $ MiniKit Status: {isFrameReady ? '✅ Frame Ready' : '⏳ Initializing...'}
-                    </div>
-                    {context?.user?.fid && (
-                      <div className="text-white ml-4 text-xs">
-                        $ User FID: {context.user.fid}
-                      </div>
-                    )}
-                    {context?.client?.added && (
-                      <div className="text-white ml-4 text-xs">
-                        $ App Saved: ✅ Yes
-                      </div>
-                    )}
-                    {context?.location && (
-                      <div className="text-white ml-4 text-xs">
-                        $ Launch Location: {String(context.location)}
-                      </div>
-                    )}
-                  </>
-                )}
-              </MiniKitWrapper>
+              {/* MiniKit Status Display - Temporarily Disabled */}
+              <div className="text-white ml-4 mt-2 text-xs">
+                $ MiniKit Status: ⏳ Coming Soon
+              </div>
             </div>
             
             {terminalOutput.map((line, index) => (
