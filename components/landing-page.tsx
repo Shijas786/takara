@@ -62,11 +62,11 @@ export default function LandingPage() {
       bg: "bg-amber-500/20",
     },
     blue: {
-      primary: "text-blue-400",
-      secondary: "text-blue-500",
-      accent: "text-blue-300",
-      border: "border-blue-500/50",
-      bg: "bg-blue-500/20",
+      primary: "text-[#0000FF]",
+      secondary: "text-[#0000FF]",
+      accent: "text-[#0000FF]/80",
+      border: "border-[#0000FF]/50",
+      bg: "bg-[#0000FF]/20",
     },
   }
 
@@ -426,7 +426,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
             <div className="text-white font-mono text-xs sm:text-sm leading-relaxed mb-4">
               <div className="text-white mb-2">$ Welcome to Takara CLI v1.0.0</div>
               <div className="text-white ml-4">$ Type /help for available commands</div>
-              <div className="text-white ml-4">$ Type <span className="text-blue-500">/based</span> to launch the application</div>
+              <div className="text-white ml-4">$ Type <span className="text-[#0000FF]">/based</span> to launch the application</div>
               <div className="text-white ml-4">$ Type /theme to change terminal appearance</div>
             </div>
             
@@ -459,7 +459,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
                         <span key={index}>
                           {part}
                           {index < array.length - 1 && (
-                            <span className="text-blue-500">based</span>
+                            <span className="text-[#0000FF]">based</span>
                           )}
                         </span>
                       ))}
@@ -486,7 +486,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
                   }}
                   className={`px-2 py-1 text-xs border-gray-600 border rounded ${
                     cmd === "/based" 
-                      ? "text-blue-500 hover:bg-blue-500/20" 
+                      ? "text-[#0000FF] hover:bg-[#0000FF]/20" 
                       : "text-white hover:bg-white/20"
                   }`}
                 >
