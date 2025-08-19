@@ -95,10 +95,23 @@ const TakaraMatrixRain: React.FC = () => {
 
     fetchImages()
 
-    // Auto-refresh images every 30 seconds to detect new uploads
-    const refreshInterval = setInterval(fetchImages, 30000)
+    // Auto-refresh images every 10 seconds to detect new uploads quickly
+    const refreshInterval = setInterval(fetchImages, 10000)
+    
+    // Also refresh when page becomes visible (user returns to tab)
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        console.log('MatrixRain: Page became visible, refreshing images...')
+        fetchImages()
+      }
+    }
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange)
 
-    return () => clearInterval(refreshInterval)
+    return () => {
+      clearInterval(refreshInterval)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
   }, [isMounted])
 
   // Manual image change function
