@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import { useMiniKit } from '@coinbase/onchainkit/minikit'
 import LandingPage from "@/components/landing-page"
 
 // Call Mini App ready when applicable
@@ -16,10 +17,17 @@ async function callMiniAppReadyIfAvailable() {
 }
 
 export default function Home() {
+  const { setFrameReady, isFrameReady } = useMiniKit();
+
   useEffect(() => {
+    // Initialize MiniKit frame when ready (following Base docs)
+    if (!isFrameReady) {
+      setFrameReady();
+    }
+    
     // Call existing Mini App ready function
     callMiniAppReadyIfAvailable()
-  }, [])
+  }, [setFrameReady, isFrameReady])
 
   return <LandingPage />
 }

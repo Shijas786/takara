@@ -7,7 +7,18 @@ interface MiniKitWrapperProps {
   children: (context: any, isFrameReady: boolean) => ReactNode;
 }
 
+// Type for MiniKit context based on Base docs
+interface MiniKitContext {
+  user?: {
+    fid?: string;
+  };
+  client?: {
+    added?: boolean;
+  };
+  location?: string;
+}
+
 export default function MiniKitWrapper({ children }: MiniKitWrapperProps) {
   const { context, isFrameReady } = useMiniKit();
-  return <>{children(context, isFrameReady)}</>;
+  return <>{children(context as MiniKitContext, isFrameReady)}</>;
 } 
