@@ -10,8 +10,29 @@ import TakaraMatrixRain from "./TakaraMatrixRain"
 import { useMiniKit } from '@coinbase/onchainkit/minikit'
 
 export default function LandingPage() {
-  // MiniKit integration for Base Mini App
-  const { context, isFrameReady, setFrameReady } = useMiniKit();
+  // MiniKit integration for Base Mini App - Client-side only
+  const [miniKitState, setMiniKitState] = useState<{
+    context: any;
+    isFrameReady: boolean;
+    setFrameReady: () => void;
+  }>({
+    context: null,
+    isFrameReady: false,
+    setFrameReady: () => {}
+  });
+
+  useEffect(() => {
+    // Only initialize MiniKit on the client side
+    try {
+      const { useMiniKit } = require('@coinbase/onchainkit/minikit');
+      const { context, isFrameReady, setFrameReady } = useMiniKit();
+      setMiniKitState({ context, isFrameReady, setFrameReady });
+    } catch (error) {
+      console.log('MiniKit not available during SSR');
+    }
+  }, []);
+
+  const { context, isFrameReady, setFrameReady } = miniKitState;
   
   const [isAppStarted, setIsAppStarted] = useState(false)
   const [terminalInput, setTerminalInput] = useState("")
