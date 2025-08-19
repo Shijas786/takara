@@ -586,9 +586,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
             <div className={`text-white text-sm`}>
               <span className="text-white">$</span> prompt
             </div>
-            <div className={`text-white text-sm ml-4`}>
-              {contentStyle === "reply" ? "Paste the post you want to reply to:" : "Enter your content idea below:"}
-            </div>
+
             <div className="ml-4 relative">
               <Textarea
                 placeholder={contentStyle === "reply" ? "Paste the post you're replying to..." : "Enter your content idea..."}
