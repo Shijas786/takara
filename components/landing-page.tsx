@@ -508,12 +508,28 @@ think: you're posting this while doing something else, maybe walking, eating, or
       {/* Main Content */}
       <div className="relative z-20 p-3 sm:p-4">
         {/* Large Terminal Interface */}
-        <div className="max-w-5xl mx-auto bg-gray-800/20 border border-gray-600/50 rounded-lg p-4 sm:p-6 space-y-4 sm:space-y-3 font-mono">
-          {/* Page Heading */}
-          <div className="text-center space-y-3 mb-8">
-            <h1 className="text-2xl sm:text-3xl font-bold text-white">Your AI Content in Seconds</h1>
-            <p className="text-base sm:text-lg text-white">One-click generation for social media content</p>
+        <div className="max-w-5xl mx-auto bg-gray-800/20 border border-gray-600/50 rounded-lg overflow-hidden font-mono">
+          {/* Terminal Header with Window Controls */}
+          <div className="bg-gray-900/50 border-b border-gray-600/50 px-4 py-3 flex items-center justify-between">
+            {/* Window Control Buttons */}
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 rounded-full bg-red-500"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+            {/* Terminal Title */}
+            <div className="text-green-400 font-mono text-sm">base-mini-cli</div>
+            {/* Spacer for centering */}
+            <div className="w-12"></div>
           </div>
+          
+          {/* Terminal Content */}
+          <div className="p-4 sm:p-6 space-y-4 sm:space-y-3">
+            {/* Page Heading */}
+            <div className="text-center space-y-3 mb-8">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">Your AI Content in Seconds</h1>
+              <p className="text-base sm:text-lg text-white">One-click generation for social media content</p>
+            </div>
           
           {/* Content Length Section */}
           <div className="space-y-3">
@@ -649,6 +665,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
               </div>
             </div>
           )}
+          </div>
         </div>
       </div>
     </div>
