@@ -426,7 +426,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
             <div className="text-white font-mono text-xs sm:text-sm leading-relaxed mb-4">
               <div className="text-white mb-2">$ Welcome to Takara CLI v1.0.0</div>
               <div className="text-white ml-4">$ Type /help for available commands</div>
-              <div className="text-blue-400 ml-4">$ Type /based to launch the application</div>
+              <div className="text-white ml-4">$ Type <span className="text-blue-500">/based</span> to launch the application</div>
               <div className="text-white ml-4">$ Type /theme to change terminal appearance</div>
             </div>
             
@@ -437,19 +437,36 @@ think: you're posting this while doing something else, maybe walking, eating, or
             ))}
             <div className="flex items-center text-white font-mono text-xs sm:text-sm mt-2">
               <span className="mr-2 text-white">$</span>
-              <input
-                type="text"
-                value={terminalInput}
-                onChange={(e) => setTerminalInput(e.target.value)}
-                onKeyDown={handleTerminalCommand}
-                className="bg-transparent border-none outline-none flex-1 text-white text-xs sm:text-sm"
-                placeholder="Type command..."
-                autoFocus
-                autoComplete="off"
-                autoCapitalize="off"
-                autoCorrect="off"
-                spellCheck="false"
-              />
+              <div className="flex-1 relative">
+                <input
+                  type="text"
+                  value={terminalInput}
+                  onChange={(e) => setTerminalInput(e.target.value)}
+                  onKeyDown={handleTerminalCommand}
+                  className="bg-transparent border-none outline-none w-full text-white text-xs sm:text-sm"
+                  placeholder="Type command..."
+                  autoFocus
+                  autoComplete="off"
+                  autoCapitalize="off"
+                  autoCorrect="off"
+                  spellCheck="false"
+                />
+                {/* Highlight overlay for "based" */}
+                {terminalInput.includes("based") && (
+                  <div className="absolute inset-0 pointer-events-none flex items-center">
+                    <span className="text-white text-xs sm:text-sm">
+                      {terminalInput.split("based").map((part, index, array) => (
+                        <span key={index}>
+                          {part}
+                          {index < array.length - 1 && (
+                            <span className="text-blue-500">based</span>
+                          )}
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                )}
+              </div>
               <span className={showCursor ? "opacity-100" : "opacity-0"}>_</span>
             </div>
           </div>
@@ -469,7 +486,7 @@ think: you're posting this while doing something else, maybe walking, eating, or
                   }}
                   className={`px-2 py-1 text-xs border-gray-600 border rounded ${
                     cmd === "/based" 
-                      ? "text-blue-400 hover:bg-blue-400/20" 
+                      ? "text-blue-500 hover:bg-blue-500/20" 
                       : "text-white hover:bg-white/20"
                   }`}
                 >
