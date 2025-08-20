@@ -11,7 +11,7 @@ export async function GET() {
       version: "vNext",
       name: "Takara Content Evolution",
       description: "AI-powered content creation and Farcaster posting with Matrix Rain aesthetics",
-      icon: "https://takara-content-app.vercel.app/takara-logo.png",
+      iconUrl: "https://takara-content-app.vercel.app/takara-logo.png",
       url: "https://takara-content-app.vercel.app",
       category: "productivity",
       tags: ["ai", "content", "farcaster", "base", "onchain"],
