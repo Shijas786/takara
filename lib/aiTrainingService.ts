@@ -177,6 +177,56 @@ export class AITrainingService {
         content: "base frens are built different. real community vibes",
         style: 'based',
         influencer: 'base_builder'
+      },
+      {
+        content: "bm season loading. builders know what's up",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "BUILD or fade away. base ecosystem is building",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "ship fast, build faster. onchain builders only",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "builders are the real MVPs. building something that matters",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "base frens are building. cooking with build energy",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "ship it and build more. onchain or build nothing",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "base season is building. building the future, one build at a time",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "builders know the struggle. build season incoming",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "rugs make builders stronger. vibes check: building",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "gm to the builders. building something people actually want",
+        style: 'based',
+        influencer: 'base_builder'
       }
     ];
 
@@ -714,6 +764,7 @@ ${style === 'based' ? `
 SPECIAL BASED STYLE INSTRUCTIONS:
 - Use authentic BASED style: casual, minimal, humanized
 - Incorporate CT slang naturally: "frens", "ship", "onchain", "cook", "pump", "rugs", "vibes"
+- Use authentic Base influencer terms: "bm", "Bm", "builders", "build", "BUILD"
 - Sometimes use lowercase, sometimes add emojis like 🔵🛠️
 - Avoid polished corporate tone - be raw, builder vibe
 - Show builder energy, optimism, and community spirit
@@ -764,6 +815,7 @@ INDIAN ENGLISH STYLE REQUIREMENTS:
 BASED STYLE REQUIREMENTS:
 - Use authentic BASED style: casual, minimal, humanized
 - Incorporate CT slang naturally: "frens", "ship", "onchain", "cook", "pump", "rugs", "vibes"
+- Use authentic Base influencer terms: "bm", "Bm", "builders", "build", "BUILD"
 - Sometimes use lowercase, sometimes add emojis like 🔵🛠️
 - Avoid polished corporate tone - be raw, builder vibe
 - Show builder energy, optimism, and community spirit
