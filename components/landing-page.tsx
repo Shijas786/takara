@@ -329,7 +329,7 @@ ${dynamicLengthInstruction}
 
 be SUPER messy and imperfect - use typos everywhere, forget punctuation, maybe even misspell words on purpose. sound like you're typing while running, drunk, or just dont care about grammar.
 
-use "lol" "omg" "ngl" "fr" "tbh" randomly. maybe lowercase everything or ALL CAPS sometimes. add random emojis in weird places. be chaotic and real human messy.
+use "lol" "ngl" "fr" "tbh" randomly. maybe lowercase everything or ALL CAPS sometimes. add random emojis in weird places. be chaotic and real human messy.
 
 think: you're texting while doing something else, maybe eating, walking, or just being lazy. be authentically imperfect.
 
@@ -358,7 +358,7 @@ ${dynamicLengthInstruction}
 
 yo, write this in ${contentStyle} style but be SUPER messy and chaotic. use typos everywhere, forget punctuation, maybe misspell words on purpose. sound like you're posting while distracted, eating, or just being lazy.
 
-be IMPERFECT on purpose - use "lol" "omg" "ngl" "fr" "tbh" randomly. maybe lowercase everything or ALL CAPS randomly. add emojis in weird places. be authentically human messy.
+be IMPERFECT on purpose - use "lol" "ngl" "fr" "tbh" randomly. maybe lowercase everything or ALL CAPS randomly. add emojis in weird places. be authentically human messy.
 
 think: you're posting this while doing something else, maybe walking, eating, or just dont care about being perfect. be real human chaos.
 

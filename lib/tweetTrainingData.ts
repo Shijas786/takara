@@ -70,13 +70,13 @@ export function getTrainingData() {
     // === FARCASTER OPTIMIZED CONTENT ===
     "Just posted my first cast on Farcaster and the community is incredible! The engagement here feels so much more genuine than other platforms. Web3 social is the future 🚀",
     "Farcaster tip: Your first 10 casts are crucial for building your reputation. Focus on quality over quantity, and engage with other creators genuinely. The algorithm rewards authenticity 📈",
-    "The beauty of Farcaster is that every post can become an NFT. Your thoughts, memes, and insights have real value. This is what the creator economy should look like 💎",
+    "The beauty of Farcaster is that every post can become an NFT. Your thoughts, memes, and insights have real value. The creator economy should look like this 💎",
     "Pro tip for new Farcaster users: Use channels strategically. Each channel has its own vibe and audience. Find your niche and own it! 🎯",
     "Farcaster vs traditional social media: On Farcaster, you own your audience. On other platforms, you're just renting space. The difference is night and day 🌙",
     
     // === WEB3 CREATOR ECONOMY ===
     "Building in public on Base has taught me one thing: the community is everything. Your users become your biggest advocates when you genuinely care about solving their problems 🛠️",
-    "Creator economy 2.0: Instead of begging platforms for reach, creators are building their own economies. Your content = your token = your value. This is revolutionary 🔄",
+    "Creator economy 2.0: Instead of begging platforms for reach, creators are building their own economies. Your content = your token = your value. Revolutionary stuff 🔄",
     "The future of content creation: AI helps you ideate, you add the human touch, and Web3 monetizes it. We're living in the golden age of creativity ✨",
     "Stop building for algorithms. Start building for communities. When you focus on real value, the engagement follows naturally 🎯",
     "Web3 creators: Your content is your portfolio. Every post, every interaction, every community you build adds to your onchain reputation 📊",
@@ -84,7 +84,7 @@ export function getTrainingData() {
     // === BASE ECOSYSTEM CONTENT ===
     "Base is becoming the home for creator-first applications. The combination of low fees, fast transactions, and developer-friendly tools is unmatched 🏠",
     "Base ecosystem update: Zora for NFTs, Farcaster for social, Base App for discovery. The trifecta is complete and it's beautiful to watch 🎭",
-    "Mini apps on Base are the future of mobile. No app store approval, no 30% fees, just pure innovation. This is how we break the duopoly 📱",
+    "Mini apps on Base are the future of mobile. No app store approval, no 30% fees, just pure innovation. Breaking the duopoly 📱",
     "Base season is real. The amount of talent moving here is insane. If you're not building on Base, you're missing the biggest opportunity in crypto 🚀",
     "The Base community is what makes this special. Everyone from developers to creators to users is aligned on one goal: bringing the world onchain 🌍",
     
@@ -98,7 +98,7 @@ export function getTrainingData() {
     // === INDIAN CRYPTO COMMUNITY ===
     "Indian crypto scene is exploding! From UPI integration to local exchanges, we're seeing real adoption. The regulatory clarity is coming, and when it does, watch out! 🇮🇳🚀",
     "Indian creators on Base: You have a unique advantage. Your cultural context, language skills, and community understanding can create content that resonates globally 🌏",
-    "The Indian crypto community is incredibly supportive. Whether you're building, creating, or just learning, there's always someone willing to help. This is how we grow together 🤝",
+    "The Indian crypto community is incredibly supportive. Whether you're building, creating, or just learning, there's always someone willing to help. Growing together 🤝",
     "Indian English crypto content is underrated. The mix of local slang with global crypto terms creates a unique voice that's both authentic and engaging 🎭",
     "To my Indian crypto friends: Don't let language barriers stop you from building global products. Your perspective is valuable, and the world needs to hear it 🌍",
     
@@ -111,10 +111,10 @@ export function getTrainingData() {
     
     // === TECHNICAL INSIGHTS ===
     "EIP-5792 is a game changer for mini apps. The ability to seamlessly integrate Web3 functionality into social experiences will unlock use cases we haven't even imagined yet 🔓",
-    "Base's account abstraction is revolutionary. Users don't need to understand private keys or gas fees - they just use the app. This is how we onboard the next billion users 🌐",
+    "Base's account abstraction is revolutionary. Users don't need to understand private keys or gas fees - they just use the app. Onboarding the next billion users 🌐",
     "The beauty of Base's architecture: It's Ethereum-compatible but optimized for social applications. You get security with scalability, and that's a powerful combination ⚡",
-    "Mini apps on Base are like having a Swiss Army knife in your pocket. Each app adds new functionality without cluttering your phone. This is the future of mobile computing 📱",
-    "Base's developer experience is unmatched. From documentation to tooling to community support, everything is designed to help builders succeed. This is how you build an ecosystem 🛠️",
+    "Mini apps on Base are like having a Swiss Army knife in your pocket. Each app adds new functionality without cluttering your phone. The future of mobile computing 📱",
+    "Base's developer experience is unmatched. From documentation to tooling to community support, everything is designed to help builders succeed. Building an ecosystem 🛠️",
     
     // === COMMUNITY BUILDING ===
     "Building a community isn't about numbers. It's about creating a space where people feel seen, heard, and valued. When you focus on that, growth happens naturally 🌱",
@@ -134,7 +134,7 @@ export function getTrainingData() {
     "The future of social media is decentralized, user-owned, and community-driven. We're not just building apps, we're building the infrastructure for human connection 🌐",
     "Web3 social will be bigger than Web2 social because it aligns incentives. Users own their data, creators own their audience, and platforms serve both fairly ⚖️",
     "The creator economy 2.0 is about ownership. Not just owning your content, but owning the platform, the community, and the value you create 🏠",
-    "We're moving from a world where platforms extract value from creators to one where creators extract value from platforms. This is the great rebalancing ⚖️",
+    "We're moving from a world where platforms extract value from creators to one where creators extract value from platforms. The great rebalancing ⚖️",
     "The future isn't about replacing human creativity with AI. It's about using AI to amplify human creativity, making us more productive and more human 🤖❤️"
   ];
 
