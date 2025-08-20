@@ -12,7 +12,7 @@ export async function GET() {
       description: "AI-powered content creation and Farcaster posting with Matrix Rain aesthetics",
       icon: "https://takara-content-app.vercel.app/takara-logo.png",
       url: "https://takara-content-app.vercel.app",
-      noindex: false, // Set to true while testing
+      noindex: false, // Production ready
       category: "productivity",
       tags: ["ai", "content", "farcaster", "base", "onchain"],
       permissions: ["farcaster"],
