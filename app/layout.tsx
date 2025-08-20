@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     "fc:frame": "vNext",
     "fc:frame:image": "/takara-logo.png",
     "fc:frame:button:1": "Launch App",
-    "fc:frame:post_url": "https://yourdomain.com", // Update with your actual domain
+            "fc:frame:post_url": "https://takara-content-app.vercel.app",
   },
 }
 
@@ -52,7 +52,7 @@ export default function RootLayout({
         <meta property="fc:frame" content="vNext" />
         <meta property="fc:frame:image" content="/takara-logo.png" />
         <meta property="fc:frame:button:1" content="Launch App" />
-        <meta property="fc:frame:post_url" content="https://yourdomain.com" />
+        <meta property="fc:frame:post_url" content="https://takara-content-app.vercel.app" />
       </head>
       <body className="font-sans">{children}</body>
     </html>
