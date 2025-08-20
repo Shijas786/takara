@@ -9,7 +9,7 @@
     "splashImageUrl": "https://takara-content-app.vercel.app/icon.png",
     "splashBackgroundColor": "#3A7BFF",
     "webhookUrl": "https://takara-content-app.vercel.app/api/webhook",
-    "subtitle": "Everyone is a creator — Takara makes it effortless",
+    "subtitle": "Everyone is a creator",
     "description": "The AI that speaks Web3. Takara turns crypto slang, memes, and alpha into scroll-stopping posts",
     "primaryCategory": "social",
     "screenshotUrls": [
