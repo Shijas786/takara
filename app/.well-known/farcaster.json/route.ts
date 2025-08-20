@@ -9,8 +9,8 @@ export async function GET() {
     },
     miniapp: {
       version: "1",
-      name: "Takara Content Evolution",
-      description: "AI-powered content creation and Farcaster posting with Matrix Rain aesthetics",
+      name: "Takara – Web3's AI content engine",
+      description: "Turn raw ideas into viral-ready Web3 content. Takara gives creators AI-crafted posts that resonate.",
       iconUrl: "https://takara-content-app.vercel.app/takara-logo.png",
       homeUrl: "https://takara-content-app.vercel.app",
       imageUrl: "https://takara-content-app.vercel.app/takara-logo.png",
@@ -18,7 +18,7 @@ export async function GET() {
       splashImageUrl: "https://takara-content-app.vercel.app/takara-logo.png",
       splashBackgroundColor: "#000000",
       category: "productivity",
-      tags: ["ai", "content", "farcaster", "base", "onchain"],
+      tags: ["ai", "content", "farcaster", "base", "onchain", "web3", "creator"],
       requiredCapabilities: [
         "actions.composeCast",
         "wallet.getEthereumProvider"

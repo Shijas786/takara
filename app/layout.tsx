@@ -16,19 +16,19 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "Takara - AI Content Creation on Base",
-  description: "AI-powered content creation and Farcaster posting with Matrix Rain aesthetics. Built on Base with MiniKit integration.",
+  title: "Takara – Web3's AI content engine",
+  description: "Turn raw ideas into viral-ready Web3 content. Takara gives creators AI-crafted posts that resonate.",
   generator: "v0.app",
   openGraph: {
-    title: "Takara - AI Content Creation on Base",
-    description: "AI-powered content creation and Farcaster posting with Matrix Rain aesthetics. Built on Base with MiniKit integration.",
+    title: "Takara – Web3's AI content engine",
+    description: "Turn raw ideas into viral-ready Web3 content. Takara gives creators AI-crafted posts that resonate.",
     type: "website",
     images: [
       {
         url: "/takara-logo.png",
         width: 1200,
         height: 630,
-        alt: "Takara Content Evolution",
+        alt: "Takara – Web3's AI content engine",
       },
     ],
   },
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
         title: "🚀 Launch",
         action: {
           type: "launch_miniapp",
-          name: "Takara Content Evolution",
+          name: "Takara – Web3's AI content engine",
           url: "https://takara-content-app.vercel.app",
           splashImageUrl: "https://takara-content-app.vercel.app/takara-logo.png",
           splashBackgroundColor: "#000000"
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
         title: "🚀 Launch",
         action: {
           type: "launch_frame",
-          name: "Takara Content Evolution",
+          name: "Takara – Web3's AI content engine",
           url: "https://takara-content-app.vercel.app",
           splashImageUrl: "https://takara-content-app.vercel.app/takara-logo.png",
           splashBackgroundColor: "#000000"
