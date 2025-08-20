@@ -33,6 +33,13 @@ export class AITrainingService {
 
   private async initializeTrainingExamples(): Promise<void> {
     try {
+      // Initialize BASED style training examples (priority)
+      const basedExamples = await this.getTrainingExamples('based', 1);
+      if (basedExamples.length === 0) {
+        console.log('🚀 Initializing enhanced BASED style training examples...');
+        await this.addBasedStyleTrainingExamples();
+      }
+
       // Initialize Indian English training examples
       const indianExamples = await this.getTrainingExamples('indian', 1);
       if (indianExamples.length === 0) {
@@ -59,12 +66,12 @@ export class AITrainingService {
       // Build context-aware prompt for reply generation
       const replyPrompt = this.buildReplyGuyPrompt(originalTweet, style);
       
-      // Generate reply using OpenAI with Indian English support
+      // Generate reply using OpenAI with style-specific support
       const reply = await this.openaiService.generateShitpost({
         influencerId: 'reply_guy',
         prompt: replyPrompt,
         length: 'short',
-        style: style === 'indian' ? 'indian' : 'reply',
+        style: style === 'indian' ? 'indian' : style === 'based' ? 'based' : 'reply',
       }, {
         id: 'reply_guy',
         name: 'Reply Guy',
@@ -113,6 +120,78 @@ export class AITrainingService {
       console.log(`✅ Training example stored: ${style} style, score: ${viralScore.totalScore}, performance: ${performance}`);
     } catch (error) {
       console.error('Error storing training example:', error);
+    }
+  }
+
+  /**
+   * Add enhanced BASED style training examples for authentic Base chain builder vibe
+   */
+  async addBasedStyleTrainingExamples(): Promise<void> {
+    const basedExamples = [
+      {
+        content: "gm frens 🔵 building something special on base today",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "ship fast, iterate faster. that's the base way",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "onchain or fade away. building the future rn",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "cooking with gas today. base ecosystem is thriving",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "devs know what's up. building something that matters",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "base season loading... 🚀 vibes are immaculate",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "building in public hits different. community is everything",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "ship or get shipped. that's the reality of building",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "rugs happen, we keep building. that's the spirit",
+        style: 'based',
+        influencer: 'base_builder'
+      },
+      {
+        content: "base frens are built different. real community vibes",
+        style: 'based',
+        influencer: 'base_builder'
+      }
+    ];
+
+    try {
+      for (const example of basedExamples) {
+        await this.storeTrainingExample(
+          example.content,
+          example.style,
+          example.influencer,
+          90 // High engagement score for BASED content
+        );
+      }
+      console.log('✅ Added enhanced BASED style training examples');
+    } catch (error) {
+      console.error('Error adding BASED style training examples:', error);
     }
   }
 
@@ -603,7 +682,7 @@ Generate the post:`;
   private buildReplyGuyPrompt(originalTweet: string, style: 'casual' | 'based' | 'influencer' | 'indian'): string {
     const styleInstructions = {
       casual: 'Respond like a casual crypto enthusiast - use emojis, casual language, and show genuine interest',
-      based: 'Respond like a Base chain supporter - mention Base ecosystem, show enthusiasm for L2 scaling',
+      based: 'Respond like an authentic Base chain builder - use BASED style: casual, minimal, humanized. Incorporate CT slang like "frens", "ship", "onchain", "cook", "pump", "rugs", "vibes". Sometimes use lowercase, sometimes add emojis like 🔵🛠️. Avoid polished corporate tone - be raw, builder vibe. Show builder energy and optimism.',
       influencer: 'Respond like a crypto influencer - add value, share insights, and engage thoughtfully',
       indian: 'Respond like an Indian crypto enthusiast - use natural Indian English expressions like "yaar", "bro", "dude", "man", "bhai" naturally. Include Indian cultural references, crypto terms like UPI/RBI/SEBI, and sound like a real Indian person having a genuine conversation. Think about real-life scenarios and respond naturally.'
     };
@@ -630,6 +709,17 @@ SPECIAL INDIAN ENGLISH INSTRUCTIONS:
 - Use Indian crypto terms naturally: UPI, RBI, SEBI, GST
 - Sound like a real Indian person typing naturally
 - Make it conversational and relatable to Indian audience` : ''}
+
+${style === 'based' ? `
+SPECIAL BASED STYLE INSTRUCTIONS:
+- Use authentic BASED style: casual, minimal, humanized
+- Incorporate CT slang naturally: "frens", "ship", "onchain", "cook", "pump", "rugs", "vibes"
+- Sometimes use lowercase, sometimes add emojis like 🔵🛠️
+- Avoid polished corporate tone - be raw, builder vibe
+- Show builder energy, optimism, and community spirit
+- Think about real Base chain builder conversations
+- Use Base ecosystem references naturally
+- Sound like a real builder typing naturally` : ''}
 
 Generate a natural, human-like reply that:
 - Sounds like a real person, not AI
@@ -660,8 +750,8 @@ Your reply:`;
   ): string {
     const contextInfo = context ? `\n\nContext: ${context}` : '';
     
-    // Add Indian English specific instructions
-    const indianInstructions = style === 'indian' ? `
+    // Add style-specific instructions
+    const styleInstructions = style === 'indian' ? `
 
 INDIAN ENGLISH STYLE REQUIREMENTS:
 - Use Indian English expressions naturally: "yaar", "bro", "dude", "man"
@@ -669,7 +759,17 @@ INDIAN ENGLISH STYLE REQUIREMENTS:
 - Use Indian crypto terminology: "UPI", "RBI", "SEBI", "GST"
 - Reference Indian cities, states, or cultural elements
 - Use Indian English sentence structure and flow
-- Include Indian crypto community slang and expressions` : '';
+- Include Indian crypto community slang and expressions` : style === 'based' ? `
+
+BASED STYLE REQUIREMENTS:
+- Use authentic BASED style: casual, minimal, humanized
+- Incorporate CT slang naturally: "frens", "ship", "onchain", "cook", "pump", "rugs", "vibes"
+- Sometimes use lowercase, sometimes add emojis like 🔵🛠️
+- Avoid polished corporate tone - be raw, builder vibe
+- Show builder energy, optimism, and community spirit
+- Use Base ecosystem references naturally
+- Think about real Base chain builder conversations
+- Sound like a real builder typing naturally` : '';
     
     return `Generate a ${length} ${style}-style post about: "${prompt}"
 
@@ -692,7 +792,7 @@ INSTEAD, think about:
 - What would you actually say to a friend about this?
 - How would you react in real life to this situation?
 - What personal experiences or thoughts does this bring up?
-- How would you naturally express your opinion?${indianInstructions}
+- How would you naturally express your opinion?${styleInstructions}
 
 Style: ${style}
 Length: ${length === 'short' ? '1-2 sentences' : length === 'medium' ? '2-3 sentences' : '3-4 sentences'}
