@@ -5,7 +5,7 @@ import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { User, LogOut, MessageCircle, Send, QrCode, Loader2 } from 'lucide-react';
-import { useMiniApp } from '@neynar/react';
+import { sdk } from '@farcaster/miniapp-sdk';
 import { 
   getStoredAuth, 
   setStoredAuth, 
@@ -43,7 +43,6 @@ interface FarcasterUser {
 }
 
 export default function RealFarcasterAuth() {
-  const miniApp = useMiniApp();
   const [storedAuth, setStoredAuthState] = useState<StoredAuthState | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
@@ -52,9 +51,34 @@ export default function RealFarcasterAuth() {
   const [signerApprovalUrl, setSignerApprovalUrl] = useState('');
   const [currentSignerUuid, setCurrentSignerUuid] = useState('');
   const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(null);
+  const [isMiniAppAvailable, setIsMiniAppAvailable] = useState(false);
+  const [miniAppUser, setMiniAppUser] = useState<any>(null);
+
+  // Check if we're in a Mini App context
+  useEffect(() => {
+    const checkMiniAppContext = async () => {
+      try {
+        const isInMiniApp = await sdk.isInMiniApp();
+        if (isInMiniApp) {
+          setIsMiniAppAvailable(true);
+          const context = await sdk.context;
+          if (context?.user) {
+            setMiniAppUser(context.user);
+          }
+        } else {
+          setIsMiniAppAvailable(false);
+        }
+      } catch (error) {
+        console.error('Error checking Mini App context:', error);
+        setIsMiniAppAvailable(false);
+      }
+    };
+
+    checkMiniAppContext();
+  }, []);
 
   // Determine which flow to use
-  const useBackendFlow = miniApp?.context === undefined;
+  const useBackendFlow = !isMiniAppAvailable;
 
   useEffect(() => {
     // Load stored authentication state
@@ -125,7 +149,7 @@ export default function RealFarcasterAuth() {
       navigator.userAgent
     );
 
-    if (isMobile && miniApp?.context?.client) {
+    if (isMobile && isMiniAppAvailable) {
       // Mobile: Deep link to Farcaster app
       const farcasterUrl = approvalUrl.replace(
         'https://client.farcaster.xyz/deeplinks/signed-key-request',
@@ -133,7 +157,7 @@ export default function RealFarcasterAuth() {
       );
 
       // Use SDK to open URL in Farcaster app
-      miniApp.actions.openUrl(farcasterUrl);
+      sdk.actions.openUrl(farcasterUrl);
     } else {
       // Desktop: Show QR code
       setSignerApprovalUrl(approvalUrl);
@@ -228,12 +252,12 @@ export default function RealFarcasterAuth() {
         // Success toast could be added here
       } else {
         // Mini App flow
-        const result = await miniApp.actions.composeCast({
+        const result = await sdk.actions.composeCast({
           text: postText,
           close: false,
         });
 
-        if (result.cast) {
+        if (result?.cast) {
           setPostText('');
         }
       }
@@ -245,8 +269,8 @@ export default function RealFarcasterAuth() {
   };
 
   // Get current user and authentication status
-  const currentUser = useBackendFlow ? storedAuth?.user : miniApp?.context?.user;
-  const isUserAuthenticated = useBackendFlow ? isAuthenticated() : !!miniApp?.context?.user;
+  const currentUser = useBackendFlow ? storedAuth?.user : miniAppUser;
+  const isUserAuthenticated = useBackendFlow ? isAuthenticated() : !!miniAppUser;
 
   if (isUserAuthenticated && currentUser) {
     const cu: any = currentUser; // Narrow for union differences between contexts

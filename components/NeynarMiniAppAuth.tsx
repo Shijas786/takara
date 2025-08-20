@@ -5,7 +5,7 @@ import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { User, LogOut, MessageCircle, Send } from 'lucide-react';
-import { useMiniApp } from '@neynar/react';
+import { sdk } from '@farcaster/miniapp-sdk';
 
 interface FarcasterUser {
   fid: number;
@@ -15,13 +15,36 @@ interface FarcasterUser {
 }
 
 export default function NeynarMiniAppAuth() {
-  const miniApp = useMiniApp();
   const [isConnecting, setIsConnecting] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
   const [postText, setPostText] = useState('');
+  const [isMiniAppAvailable, setIsMiniAppAvailable] = useState(false);
+  const [miniAppUser, setMiniAppUser] = useState<any>(null);
 
-  // Add defensive check for Mini App context
-  if (!miniApp || !miniApp.context) {
+  // Check if we're in a Mini App context
+  useEffect(() => {
+    const checkMiniAppContext = async () => {
+      try {
+        const isInMiniApp = await sdk.isInMiniApp();
+        if (isInMiniApp) {
+          setIsMiniAppAvailable(true);
+          const context = await sdk.context;
+          if (context?.user) {
+            setMiniAppUser(context.user);
+          }
+        } else {
+          setIsMiniAppAvailable(false);
+        }
+      } catch (error) {
+        console.error('Error checking Mini App context:', error);
+        setIsMiniAppAvailable(false);
+      }
+    };
+
+    checkMiniAppContext();
+  }, []);
+
+  if (!isMiniAppAvailable || !miniAppUser) {
     return (
       <Card className="w-full">
         <CardHeader>
@@ -42,9 +65,17 @@ export default function NeynarMiniAppAuth() {
   const handleLogin = async () => {
     setIsConnecting(true);
     try {
-      // MiniApp authentication is handled automatically when the app is opened in Farcaster
-      // We just need to wait for the context to be available
-      await miniApp.actions.ready();
+      // Check if we're in a Mini App and call ready()
+      const isInMiniApp = await sdk.isInMiniApp();
+      if (isInMiniApp) {
+        await sdk.actions.ready();
+        // Refresh the context check
+        const context = await sdk.context;
+        if (context?.user) {
+          setMiniAppUser(context.user);
+          setIsMiniAppAvailable(true);
+        }
+      }
     } catch (error) {
       console.error('Login error:', error);
     } finally {
@@ -55,7 +86,7 @@ export default function NeynarMiniAppAuth() {
   const handleLogout = async () => {
     try {
       // MiniApp logout is handled by closing the app
-      await miniApp.actions.close();
+      await sdk.actions.close();
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -66,12 +97,12 @@ export default function NeynarMiniAppAuth() {
     
     setIsPosting(true);
     try {
-      const result = await miniApp.actions.composeCast({
+      const result = await sdk.actions.composeCast({
         text: postText,
         close: false,
       });
 
-      if (result.cast) {
+      if (result?.cast) {
         console.log('Cast posted successfully:', result);
         setPostText('');
         // You could add a success toast here
@@ -85,7 +116,7 @@ export default function NeynarMiniAppAuth() {
     }
   };
 
-  if (miniApp.context?.user) {
+  if (isMiniAppAvailable && miniAppUser) {
     return (
       <Card className="w-full">
         <CardHeader>
@@ -96,23 +127,23 @@ export default function NeynarMiniAppAuth() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
-              {miniApp.context.user.pfpUrl ? (
-                <img 
-                  src={miniApp.context.user.pfpUrl} 
-                  alt={miniApp.context.user.displayName || miniApp.context.user.username} 
-                  className="w-10 h-10 rounded-full"
-                />
-              ) : (
-                <User className="h-5 w-5 text-white" />
-              )}
-            </div>
-            <div className="flex-1">
-              <p className="font-medium">{miniApp.context.user.displayName || miniApp.context.user.username}</p>
-              <p className="text-sm text-gray-500">@{miniApp.context.user.username}</p>
-              <p className="text-xs text-gray-400">FID: {miniApp.context.user.fid}</p>
-            </div>
+                      <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
+                {miniAppUser.pfpUrl ? (
+                  <img 
+                    src={miniAppUser.pfpUrl} 
+                    alt={miniAppUser.displayName || miniAppUser.username} 
+                    className="w-10 h-10 rounded-full"
+                  />
+                ) : (
+                  <User className="h-5 w-5 text-white" />
+                )}
+              </div>
+              <div className="flex-1">
+                <p className="font-medium">{miniAppUser.displayName || miniAppUser.username}</p>
+                <p className="text-sm text-gray-500">@{miniAppUser.username}</p>
+                <p className="text-xs text-gray-400">FID: {miniAppUser.fid}</p>
+              </div>
             <Button variant="outline" size="sm" onClick={handleLogout}>
               <LogOut className="h-4 w-4 mr-1" />
               Disconnect
