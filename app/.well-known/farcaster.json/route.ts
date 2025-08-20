@@ -5,9 +5,9 @@ export async function GET() {
     frame: {
       name: "Takara",
       version: "1",
-      iconUrl: "https://takara-content-app.vercel.app/takara-logo.png",
+      iconUrl: "https://takara-content-app.vercel.app/icon.png",
       homeUrl: "https://takara-content-app.vercel.app",
-      imageUrl: "https://takara-content-app.vercel.app/screenshot.png",
+      imageUrl: "https://takara-content-app.vercel.app/image.png",
       buttonTitle: "Make Content",
       splashImageUrl: "https://takara-content-app.vercel.app/takara-logo.png",
       splashBackgroundColor: "#3A7BFF",
