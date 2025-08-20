@@ -24,7 +24,16 @@ export class OpenAIService {
   // Post-process content to remove hashtags and @ mentions
   private async cleanContent(content: string): Promise<string> {
     try {
-      // Use AI to clean hashtags more intelligently
+      // First, do immediate regex cleaning for any obvious hashtags
+      let cleaned = content.replace(/#\w+/g, '');
+      cleaned = cleaned.replace(/@\w+/g, '');
+      
+      // If no hashtags found, return early
+      if (cleaned === content) {
+        return content.trim();
+      }
+      
+      // Use AI to clean hashtags more intelligently for better results
       const completion = await getOpenAIClient().chat.completions.create({
         model: config.openai.model,
         messages: [
@@ -45,8 +54,8 @@ Return only the cleaned tweet.`
         temperature: 0.1,
       });
 
-      const cleaned = completion.choices[0]?.message?.content || content;
-      return cleaned.trim();
+      const aiCleaned = completion.choices[0]?.message?.content || cleaned;
+      return aiCleaned.trim();
     } catch (error) {
       console.warn('AI cleaning failed, falling back to regex:', error);
       // Fallback to regex cleaning
@@ -147,15 +156,18 @@ Key style elements to include:
       const generatedContent = completion.choices[0]?.message?.content || 'Failed to generate post';
       const cleanedContent = await this.cleanContent(generatedContent);
       
+      // Final hashtag cleanup to ensure none slip through
+      const finalClean = cleanedContent.replace(/#\w+/g, '').replace(/@\w+/g, '').replace(/\s+/g, ' ').trim();
+      
       // Enforce length limits
       const maxChars = request.length === 'short' ? 100 : request.length === 'medium' ? 280 : 500;
-      if (cleanedContent.length > maxChars) {
+      if (finalClean.length > maxChars) {
         // Truncate to fit within limit, trying to break at word boundaries
-        const truncated = cleanedContent.substring(0, maxChars - 3) + '...';
+        const truncated = finalClean.substring(0, maxChars - 3) + '...';
         return truncated;
       }
       
-      return cleanedContent;
+      return finalClean;
     } catch (error) {
       console.error('OpenAI API error:', error);
       throw new Error('Failed to generate post');
@@ -242,14 +254,17 @@ Key reply elements to include:
       const generatedContent = completion.choices[0]?.message?.content || 'Failed to generate reply';
       const cleanedContent = await this.cleanContent(generatedContent);
       
+      // Final hashtag cleanup to ensure none slip through
+      const finalClean = cleanedContent.replace(/#\w+/g, '').replace(/@\w+/g, '').replace(/\s+/g, ' ').trim();
+      
       // Enforce length limits
       const maxChars = length === 'short' ? 100 : length === 'medium' ? 280 : 500;
-      if (cleanedContent.length > maxChars) {
-        const truncated = cleanedContent.substring(0, maxChars - 3) + '...';
+      if (finalClean.length > maxChars) {
+        const truncated = finalClean.substring(0, maxChars - 3) + '...';
         return truncated;
       }
       
-      return cleanedContent;
+      return finalClean;
     } catch (error) {
       console.error('OpenAI API error:', error);
       throw new Error('Failed to generate reply');
@@ -320,14 +335,17 @@ Key BASED elements to include:
       const generatedContent = completion.choices[0]?.message?.content || 'Failed to generate BASED content';
       const cleanedContent = await this.cleanContent(generatedContent);
       
+      // Final hashtag cleanup to ensure none slip through
+      const finalClean = cleanedContent.replace(/#\w+/g, '').replace(/@\w+/g, '').replace(/\s+/g, ' ').trim();
+      
       // Enforce length limits
       const maxChars = length === 'short' ? 100 : length === 'medium' ? 280 : 500;
-      if (cleanedContent.length > maxChars) {
-        const truncated = cleanedContent.substring(0, maxChars - 3) + '...';
+      if (finalClean.length > maxChars) {
+        const truncated = finalClean.substring(0, maxChars - 3) + '...';
         return truncated;
       }
       
-      return cleanedContent;
+      return finalClean;
     } catch (error) {
       console.error('OpenAI API error:', error);
       throw new Error('Failed to generate BASED content');
