@@ -111,17 +111,17 @@ Dynamic server usage: Route couldn't be rendered statically because it used `req
 - API routes are marked as dynamic (ƒ) in the build output
 - They work correctly at runtime
 
-### 2. Supabase Connection Errors
+### 2. Neon Database Connection Errors
 
 **Error:**
 ```
-getaddrinfo ENOTFOUND placeholder.supabase.co
+getaddrinfo ENOTFOUND placeholder.neon.tech
 ```
 
-**Cause:** Placeholder Supabase URL in environment variables.
+**Cause:** Placeholder Neon database URL in environment variables.
 
 **Solution:**
-- Update environment variables with real Supabase credentials
+- Update environment variables with real Neon database connection string
 - See `API_KEYS_SETUP.md` for configuration instructions
 
 ## Browser-Specific Issues

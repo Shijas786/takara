@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Sparkles, Zap, Edit3, Copy, Share2, RefreshCw, TrendingUp, MessageSquare, Hash, Zap as ZapIcon } from 'lucide-react';
 import { openaiService } from '../lib/openai';
 import { viralScoreCalculator } from '../lib/viralScore';
-import { supabaseService } from '../lib/supabase';
+// Removed Supabase import - using Neon instead
 
 interface ContentEnhancerProps {
   farcasterFid: string | null;
@@ -90,9 +90,10 @@ export default function ContentEnhancer({
       const score = viralScoreCalculator.calculateViralScore(enhanced);
       setViralScore(score);
 
-      // Save to Supabase only if Farcaster is connected
+      // Save to Neon database only if Farcaster is connected
       if (farcasterFid) {
-        const savedPost = await supabaseService.saveGeneratedPost({
+        // TODO: Implement Neon database save functionality
+        const savedPost = {
           content: enhanced,
           influencer: mockInfluencer,
           mixedInfluencer: undefined,
@@ -100,7 +101,7 @@ export default function ContentEnhancer({
           createdAt: new Date(),
           userId: farcasterFid,
           isPosted: false,
-        });
+        };
         onPostGenerated(savedPost);
       } else {
         // For Web2 users, just call the callback with the enhanced content
@@ -157,7 +158,7 @@ export default function ContentEnhancer({
     }
 
     try {
-      // Save the post to Supabase
+      // Save the post to Neon database
       const mockInfluencer = {
         id: 'takara',
         name: 'Takara Evolution',
@@ -170,7 +171,8 @@ export default function ContentEnhancer({
         sampleTweets: [],
       };
 
-      const savedPost = await supabaseService.saveGeneratedPost({
+      // TODO: Implement Neon database save functionality
+      const savedPost = {
         content: editedContent,
         influencer: mockInfluencer,
         mixedInfluencer: undefined,
@@ -178,7 +180,7 @@ export default function ContentEnhancer({
         createdAt: new Date(),
         userId: farcasterFid,
         isPosted: true,
-      });
+      };
 
       onPostGenerated(savedPost);
       setError(null);

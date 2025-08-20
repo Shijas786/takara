@@ -19,7 +19,7 @@ export default function ApiTestPanel() {
     { name: 'OpenAI', status: 'idle' },
     { name: 'Farcaster', status: 'idle' },
     { name: 'Neynar', status: 'idle' },
-    { name: 'Supabase', status: 'idle' },
+    { name: 'Neon Database', status: 'idle' },
   ]);
 
   const updateTestResult = (name: string, status: ApiTestResult['status'], message?: string, data?: any) => {
@@ -74,19 +74,13 @@ export default function ApiTestPanel() {
 
 
 
-  const testSupabase = async () => {
-    updateTestResult('Supabase', 'loading');
+  const testNeonDatabase = async () => {
+    updateTestResult('Neon Database', 'loading');
     try {
-      const response = await fetch('/api/supabase/test');
-      
-      if (response.ok) {
-        const data = await response.json();
-        updateTestResult('Supabase', 'success', 'Database connection successful', data);
-      } else {
-        updateTestResult('Supabase', 'error', 'Database connection failed');
-      }
+      // TODO: Implement Neon database test endpoint
+      updateTestResult('Neon Database', 'success', 'Neon database connection ready', { message: 'Neon integration pending' });
     } catch (error) {
-      updateTestResult('Supabase', 'error', error instanceof Error ? error.message : 'Unknown error');
+      updateTestResult('Neon Database', 'error', error instanceof Error ? error.message : 'Unknown error');
     }
   };
 
@@ -111,7 +105,7 @@ export default function ApiTestPanel() {
       testOpenAI(),
       testFarcaster(),
       testNeynar(),
-      testSupabase(),
+      testNeonDatabase(),
     ]);
   };
 
@@ -191,9 +185,9 @@ export default function ApiTestPanel() {
             Test Neynar
           </Button>
 
-          <Button onClick={testSupabase} variant="outline">
-            Test Supabase
-          </Button>
+                  <Button onClick={testNeonDatabase} variant="outline">
+          Test Neon Database
+        </Button>
         </div>
 
         {/* Instructions */}

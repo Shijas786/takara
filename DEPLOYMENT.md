@@ -10,7 +10,7 @@ Before deploying, ensure you have:
 - [ ] **Git** installed
 - [ ] **MetaMask** or Base App wallet with ETH on Base
 - [ ] **OpenAI API key** (paid account)
-- [ ] **Supabase account** (free tier works)
+- [ ] **Neon Database account** (free tier works)
 - [ ] **Farcaster API key** (optional for testing)
 
 ## 🔧 Step 1: Smart Contract Deployment
@@ -68,20 +68,20 @@ npx hardhat run contracts/deploy.js --network base
 npx hardhat verify --network base DEPLOYED_CONTRACT_ADDRESS
 ```
 
-## 🗄️ Step 2: Supabase Setup
+## 🗄️ Step 2: Neon Database Setup
 
-### 2.1 Create Supabase Project
-1. Go to [supabase.com](https://supabase.com)
+### 2.1 Create Neon Project
+1. Go to [console.neon.tech](https://console.neon.tech)
 2. Create new project
-3. Note your project URL and anon key
+3. Note your connection string
 
 ### 2.2 Run Database Schema
-1. Go to SQL Editor in Supabase dashboard
-2. Copy and paste the contents of `supabase-schema.sql`
+1. Go to SQL Editor in Neon dashboard
+2. Copy and paste the contents of `neon-schema.sql`
 3. Execute the SQL
 
-### 2.3 Configure RLS Policies
-The schema includes RLS policies, but you may need to adjust them based on your auth setup.
+### 2.3 Configure Database Access
+The schema includes basic tables, but you may need to adjust them based on your auth setup.
 
 ## 🤖 Step 3: OpenAI Setup
 
@@ -124,9 +124,8 @@ Create `.env.local`:
 NEXT_PUBLIC_SBT_CONTRACT_ADDRESS=0x... # Your deployed contract address
 NEXT_PUBLIC_BASE_RPC_URL=https://mainnet.base.org
 
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+# Neon Database Configuration
+DATABASE_URL=your_neon_database_connection_string
 
 # OpenAI Configuration
 OPENAI_API_KEY=your-openai-api-key
@@ -236,7 +235,7 @@ export async function GET() {
     timestamp: new Date().toISOString(),
     services: {
       openai: 'connected',
-      supabase: 'connected',
+              neon: 'connected',
       farcaster: 'connected'
     }
   });
@@ -297,7 +296,7 @@ module.exports = {
 ## 🚀 Step 9: Production Checklist
 
 - [ ] **Smart Contract**: Deployed and verified on Base
-- [ ] **Database**: Supabase schema applied
+- [ ] **Database**: Neon schema applied
 - [ ] **Environment Variables**: All configured
 - [ ] **Domain**: Custom domain configured (optional)
 - [ ] **SSL**: HTTPS enabled
@@ -345,7 +344,7 @@ npx hardhat run contracts/deploy.js --network base
    - Monitor usage limits
    - Verify billing status
 
-3. **Supabase Connection Issues**
+3. **Neon Database Connection Issues**
    - Check project URL and key
    - Verify RLS policies
    - Check database status

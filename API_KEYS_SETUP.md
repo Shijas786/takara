@@ -66,21 +66,18 @@ NEYNAR_API_KEY=your_neynar_api_key_here
 
 
 
-## 4. Supabase Configuration
+## 4. Neon Database Configuration
 
-### How to Get Supabase Keys:
+### How to Get Neon Database Connection:
 
-1. Go to [Supabase](https://supabase.com/)
-2. Create a new project
-3. Go to Settings > API
-4. Copy:
-   - Project URL
-   - Anon/Public Key
+1. Go to [Neon Console](https://console.neon.tech/)
+2. Create a new project or select existing one
+3. Go to Connection Details
+4. Copy the connection string
 
 ### Add to Environment:
 ```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url_here
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+DATABASE_URL=your_neon_database_connection_string_here
 ```
 
 ## 5. Contract Configuration
@@ -123,7 +120,7 @@ After setting up all keys, you can test the configuration:
    - OpenAI: Try generating content
    - Farcaster: Try connecting your account
    
-   - Supabase: Verify database connection
+   - Neon Database: Verify database connection
 
 ## Troubleshooting
 

@@ -47,7 +47,7 @@
 
 #### **Backend & APIs**
 - **OpenAI GPT-4**: Advanced AI content generation
-- **Supabase**: Database and user management
+- **Neon Database**: Database and user management
 - **Farcaster API**: Social media integration
 - **Ethers.js v6**: Web3 blockchain interaction
 
