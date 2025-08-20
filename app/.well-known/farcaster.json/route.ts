@@ -13,12 +13,12 @@ export async function GET() {
       description: "Turn raw ideas into viral-ready Web3 content. Takara gives creators AI-crafted posts that resonate.",
       iconUrl: "https://takara-content-app.vercel.app/takara-logo.png",
       homeUrl: "https://takara-content-app.vercel.app",
-      imageUrl: "https://takara-content-app.vercel.app/takara-logo.png",
+      imageUrl: "https://takara-content-app.vercel.app/screenshot.png",
       buttonTitle: "🚀 Launch",
       splashImageUrl: "https://takara-content-app.vercel.app/takara-logo.png",
       splashBackgroundColor: "#000000",
       category: "productivity",
-      tags: ["ai", "content", "farcaster", "base", "onchain", "web3", "creator"],
+      tags: ["ai", "content", "farcaster", "base", "onchain", "web3", "creator", "viral", "ai-powered"],
       requiredCapabilities: [
         "actions.composeCast",
         "wallet.getEthereumProvider"
