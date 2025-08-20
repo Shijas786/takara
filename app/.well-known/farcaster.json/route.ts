@@ -10,8 +10,8 @@ export async function GET() {
     miniApp: {
       name: "Takara Content Evolution",
       description: "AI-powered content creation and Farcaster posting with Matrix Rain aesthetics",
-      icon: "https://yourdomain.com/takara-logo.png", // Update with your actual domain
-      url: "https://yourdomain.com", // Update with your actual domain
+      icon: "https://takara-content-app.vercel.app/takara-logo.png",
+      url: "https://takara-content-app.vercel.app",
       noindex: false, // Set to true while testing
       category: "productivity",
       tags: ["ai", "content", "farcaster", "base", "onchain"],
