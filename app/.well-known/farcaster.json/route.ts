@@ -27,6 +27,9 @@ export async function GET() {
         },
       },
     },
+    baseBuilder: {
+      allowedAddresses: ["0x597c0A3b75d2BB4Ad9360FDec96b3b53B1BA9a0a"]
+    },
   };
 
   return NextResponse.json(manifest);
