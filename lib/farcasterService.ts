@@ -1,18 +1,49 @@
-// Dynamic import to avoid SSR issues
+// Safe Farcaster SDK integration
 let sdk: any = null;
 
-// Initialize SDK only when needed
+// Check if we're in a Farcaster Mini App environment
+function isFarcasterEnvironment() {
+  if (typeof window === 'undefined') return false;
+  
+  // Check for Farcaster-specific environment variables or user agent
+  const userAgent = window.navigator?.userAgent || '';
+  const isInFarcaster = userAgent.includes('Farcaster') || 
+                        userAgent.includes('farcaster') ||
+                        window.location?.hostname?.includes('farcaster') ||
+                        window.location?.hostname?.includes('warpcast');
+  
+  return isInFarcaster;
+}
+
+// Initialize SDK only when needed and safe
 async function getSDK() {
-  if (!sdk) {
-    try {
+  // Only run on client side
+  if (typeof window === 'undefined') {
+    return null;
+  }
+  
+  // Only initialize in Farcaster environment
+  if (!isFarcasterEnvironment()) {
+    console.log('Not in Farcaster environment, skipping SDK initialization');
+    return null;
+  }
+  
+  try {
+    if (!sdk) {
       const mod = await import('@farcaster/miniapp-sdk');
       sdk = mod.sdk;
-    } catch (error) {
-      console.error('Failed to load Farcaster SDK:', error);
-      return null;
+      
+      // Verify SDK is properly initialized
+      if (!sdk || !sdk.quickAuth) {
+        console.log('Farcaster SDK not properly initialized');
+        return null;
+      }
     }
+    return sdk;
+  } catch (error) {
+    console.error('Failed to load Farcaster SDK:', error);
+    return null;
   }
-  return sdk;
 }
 
 export interface FarcasterUser {
@@ -37,8 +68,25 @@ export class FarcasterService {
         return null;
       }
 
-      // Get Quick Auth token
-      const { token } = await farcasterSDK.quickAuth.getToken();
+      // Check if quickAuth is available
+      if (!farcasterSDK.quickAuth || typeof farcasterSDK.quickAuth.getToken !== 'function') {
+        console.log('Quick Auth not available in this environment');
+        return null;
+      }
+
+      // Get Quick Auth token with proper error handling
+      let token;
+      try {
+        const tokenResult = await farcasterSDK.quickAuth.getToken();
+        token = tokenResult?.token;
+        if (!token) {
+          console.log('No token received from Quick Auth');
+          return null;
+        }
+      } catch (tokenError) {
+        console.log('Quick Auth token error:', tokenError);
+        return null;
+      }
       
       // Make authenticated request to get user info
       const response = await farcasterSDK.quickAuth.fetch('/api/farcaster/me');
@@ -66,8 +114,25 @@ export class FarcasterService {
         return { success: false, error: 'Farcaster SDK not available' };
       }
 
-      // Get Quick Auth token
-      const { token } = await farcasterSDK.quickAuth.getToken();
+      // Check if quickAuth is available
+      if (!farcasterSDK.quickAuth || typeof farcasterSDK.quickAuth.getToken !== 'function') {
+        console.log('Quick Auth not available in this environment');
+        return { success: false, error: 'Quick Auth not available' };
+      }
+
+      // Get Quick Auth token with proper error handling
+      let token;
+      try {
+        const tokenResult = await farcasterSDK.quickAuth.getToken();
+        token = tokenResult?.token;
+        if (!token) {
+          console.log('No token received from Quick Auth');
+          return { success: false, error: 'No authentication token' };
+        }
+      } catch (tokenError) {
+        console.log('Quick Auth token error:', tokenError);
+        return { success: false, error: 'Authentication failed' };
+      }
       
       // Post cast using authenticated request
       const response = await farcasterSDK.quickAuth.fetch('/api/farcaster/post-cast', {

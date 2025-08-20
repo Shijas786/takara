@@ -400,13 +400,25 @@ think: you're posting this while doing something else, maybe walking, eating, or
 
     setIsPosting(true)
     try {
-      // Farcaster posting temporarily disabled to prevent SDK errors
-      // TODO: Re-enable when Farcaster SDK integration is stable
-      setTerminalOutput(prev => [...prev, `$ Farcaster posting temporarily disabled`])
-      setTerminalOutput(prev => [...prev, `$ Content ready: ${generatedContent.substring(0, 100)}...`])
+      // Import the Farcaster service dynamically to avoid SSR issues
+      const { FarcasterService } = await import('../lib/farcasterService');
+      
+      const result = await FarcasterService.postCast({
+        text: generatedContent,
+      });
+      
+      if (result.success) {
+        setGeneratedContent("")
+        setPrompt("")
+        // Show success message
+        setTerminalOutput(prev => [...prev, `$ Cast posted successfully! Hash: ${result.hash}`])
+      } else {
+        // Show error message
+        setTerminalOutput(prev => [...prev, `$ Error posting cast: ${result.error}`])
+      }
     } catch (error) {
-      console.error("Error in Farcaster posting:", error)
-      setTerminalOutput(prev => [...prev, `$ Error: ${error}`])
+      console.error("Error posting to Farcaster:", error)
+      setTerminalOutput(prev => [...prev, `$ Error posting cast: ${error}`])
     } finally {
       setIsPosting(false)
     }
