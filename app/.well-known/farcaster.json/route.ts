@@ -1,35 +1,34 @@
 import { NextResponse } from 'next/server';
 
-// Self-hosted manifest for development. In production, prefer hosted manifests via next.config.js redirect.
 export async function GET() {
-  const appUrl = process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_APP_URL || '';
-
-  // NOTE: Replace the accountAssociation with signed values from the Farcaster developer tool
-  const accountAssociation = process.env.ACCOUNT_ASSOCIATION_HEADER
-    ? {
-        header: process.env.ACCOUNT_ASSOCIATION_HEADER,
-        payload: process.env.ACCOUNT_ASSOCIATION_PAYLOAD,
-        signature: process.env.ACCOUNT_ASSOCIATION_SIGNATURE,
-      }
-    : undefined;
-
-  const miniapp = {
-    version: '1',
-    name: 'Takara',
-    iconUrl: `${appUrl}/takara-logo.png`,
-    homeUrl: appUrl || 'https://takara-content-app.vercel.app',
-    splashImageUrl: `${appUrl}/takara-logo.png`,
-    splashBackgroundColor: '#6200EA',
-    // Optional discovery fields
-    description: 'Generate & share AI content seamlessly on Farcaster.',
+  const manifest = {
+    accountAssociation: {
+      header: process.env.FARCASTER_HEADER,
+      payload: process.env.FARCASTER_PAYLOAD,
+      signature: process.env.FARCASTER_SIGNATURE,
+    },
+    miniApp: {
+      name: "Takara Content Evolution",
+      description: "AI-powered content creation and Farcaster posting with Matrix Rain aesthetics",
+      icon: "https://yourdomain.com/takara-logo.png", // Update with your actual domain
+      url: "https://yourdomain.com", // Update with your actual domain
+      noindex: false, // Set to true while testing
+      category: "productivity",
+      tags: ["ai", "content", "farcaster", "base", "onchain"],
+      permissions: ["farcaster"],
+      features: {
+        farcaster: {
+          posting: true,
+          frames: true,
+        },
+        base: {
+          wallet: true,
+          transactions: false,
+        },
+      },
+    },
   };
 
-  const body = accountAssociation
-    ? { accountAssociation, miniapp }
-    : { miniapp };
-
-  return NextResponse.json(body, {
-    headers: { 'Content-Type': 'application/json' },
-  });
+  return NextResponse.json(manifest);
 }
 

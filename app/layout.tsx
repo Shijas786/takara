@@ -16,9 +16,28 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "Takara - Decentralized Social on Farcaster",
-  description: "Connect, share, and build on the decentralized social web with Takara",
+  title: "Takara - AI Content Creation on Base",
+  description: "AI-powered content creation and Farcaster posting with Matrix Rain aesthetics. Built on Base with MiniKit integration.",
   generator: "v0.app",
+  openGraph: {
+    title: "Takara - AI Content Creation on Base",
+    description: "AI-powered content creation and Farcaster posting with Matrix Rain aesthetics. Built on Base with MiniKit integration.",
+    type: "website",
+    images: [
+      {
+        url: "/takara-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Takara Content Evolution",
+      },
+    ],
+  },
+  other: {
+    "fc:frame": "vNext",
+    "fc:frame:image": "/takara-logo.png",
+    "fc:frame:button:1": "Launch App",
+    "fc:frame:post_url": "https://yourdomain.com", // Update with your actual domain
+  },
 }
 
 export default function RootLayout({
@@ -30,6 +49,10 @@ export default function RootLayout({
     <html lang="en" className={`${spaceGrotesk.variable} ${dmSans.variable} antialiased`}>
       <head>
         <link rel="preconnect" href="https://auth.farcaster.xyz" />
+        <meta property="fc:frame" content="vNext" />
+        <meta property="fc:frame:image" content="/takara-logo.png" />
+        <meta property="fc:frame:button:1" content="Launch App" />
+        <meta property="fc:frame:post_url" content="https://yourdomain.com" />
       </head>
       <body className="font-sans">{children}</body>
     </html>
