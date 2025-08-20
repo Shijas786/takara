@@ -10,6 +10,13 @@
     "NEXT_PUBLIC_URL": "https://takara-content-app.vercel.app",
     "NEXT_PUBLIC_APP_URL": "https://takara-content-app.vercel.app"
   },
+  "redirects": [
+    {
+      "source": "/.well-known/farcaster.json",
+      "destination": "/farcaster-manifest.json",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/api/(.*)",
@@ -30,6 +37,19 @@
     },
     {
       "source": "/.well-known/farcaster.json",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/farcaster-manifest.json",
       "headers": [
         {
           "key": "Content-Type",
