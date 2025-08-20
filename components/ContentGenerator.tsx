@@ -8,7 +8,7 @@ import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useToast } from '../hooks/use-toast';
-import { useMiniApp } from '@neynar/react';
+import { sdk } from '@farcaster/miniapp-sdk';
 
 import ClientOnlyWrapper from './ClientOnlyWrapper';
 
@@ -41,7 +41,9 @@ export default function ContentGenerator() {
   const [isFarcasterConnected, setIsFarcasterConnected] = useState(false);
   const [farcasterUser, setFarcasterUser] = useState<any>(null);
 
-  const miniApp = useMiniApp();
+  // Check if we're in a Mini App context
+  const [isMiniAppAvailable, setIsMiniAppAvailable] = useState(false);
+  const [miniAppUser, setMiniAppUser] = useState<any>(null);
   const { toast } = useToast();
 
   // Add defensive check for Mini App context
@@ -62,14 +64,49 @@ export default function ContentGenerator() {
 
   // Check Farcaster connection status
   useEffect(() => {
-    if (miniApp?.context?.user) {
-      setIsFarcasterConnected(true);
-      setFarcasterUser(miniApp.context.user);
-    } else {
-      setIsFarcasterConnected(false);
-      setFarcasterUser(null);
+    const checkMiniAppContext = async () => {
+      try {
+        // Check if we're in a Mini App environment
+        const isInMiniApp = await sdk.isInMiniApp();
+        if (isInMiniApp) {
+          setIsMiniAppAvailable(true);
+          // Get the user context
+          const context = await sdk.context;
+          if (context?.user) {
+            setMiniAppUser(context.user);
+            setIsFarcasterConnected(true);
+            setFarcasterUser(context.user);
+          }
+        } else {
+          setIsMiniAppAvailable(false);
+          setIsFarcasterConnected(false);
+          setFarcasterUser(null);
+        }
+      } catch (error) {
+        console.error('Error checking Mini App context:', error);
+        setIsMiniAppAvailable(false);
+        setIsFarcasterConnected(false);
+        setFarcasterUser(null);
+      }
+    };
+
+    checkMiniAppContext();
+    
+    // If we're in a Mini App, call ready() to hide the splash screen
+    if (typeof window !== 'undefined') {
+      const checkAndReady = async () => {
+        try {
+          const isInMiniApp = await sdk.isInMiniApp();
+          if (isInMiniApp) {
+            await sdk.actions.ready();
+          }
+        } catch (error) {
+          console.error('Error calling ready:', error);
+        }
+      };
+      checkAndReady();
     }
-  }, [miniApp?.context?.user]);
+  }, []);
 
   const generateContent = async () => {
     if (!prompt.trim()) {
@@ -225,13 +262,13 @@ export default function ContentGenerator() {
 
     setIsPosting(true);
     try {
-      // Use the MiniApp composeCast action instead of direct API call
-      const result = await miniApp.actions.composeCast({
+      // Use the Farcaster MiniApp SDK composeCast action
+      const result = await sdk.actions.composeCast({
         text: generatedContent,
         close: false, // Keep the mini app open after posting
       });
 
-      if (result.cast) {
+      if (result?.cast) {
         toast({
           title: "Posted to Farcaster!",
           description: "Your evolved content has been posted successfully",
