@@ -4,12 +4,12 @@
     "payload": "eyJkb21haW4iOiJ0YWthcmEtY29udGVudC1hcHAudmVyY2VsLmFwcCJ9",
     "signature": "MHg2NDkyZWEzN2NiZTRkN2Q2ODc5NTFmMTZmMTM2OGZkODc1YmNlMzViYjhlYTdjMGIwOGYzMDExMmQxOThiN2EyNmNlNWFjOWI1MTY3YTRlN2Q5YTMyOTAzM2Q5YzhkMTMyZDYwMmFmZGJhZGUxN2JmY2IwZWY1ODI0MTkyZWM0YTFj"
   },
-  "miniApp": {
+  "frame": {
+    "version": "vNext",
     "name": "Takara Content Evolution",
     "description": "AI-powered content creation and Farcaster posting with Matrix Rain aesthetics",
     "icon": "https://takara-content-app.vercel.app/takara-logo.png",
     "url": "https://takara-content-app.vercel.app",
-    "noindex": false,
     "category": "productivity",
     "tags": ["ai", "content", "farcaster", "base", "onchain"],
     "permissions": ["farcaster"],

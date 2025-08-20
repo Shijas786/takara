@@ -7,12 +7,12 @@ export async function GET() {
       payload: process.env.FARCASTER_PAYLOAD,
       signature: process.env.FARCASTER_SIGNATURE,
     },
-    miniApp: {
+    frame: {
+      version: "vNext",
       name: "Takara Content Evolution",
       description: "AI-powered content creation and Farcaster posting with Matrix Rain aesthetics",
       icon: "https://takara-content-app.vercel.app/takara-logo.png",
       url: "https://takara-content-app.vercel.app",
-      noindex: false,
       category: "productivity",
       tags: ["ai", "content", "farcaster", "base", "onchain"],
       permissions: ["farcaster"],
