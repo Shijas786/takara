@@ -5,7 +5,7 @@
     "signature": "MHg2NDkyZWEzN2NiZTRkN2Q2ODc5NTFmMTZmMTM2OGZkODc1YmNlMzViYjhlYTdjMGIwOGYzMDExMmQxOThiN2EyNmNlNWFjOWI1MTY3YTRlN2Q5YTMyOTAzM2Q5YzhkMTMyZDYwMmFmZGJhZGUxN2JmY2IwZWY1ODI0MTkyZWM0YTFj"
   },
   "frame": {
-    "version": "vNext",
+    "version": "1",
     "name": "Takara Content Evolution",
     "description": "AI-powered content creation and Farcaster posting with Matrix Rain aesthetics",
     "iconUrl": "https://takara-content-app.vercel.app/takara-logo.png",

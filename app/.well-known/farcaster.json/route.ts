@@ -8,7 +8,7 @@ export async function GET() {
       signature: process.env.FARCASTER_SIGNATURE,
     },
     frame: {
-      version: "vNext",
+      version: "1",
       name: "Takara Content Evolution",
       description: "AI-powered content creation and Farcaster posting with Matrix Rain aesthetics",
       iconUrl: "https://takara-content-app.vercel.app/takara-logo.png",
