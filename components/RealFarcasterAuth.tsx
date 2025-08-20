@@ -5,7 +5,7 @@ import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { User, LogOut, MessageCircle, Send, QrCode, Loader2 } from 'lucide-react';
-import { sdk } from '@farcaster/miniapp-sdk';
+import sdk from '@farcaster/miniapp-sdk';
 import { 
   getStoredAuth, 
   setStoredAuth, 
@@ -209,7 +209,7 @@ export default function RealFarcasterAuth() {
         startPolling(signerData.signer_uuid);
       } else {
         // Mini App flow: Use existing context
-        await miniApp.actions.ready();
+        await sdk.actions.ready();
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -224,7 +224,7 @@ export default function RealFarcasterAuth() {
         clearStoredAuth();
         setStoredAuthState(null);
       } else {
-        await miniApp.actions.close();
+        await sdk.actions.close();
       }
     } catch (error) {
       console.error('Logout error:', error);

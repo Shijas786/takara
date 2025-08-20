@@ -8,7 +8,7 @@ import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useToast } from '../hooks/use-toast';
-import { sdk } from '@farcaster/miniapp-sdk';
+import sdk from '@farcaster/miniapp-sdk';
 
 import ClientOnlyWrapper from './ClientOnlyWrapper';
 
@@ -46,8 +46,7 @@ export default function ContentGenerator() {
   const [miniAppUser, setMiniAppUser] = useState<any>(null);
   const { toast } = useToast();
 
-  // Add defensive check for Mini App context
-  const isMiniAppAvailable = miniApp && miniApp.context && miniApp.context.user;
+
 
   // Load drafts and scheduled posts from localStorage on mount
   useEffect(() => {
