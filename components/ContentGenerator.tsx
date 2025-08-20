@@ -67,51 +67,29 @@ export default function ContentGenerator() {
       try {
         console.log('Checking Mini App context...');
         
-        // Try to call ready() first - this will work if we're in a Mini App
-        try {
-          await sdk.actions.ready();
-          console.log('SDK ready() called successfully - we are in a Mini App');
-          setIsMiniAppAvailable(true);
-          
-          // Get the user context
-          const context = await sdk.context;
-          console.log('SDK context:', context);
-          
-          if (context?.user) {
-            setMiniAppUser(context.user);
-            setIsFarcasterConnected(true);
-            setFarcasterUser(context.user);
-            console.log('User authenticated:', context.user);
-          } else {
-            console.log('No user in context, but SDK is available');
-            setIsFarcasterConnected(false);
-            setFarcasterUser(null);
-          }
-        } catch (readyError) {
-          console.log('SDK ready() failed - not in Mini App environment:', readyError);
-          
-          // Fallback: check if we're in a Farcaster-like environment
-          const userAgent = navigator.userAgent.toLowerCase();
-          const isFarcasterLike = userAgent.includes('farcaster') || 
-                                 userAgent.includes('warpcast') || 
-                                 window.location.hostname.includes('farcaster') ||
-                                 window.location.hostname.includes('warpcast');
-          
-          if (isFarcasterLike) {
-            console.log('Detected Farcaster-like environment, enabling SDK');
-            setIsMiniAppAvailable(true);
-            setIsFarcasterConnected(false);
-            setFarcasterUser(null);
-          } else {
-            console.log('Not in Farcaster environment');
-            setIsMiniAppAvailable(false);
-            setIsFarcasterConnected(false);
-            setFarcasterUser(null);
-          }
+        // Always try to call ready() - this is the standard way to initialize
+        await sdk.actions.ready();
+        console.log('SDK ready() called successfully');
+        setIsMiniAppAvailable(true);
+        
+        // Get the user context
+        const context = await sdk.context;
+        console.log('SDK context:', context);
+        
+        if (context?.user) {
+          setMiniAppUser(context.user);
+          setIsFarcasterConnected(true);
+          setFarcasterUser(context.user);
+          console.log('User authenticated:', context.user);
+        } else {
+          console.log('No user in context, but SDK is available');
+          setIsFarcasterConnected(false);
+          setFarcasterUser(null);
         }
       } catch (error) {
-        console.error('Error checking Mini App context:', error);
-        setIsMiniAppAvailable(false);
+        console.error('Error initializing Farcaster SDK:', error);
+        // Even if ready() fails, we might still be in a Mini App
+        setIsMiniAppAvailable(true);
         setIsFarcasterConnected(false);
         setFarcasterUser(null);
       }
@@ -263,57 +241,24 @@ export default function ContentGenerator() {
       return;
     }
 
-    console.log('Posting to Farcaster...', {
-      isMiniAppAvailable,
-      generatedContent: generatedContent.substring(0, 100) + '...',
-      sdkAvailable: !!sdk,
-      sdkActions: !!sdk?.actions,
-      sdkComposeCast: !!sdk?.actions?.composeCast
-    });
-
     if (!isMiniAppAvailable) {
-      console.log('Mini App not available, checking SDK status...');
-      
-      // Try to detect if we're in a Farcaster environment anyway
-      try {
-        const userAgent = navigator.userAgent.toLowerCase();
-        const isFarcasterLike = userAgent.includes('farcaster') || 
-                               userAgent.includes('warpcast') || 
-                               window.location.hostname.includes('farcaster') ||
-                               window.location.hostname.includes('warpcast');
-        
-        if (isFarcasterLike) {
-          console.log('Detected Farcaster environment, attempting to post...');
-        } else {
-          toast({
-            title: "Not Connected",
-            description: "Please open this app in Farcaster to post",
-            variant: "destructive",
-          });
-          return;
-        }
-      } catch (detectionError) {
-        console.error('Error detecting environment:', detectionError);
-        toast({
-          title: "Not Connected",
-          description: "Please open this app in Farcaster to post",
-          variant: "destructive",
-        });
-        return;
-      }
+      toast({
+        title: "Not Connected",
+        description: "Please open this app in Farcaster to post",
+        variant: "destructive",
+      });
+      return;
     }
 
     setIsPosting(true);
     try {
-      console.log('Calling sdk.actions.composeCast...');
+      console.log('Posting to Farcaster:', generatedContent.substring(0, 100) + '...');
       
       // Use the Farcaster MiniApp SDK composeCast action
       const result = await sdk.actions.composeCast({
         text: generatedContent,
         close: false, // Keep the mini app open after posting
       });
-
-      console.log('composeCast result:', result);
 
       if (result?.cast) {
         toast({
@@ -322,32 +267,17 @@ export default function ContentGenerator() {
         });
         console.log('Cast posted successfully:', result);
       } else {
-        console.log('No cast in result:', result);
         toast({
           title: "Post Failed",
-          description: "Failed to post to Farcaster - no cast returned",
+          description: "Failed to post to Farcaster",
           variant: "destructive",
         });
       }
     } catch (error) {
       console.error('Error posting to Farcaster:', error);
-      
-      // Provide more specific error messages
-      let errorMessage = "Failed to post to Farcaster. Please try again.";
-      
-      if (error instanceof Error) {
-        if (error.message.includes('SDK not available')) {
-          errorMessage = "Farcaster SDK not available. Please open this app in Farcaster.";
-        } else if (error.message.includes('not authenticated')) {
-          errorMessage = "Please authenticate with Farcaster first.";
-        } else if (error.message.includes('network')) {
-          errorMessage = "Network error. Please check your connection.";
-        }
-      }
-      
       toast({
         title: "Post Error",
-        description: errorMessage,
+        description: "Failed to post to Farcaster. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -402,6 +332,58 @@ export default function ContentGenerator() {
           </div>
           <div className="mt-3 text-xs text-slate-500">
             <span>User Agent: {navigator.userAgent.substring(0, 50)}...</span>
+          </div>
+          <div className="mt-3 flex gap-2">
+            <Button 
+              onClick={async () => {
+                try {
+                  console.log('Testing SDK ready...');
+                  await sdk.actions.ready();
+                  console.log('SDK ready test successful');
+                  toast({
+                    title: "SDK Test",
+                    description: "SDK ready() test successful!",
+                  });
+                } catch (error) {
+                  console.error('SDK ready test failed:', error);
+                  toast({
+                    title: "SDK Test Failed",
+                    description: `Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                    variant: "destructive",
+                  });
+                }
+              }}
+              size="sm"
+              variant="outline"
+              className="text-xs"
+            >
+              Test SDK Ready
+            </Button>
+            <Button 
+              onClick={async () => {
+                try {
+                  console.log('Testing SDK context...');
+                  const context = await sdk.context;
+                  console.log('SDK context test successful:', context);
+                  toast({
+                    title: "Context Test",
+                    description: `Context: ${JSON.stringify(context, null, 2)}`,
+                  });
+                } catch (error) {
+                  console.error('SDK context test failed:', error);
+                  toast({
+                    title: "Context Test Failed",
+                    description: `Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                    variant: "destructive",
+                  });
+                }
+              }}
+              size="sm"
+              variant="outline"
+              className="text-xs"
+            >
+              Test SDK Context
+            </Button>
           </div>
         </div>
 
