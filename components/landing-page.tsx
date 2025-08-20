@@ -459,7 +459,6 @@ think: you're posting this while doing something else, maybe walking, eating, or
               <div className="text-white ml-4">$ Type /help for available commands</div>
               <div className="text-white ml-4">$ Type <span className="text-[#0000FF]">/based</span> to launch the application</div>
               <div className="text-white ml-4">$ Type /theme to change terminal appearance</div>
-              <div className="text-white ml-4 text-xs text-gray-400">$ Post smarter. Stand louder.</div>
               
               {/* MiniKit Status Display */}
               <div className="text-white ml-4 mt-2 text-xs">
@@ -586,9 +585,8 @@ think: you're posting this while doing something else, maybe walking, eating, or
           <div className="p-4 sm:p-6 space-y-4 sm:space-y-3">
             {/* Page Heading */}
             <div className="text-center space-y-3 mb-8">
-              <h1 className="text-2xl sm:text-3xl font-bold text-white">Post smarter. Stand louder.</h1>
-              <p className="text-base sm:text-lg text-white">Everyone is a creator — Takara makes it effortless.</p>
-              <p className="text-sm text-gray-400">Turn raw ideas into viral-ready Web3 content</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">Your AI Content in Seconds</h1>
+              <p className="text-base sm:text-lg text-white">One-click generation for social media content</p>
             </div>
           
           {/* Content Length Section */}

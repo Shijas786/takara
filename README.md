@@ -1,6 +1,10 @@
-# Takara Content Evolution
+# Takara – Web3's AI content engine
 
-AI-powered content generation and scheduling platform for Farcaster.
+Turn raw ideas into viral-ready Web3 content. Takara gives creators AI-crafted posts that resonate.
+
+**Everyone is a creator — Takara makes it effortless.**
+
+**Post smarter. Stand louder.**
 
 ## 🚀 Features
 
