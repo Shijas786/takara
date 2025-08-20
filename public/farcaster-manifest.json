@@ -6,7 +6,7 @@
     "homeUrl": "https://takara-content-app.vercel.app",
     "imageUrl": "https://takara-content-app.vercel.app/image.png",
     "buttonTitle": "Make Content",
-    "splashImageUrl": "https://takara-content-app.vercel.app/takara-logo.png",
+    "splashImageUrl": "https://takara-content-app.vercel.app/icon.png",
     "splashBackgroundColor": "#3A7BFF",
     "webhookUrl": "https://takara-content-app.vercel.app/api/webhook",
     "subtitle": "Everyone is a creator — Takara makes it effortless",
