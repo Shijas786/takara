@@ -398,23 +398,29 @@ think: you're posting this while doing something else, maybe walking, eating, or
   const postToFarcaster = async () => {
     if (!generatedContent.trim()) return
 
+    console.log('🔄 Attempting to post to Farcaster...')
     setIsPosting(true)
     try {
       // Import the Farcaster service dynamically to avoid SSR issues
       const { FarcasterService } = await import('../lib/farcasterService');
       
+      console.log('📡 Farcaster service imported, calling postCast...')
       const result = await FarcasterService.postCast({
         text: generatedContent,
       });
+      
+      console.log('📤 Post result:', result)
       
       if (result.success) {
         setGeneratedContent("")
         setPrompt("")
         // Show success message
         setTerminalOutput(prev => [...prev, `$ Cast posted successfully! Hash: ${result.hash}`])
+        console.log('✅ Cast posted successfully!')
       } else {
         // Show error message
         setTerminalOutput(prev => [...prev, `$ Error posting cast: ${result.error}`])
+        console.log('❌ Cast posting failed:', result.error)
       }
     } catch (error) {
       console.error("Error posting to Farcaster:", error)
