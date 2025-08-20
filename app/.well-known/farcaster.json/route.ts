@@ -3,9 +3,9 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   const manifest = {
     accountAssociation: {
-      header: process.env.FARCASTER_HEADER,
-      payload: process.env.FARCASTER_PAYLOAD,
-      signature: process.env.FARCASTER_SIGNATURE,
+          header: "eyJmaWQiOjI1OTkxMywidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDlmZjdjNTNhNDU3NzcxOGQwOUIxYkZiYTVlRkU2MzFCOTlmY2FmZmMifQ",
+    payload: "eyJkb21haW4iOiJ0YWthcmEtY29udGVudC1hcHAudmVyY2VsLmFwcCJ9",
+    signature: "MHg2NDkyZWEzN2NiZTRkN2Q2ODc5NTFmMTZmMTM2OGZkODc1YmNlMzViYjhlYTdjMGIwOGYzMDExMmQxOThiN2EyNmNlNWFjOWI1MTY3YTRlN2Q5YTMyOTAzM2Q5YzhkMTMyZDYwMmFmZGJhZGUxN2JmY2IwZWY1ODI0MTkyZWM0YTFj",
     },
     frame: {
       version: "1",
