@@ -7,25 +7,22 @@ export async function GET() {
     payload: "eyJkb21haW4iOiJ0YWthcmEtY29udGVudC1hcHAudmVyY2VsLmFwcCJ9",
     signature: "MHg2NDkyZWEzN2NiZTRkN2Q2ODc5NTFmMTZmMTM2OGZkODc1YmNlMzViYjhlYTdjMGIwOGYzMDExMmQxOThiN2EyNmNlNWFjOWI1MTY3YTRlN2Q5YTMyOTAzM2Q5YzhkMTMyZDYwMmFmZGJhZGUxN2JmY2IwZWY1ODI0MTkyZWM0YTFj",
     },
-    frame: {
+    miniapp: {
       version: "1",
       name: "Takara Content Evolution",
       description: "AI-powered content creation and Farcaster posting with Matrix Rain aesthetics",
       iconUrl: "https://takara-content-app.vercel.app/takara-logo.png",
       homeUrl: "https://takara-content-app.vercel.app",
+      imageUrl: "https://takara-content-app.vercel.app/takara-logo.png",
+      buttonTitle: "🚀 Launch",
+      splashImageUrl: "https://takara-content-app.vercel.app/takara-logo.png",
+      splashBackgroundColor: "#000000",
       category: "productivity",
       tags: ["ai", "content", "farcaster", "base", "onchain"],
-      permissions: ["farcaster"],
-      features: {
-        farcaster: {
-          posting: true,
-          frames: true,
-        },
-        base: {
-          wallet: true,
-          transactions: false,
-        },
-      },
+      requiredCapabilities: [
+        "actions.composeCast",
+        "wallet.getEthereumProvider"
+      ]
     },
     baseBuilder: {
       allowedAddresses: ["0x597c0A3b75d2BB4Ad9360FDec96b3b53B1BA9a0a"]

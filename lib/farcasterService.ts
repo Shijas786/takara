@@ -1,30 +1,10 @@
 // Safe Farcaster SDK integration
 let sdk: any = null;
 
-// Check if we're in a Farcaster Mini App environment
-function isFarcasterEnvironment() {
-  if (typeof window === 'undefined') return false;
-  
-  // Check for Farcaster-specific environment variables or user agent
-  const userAgent = window.navigator?.userAgent || '';
-  const isInFarcaster = userAgent.includes('Farcaster') || 
-                        userAgent.includes('farcaster') ||
-                        window.location?.hostname?.includes('farcaster') ||
-                        window.location?.hostname?.includes('warpcast');
-  
-  return isInFarcaster;
-}
-
 // Initialize SDK only when needed and safe
 async function getSDK() {
   // Only run on client side
   if (typeof window === 'undefined') {
-    return null;
-  }
-  
-  // Only initialize in Farcaster environment
-  if (!isFarcasterEnvironment()) {
-    console.log('Not in Farcaster environment, skipping SDK initialization');
     return null;
   }
   
@@ -34,7 +14,7 @@ async function getSDK() {
       sdk = mod.sdk;
       
       // Verify SDK is properly initialized
-      if (!sdk || !sdk.quickAuth) {
+      if (!sdk || !sdk.actions) {
         console.log('Farcaster SDK not properly initialized');
         return null;
       }
@@ -104,7 +84,7 @@ export class FarcasterService {
   }
 
   /**
-   * Post a cast using the authenticated user's session
+   * Post a cast using the Mini App SDK composeCast action
    */
   static async postCast(castData: CastData): Promise<{ success: boolean; hash?: string; error?: string }> {
     try {
@@ -114,47 +94,26 @@ export class FarcasterService {
         return { success: false, error: 'Farcaster SDK not available' };
       }
 
-      // Check if quickAuth is available
-      if (!farcasterSDK.quickAuth || typeof farcasterSDK.quickAuth.getToken !== 'function') {
-        console.log('Quick Auth not available in this environment - simulating post for demo');
-        // Return a simulated success for demo purposes when not in Farcaster environment
-        return { 
-          success: true, 
-          hash: `demo_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          error: undefined
-        };
+      // Check if composeCast action is available
+      if (!farcasterSDK.actions || typeof farcasterSDK.actions.composeCast !== 'function') {
+        console.log('composeCast action not available in this environment');
+        return { success: false, error: 'composeCast action not available' };
       }
 
-      // Get Quick Auth token with proper error handling
-      let token;
-      try {
-        const tokenResult = await farcasterSDK.quickAuth.getToken();
-        token = tokenResult?.token;
-        if (!token) {
-          console.log('No token received from Quick Auth');
-          return { success: false, error: 'No authentication token' };
-        }
-      } catch (tokenError) {
-        console.log('Quick Auth token error:', tokenError);
-        return { success: false, error: 'Authentication failed' };
-      }
-      
-      // Post cast using authenticated request
-      const response = await farcasterSDK.quickAuth.fetch('/api/farcaster/post-cast', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(castData),
+      // Use the Mini App SDK's composeCast action directly
+      const result = await farcasterSDK.actions.composeCast({
+        text: castData.text,
+        embeds: [],
+        close: false
       });
-      
-      if (response.ok) {
-        const result = await response.json();
-        return { success: true, hash: result.hash };
+
+      if (result && result.cast) {
+        return { success: true, hash: result.cast.hash };
       } else {
-        const error = await response.text();
-        return { success: false, error };
+        // User cancelled the cast
+        return { success: false, error: 'User cancelled cast' };
       }
+      
     } catch (error) {
       console.error('Error posting cast:', error);
       return { success: false, error: 'Failed to post cast' };

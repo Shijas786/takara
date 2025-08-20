@@ -33,10 +33,35 @@ export const metadata: Metadata = {
     ],
   },
   other: {
-    "fc:frame": "vNext",
-    "fc:frame:image": "/takara-logo.png",
-    "fc:frame:button:1": "Launch App",
-            "fc:frame:post_url": "https://takara-content-app.vercel.app",
+    "fc:miniapp": JSON.stringify({
+      version: "1",
+      imageUrl: "https://takara-content-app.vercel.app/takara-logo.png",
+      button: {
+        title: "🚀 Launch",
+        action: {
+          type: "launch_miniapp",
+          name: "Takara Content Evolution",
+          url: "https://takara-content-app.vercel.app",
+          splashImageUrl: "https://takara-content-app.vercel.app/takara-logo.png",
+          splashBackgroundColor: "#000000"
+        }
+      }
+    }),
+    // For backward compatibility
+    "fc:frame": JSON.stringify({
+      version: "1",
+      imageUrl: "https://takara-content-app.vercel.app/takara-logo.png",
+      button: {
+        title: "🚀 Launch",
+        action: {
+          type: "launch_frame",
+          name: "Takara Content Evolution",
+          url: "https://takara-content-app.vercel.app",
+          splashImageUrl: "https://takara-content-app.vercel.app/takara-logo.png",
+          splashBackgroundColor: "#000000"
+        }
+      }
+    })
   },
 }
 
@@ -49,10 +74,6 @@ export default function RootLayout({
     <html lang="en" className={`${spaceGrotesk.variable} ${dmSans.variable} antialiased`}>
       <head>
         <link rel="preconnect" href="https://auth.farcaster.xyz" />
-        <meta property="fc:frame" content="vNext" />
-        <meta property="fc:frame:image" content="/takara-logo.png" />
-        <meta property="fc:frame:button:1" content="Launch App" />
-        <meta property="fc:frame:post_url" content="https://takara-content-app.vercel.app" />
       </head>
       <body className="font-sans">{children}</body>
     </html>
