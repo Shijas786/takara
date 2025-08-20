@@ -1,4 +1,19 @@
-import { sdk } from '@farcaster/miniapp-sdk';
+// Dynamic import to avoid SSR issues
+let sdk: any = null;
+
+// Initialize SDK only when needed
+async function getSDK() {
+  if (!sdk) {
+    try {
+      const mod = await import('@farcaster/miniapp-sdk');
+      sdk = mod.sdk;
+    } catch (error) {
+      console.error('Failed to load Farcaster SDK:', error);
+      return null;
+    }
+  }
+  return sdk;
+}
 
 export interface FarcasterUser {
   fid: number;
@@ -16,11 +31,17 @@ export class FarcasterService {
    */
   static async getAuthenticatedUser(): Promise<FarcasterUser | null> {
     try {
+      const farcasterSDK = await getSDK();
+      if (!farcasterSDK) {
+        console.log('Farcaster SDK not available');
+        return null;
+      }
+
       // Get Quick Auth token
-      const { token } = await sdk.quickAuth.getToken();
+      const { token } = await farcasterSDK.quickAuth.getToken();
       
       // Make authenticated request to get user info
-      const response = await sdk.quickAuth.fetch('/api/farcaster/me');
+      const response = await farcasterSDK.quickAuth.fetch('/api/farcaster/me');
       
       if (response.ok) {
         const user = await response.json();
@@ -39,11 +60,17 @@ export class FarcasterService {
    */
   static async postCast(castData: CastData): Promise<{ success: boolean; hash?: string; error?: string }> {
     try {
+      const farcasterSDK = await getSDK();
+      if (!farcasterSDK) {
+        console.log('Farcaster SDK not available');
+        return { success: false, error: 'Farcaster SDK not available' };
+      }
+
       // Get Quick Auth token
-      const { token } = await sdk.quickAuth.getToken();
+      const { token } = await farcasterSDK.quickAuth.getToken();
       
       // Post cast using authenticated request
-      const response = await sdk.quickAuth.fetch('/api/farcaster/post-cast', {
+      const response = await farcasterSDK.quickAuth.fetch('/api/farcaster/post-cast', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +108,12 @@ export class FarcasterService {
    */
   static async ready(): Promise<void> {
     try {
-      await sdk.actions.ready();
+      const farcasterSDK = await getSDK();
+      if (!farcasterSDK) {
+        console.log('Farcaster SDK not available');
+        return;
+      }
+      await farcasterSDK.actions.ready();
     } catch (error) {
       console.error('Error calling ready:', error);
     }
